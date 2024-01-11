@@ -14,7 +14,7 @@ lint_black:
 lint_pylint:
   stage: lint
   script:
-    - pip install pylint
+    - pip install -r requirements.txt
     - pylint api
 
 unit_tests:
