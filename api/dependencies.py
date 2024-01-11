@@ -1,13 +1,13 @@
 """
 Module: dependencies.py
 
-This module provides functions related to user authentication using JWT tokens and handling user sessions.
+This module provides functions related to user authentication using JWT tokens and 
+handling user sessions.
 """
-
+import jwt
 from fastapi import HTTPException
 from starlette.requests import Request
 from api.user import User
-import jwt
 
 
 def retrieve_user(request: Request) -> User:
