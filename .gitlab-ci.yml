@@ -1,0 +1,22 @@
+stages:
+  - lint
+  - test
+
+
+lint_black:
+  stage: lint
+  script:
+    - pip install black
+    - black --check .
+
+lint_pylint:
+  stage: lint
+  script:
+    - pip install pylint
+    - pylint api
+
+unit_tests:
+  stage: test
+  script:
+    - pip install -r requirements.txt
+    - pytest  
