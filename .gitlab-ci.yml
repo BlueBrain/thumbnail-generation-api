@@ -2,6 +2,8 @@ stages:
   - lint
   - test
 
+image: python:3.9
+
 
 lint_black:
   stage: lint
