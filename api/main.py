@@ -16,9 +16,20 @@ Example:
 """
 
 from fastapi import FastAPI
+from router import generate
+
+tags_metadata = [
+    {
+        "name": "Generate",
+        "description": "Generate a PNG image of a morphology",
+    },
+]
 
 app = FastAPI(
     title="Thumbnail Generation API",
     debug=True,
     version="0.1.0",
 )
+
+# Include routers
+app.include_router(generate.router, prefix="/generate")
