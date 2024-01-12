@@ -2,12 +2,10 @@ include:
   - project: cs/gitlabci-templates
     file: /build-image-using-kaniko.yml
 
-
 stages:
   - lint
   - test
   - deploy
-
 
 lint_black:
   image: python:3.9
@@ -46,9 +44,9 @@ build-and-deploy-api-image-in-registry:
       variables:
         CI_REGISTRY_IMAGE: $CI_REGISTRY_IMAGE/thumbnail-generation-api-dev
   variables:
-    KANIKO_EXTRA_ARGS: -f ./api/Dockerfile
     KUBERNETES_MEMORY_LIMIT: 4Gi
     KUBERNETES_MEMORY_REQUEST: 4Gi
     CI_COMMIT_SHORT_SHA: $CI_COMMIT_SHORT_SHA
     REGISTRY_IMAGE_TAG: $CI_COMMIT_SHORT_SHA-$(date +%s)
+    BUILD_PATH: ./api
 
