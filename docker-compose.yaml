@@ -1,0 +1,24 @@
+version: '3'
+
+services:
+  thumbnail-generation-api:
+    build:
+      context: ./api
+    ports:
+      - "8086:8080"
+    networks:
+      - app-network
+
+  nginx-server:
+    build:
+      context: ./server
+    ports:
+      - "80:80"
+    depends_on:
+      - thumbnail-generation-api
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
