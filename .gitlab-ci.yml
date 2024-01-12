@@ -39,10 +39,14 @@ build-and-deploy-api-image-in-registry:
   stage: deploy
   extends: .build-image-using-kaniko
   rules:
-    - if: '$CI_COMMIT_BRANCH == "add-image-deployment"'
+    - if: '$CI_COMMIT_BRANCH == "dev"'
       when: on_success
       variables:
         CI_REGISTRY_IMAGE: $CI_REGISTRY_IMAGE/thumbnail-generation-api-dev
+    - if: $CI_COMMIT_TAG
+      when: on_success
+      variables:
+        CI_REGISTRY_IMAGE: $CI_REGISTRY_IMAGE/thumbnail-generation-api-production
   variables:
     KUBERNETES_MEMORY_LIMIT: 4Gi
     KUBERNETES_MEMORY_REQUEST: 4Gi
