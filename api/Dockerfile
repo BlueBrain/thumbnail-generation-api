@@ -1,10 +1,9 @@
 FROM python:3.9
 
 WORKDIR /code
-COPY ./api /code/api
-COPY requirements.txt /code
+COPY . /code
 
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir -r /code/requirements.txt
 
 EXPOSE 8080
 
