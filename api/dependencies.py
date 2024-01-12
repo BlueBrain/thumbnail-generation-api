@@ -7,7 +7,7 @@ handling user sessions.
 import jwt
 from fastapi import HTTPException
 from starlette.requests import Request
-from user import User
+from api.user import User
 
 
 def retrieve_user(request: Request) -> User:

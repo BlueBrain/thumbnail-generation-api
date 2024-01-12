@@ -12,7 +12,7 @@ import neurom as nm
 import matplotlib.pyplot as plt
 from fastapi import Header, Response
 from neurom.view import matplotlib_impl, matplotlib_utils
-from exceptions import InvalidUrlParameterException, ResourceNotFoundException
+from api.exceptions import InvalidUrlParameterException, ResourceNotFoundException
 
 
 def get_morphology_file_content(authorization: str = "", content_url: str = "") -> str:

@@ -9,9 +9,9 @@ from typing import Optional
 from fastapi import APIRouter, Depends, HTTPException, Query, Response
 from fastapi.security import HTTPBearer
 from starlette.requests import Request
-from dependencies import retrieve_user
-from exceptions import InvalidUrlParameterException, ResourceNotFoundException
-from morpho_img import read_image
+from api.dependencies import retrieve_user
+from api.exceptions import InvalidUrlParameterException, ResourceNotFoundException
+from api.morpho_img import read_image
 
 router = APIRouter()
 

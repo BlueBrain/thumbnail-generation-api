@@ -16,7 +16,7 @@ Example:
 """
 
 from fastapi import FastAPI
-from router import generate
+from api.router import generate
 
 tags_metadata = [
     {
