@@ -58,7 +58,7 @@ build-and-deploy-server-image-in-registry:
   stage: deploy
   extends: .build-image-using-kaniko
   rules:
-    - if: '$CI_COMMIT_BRANCH == "add-server"'
+    - if: '$CI_COMMIT_BRANCH == "dev"'
       when: on_success
       variables:
         CI_REGISTRY_IMAGE: $CI_REGISTRY_IMAGE/thumbnail-generation-server-dev
