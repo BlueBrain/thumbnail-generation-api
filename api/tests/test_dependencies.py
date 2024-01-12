@@ -5,8 +5,8 @@ Testing the dependencies module
 import jwt
 import pytest
 from fastapi import HTTPException
-from api.dependencies import retrieve_user
-from api.user import User
+from dependencies import retrieve_user
+from user import User
 
 
 class TestRetrieveUser:
