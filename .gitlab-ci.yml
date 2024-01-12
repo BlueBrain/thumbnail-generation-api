@@ -12,15 +12,20 @@ stages:
 lint_black:
   image: python:3.9
   stage: lint
-  script:
+  before_script:
+    - cd ./api
     - pip install black
+    - black --version
+  script:
     - black --check .
 
 lint_pylint:
   image: python:3.9
   stage: lint
-  script:
+  before_script:
+    - cd ./api
     - pip install -r requirements.txt
+  script:
     - pylint api
 
 unit_tests:
