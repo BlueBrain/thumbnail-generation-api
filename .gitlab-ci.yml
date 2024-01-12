@@ -1,24 +1,47 @@
+include:
+  - project: cs/gitlabci-templates
+    file: /build-image-using-kaniko.yml
+
+
 stages:
   - lint
   - test
-
-image: python:3.9
+  - deploy
 
 
 lint_black:
+  image: python:3.9
   stage: lint
   script:
     - pip install black
     - black --check .
 
 lint_pylint:
+  image: python:3.9
   stage: lint
   script:
     - pip install -r requirements.txt
     - pylint api
 
 unit_tests:
+  image: python:3.9
   stage: test
   script:
     - pip install -r requirements.txt
     - pytest  
+
+build-and-deploy-api-image-in-registry:
+  stage: deploy
+  extends: .build-image-using-kaniko
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "add-image-deployment"'
+      when: on_success
+      variables:
+        CI_REGISTRY_IMAGE: $CI_REGISTRY_IMAGE/thumbnail-generation-api-dev
+  variables:
+    KANIKO_EXTRA_ARGS: -f ./api/Dockerfile
+    KUBERNETES_MEMORY_LIMIT: 4Gi
+    KUBERNETES_MEMORY_REQUEST: 4Gi
+    CI_COMMIT_SHORT_SHA: $CI_COMMIT_SHORT_SHA
+    REGISTRY_IMAGE_TAG: $CI_COMMIT_SHORT_SHA-$(date +%s)
+
