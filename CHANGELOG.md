@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
-## [Unreleased] - Release Date
+## [0.1.0] - 15/01/2024
 
 ### Added
 
