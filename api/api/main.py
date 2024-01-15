@@ -16,9 +16,9 @@ Example:
 """
 
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from api import config
 from api.router import generate
-from fastapi.middleware.cors import CORSMiddleware
 
 tags_metadata = [
     {
@@ -29,7 +29,7 @@ tags_metadata = [
 
 app = FastAPI(
     title="Thumbnail Generation API",
-    debug=True,
+    debug=config.DEBUG_MODE,
     version="0.1.0",
 )
 
