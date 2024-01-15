@@ -9,3 +9,4 @@ All notable changes to this project will be documented in this file.
 - Initialize FASTAPI application
 - Add Gitlab CI pipeline to lint, test and deploy
 - Add NGINX server to enable caching
+- Add black and pylint linters
