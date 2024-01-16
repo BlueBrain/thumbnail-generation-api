@@ -7,8 +7,5 @@ disable =["R0903"]
 [tool.pylint.MASTER]
 extension-pkg-whitelist=["pydantic"]
 
-[tool.pylint.messages_control]
-disable = ["unnecessary-pass"]
-
 [tool.black]
 line-length=120
