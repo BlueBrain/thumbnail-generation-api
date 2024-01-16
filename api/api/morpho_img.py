@@ -83,4 +83,4 @@ def read_image(authorization: str = Header(None), content_url: str = "", dpi: Un
 
     plt.close()
 
-    return Response(buffer.getvalue(), media_type="image/png")
+    return buffer.getvalue()

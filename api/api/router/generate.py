@@ -38,7 +38,7 @@ def get_morphology_image(
     try:
         image = read_image(authorization, content_url, dpi)
 
-        return image
+        return Response(image, media_type="image/png")
     except InvalidUrlParameterException as exc:
         raise HTTPException(
             status_code=422,
