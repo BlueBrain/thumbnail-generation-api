@@ -1,17 +1,34 @@
-from fastapi import Depends
-from fastapi.security import HTTPBearer
+"""
+This module provides utility functions related to authentication for the FastAPI application.
+"""
 
 
-def get_current_user(token: str = Depends(HTTPBearer())):
-    # Your actual authentication logic here, e.g., validating the token
-    # This function should return the current user if authentication is successful
-    # Otherwise, raise an HTTPException with the appropriate status code and message
-    # For testing, you can mock the behavior or provide a test user
+def get_current_user():
+    """
+    Get the current user based on the provided authentication token.
+
+    This function serves as a dependency for FastAPI routes that require user authentication.
+    It contains the actual authentication logic, such as token validation. If authentication
+    is successful, it should return the current user. Otherwise, it should raise an HTTPException
+    with the appropriate status code and message.
+
+    For testing, you can mock the behavior or provide a test user.
+
+    :param token: The authentication token.
+    :return: The current user if authentication is successful.
+    """
     pass
 
 
-def mock_authentication(token: str = Depends(HTTPBearer())):
-    # Mocking the authentication logic
-    # For testing, you can return a test user or raise an HTTPException
-    # to simulate authentication failure
+def mock_authentication():
+    """
+    Mock the authentication logic for testing purposes.
+
+    This function is intended for use in testing scenarios where you want to simulate
+    authentication without performing actual token validation. For example, it can
+    return a test user or raise an HTTPException to simulate authentication failure.
+
+    :param token: The authentication token.
+    :return: A test user or raise an HTTPException for testing purposes.
+    """
     return {"username": "testuser", "id": 123}
