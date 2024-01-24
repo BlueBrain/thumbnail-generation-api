@@ -1,64 +1,22 @@
 """
-Module: morpho_imh.py
+Module: morpho_img.py
 
 This module provides functions to generate morphology PNG images.
 """
 
 import io
 from typing import Union
-from urllib.parse import urlparse
-import requests
-import neurom as nm
+
+from fastapi import Header
 import matplotlib.pyplot as plt
-from fastapi import Header, Response
+import neurom as nm
 from neurom.view import matplotlib_impl, matplotlib_utils
-from api.exceptions import InvalidUrlParameterException, ResourceNotFoundException
+
+from api.util import get_buffer, get_file_content
 
 
-def get_morphology_file_content(authorization: str = "", content_url: str = "") -> str:
-    """
-    Gets the File content of an SWC distribution (by requesting the resource from its content_url).
-
-    Parameters:
-        - authorization (str): Authorization header containing the access token.
-        - content_url (str): URL of the SWC distribution.
-
-    Returns:
-        str: File content as a string.
-
-    Raises:
-        str: Error message if the request to the content_url fails.
-    """
-    parsed_content_url = urlparse(content_url)
-
-    if not all([parsed_content_url.scheme, parsed_content_url.netloc, parsed_content_url.path]):
-        raise InvalidUrlParameterException
-
-    response = requests.get(content_url, headers={"authorization": authorization}, timeout=15)
-
-    if response.status_code == 200:
-        file_content = response.content.decode("utf-8")
-        return file_content
-    if response.status_code == 404:
-        raise ResourceNotFoundException
-    raise requests.exceptions.RequestException
-
-
-def read_image(authorization: str = Header(None), content_url: str = "", dpi: Union[int, None] = 72) -> Response:
-    """
-    Returns a PNG image of a morphology (by generating a matplotlib figure from its SWC distribution).
-
-    Parameters:
-        - authorization (str): Authorization header containing the access token.
-        - content_url (str): URL of the SWC distribution.
-
-    Returns:
-        Response: FastAPI Response object containing the PNG image.
-    """
-
-    morph = get_morphology_file_content(authorization, content_url)
-
-    nrn = nm.load_morphology(io.StringIO(morph), reader="swc")
+def plot_morphology(nrn) -> plt.FigureBase:
+    """Creates and formats a FigureBase object."""
     fig, ax = matplotlib_utils.get_figure()
 
     matplotlib_impl.plot_morph(nrn, ax)
@@ -75,11 +33,29 @@ def read_image(authorization: str = Header(None), content_url: str = "", dpi: Un
 
     fig.set_tight_layout(True)
 
-    buffer = io.BytesIO()
+    return fig
 
-    fig.savefig(buffer, dpi=dpi, format="png")
 
-    buffer.seek(0)
+def read_image(authorization: str = Header(None), content_url: str = "", dpi: Union[int, None] = 72) -> bytes:
+    """
+    Returns a PNG image of a morphology (by generating a matplotlib figure from its SWC distribution).
+
+    Parameters:
+        - authorization (str): Authorization header containing the access token.
+        - content_url (str): URL of the SWC distribution.
+
+    Returns:
+        Response: FastAPI Response object containing the PNG image.
+    """
+
+    morph = get_file_content(authorization, content_url).decode(
+        encoding="utf-8")
+
+    nrn = nm.load_morphology(io.StringIO(morph), reader="swc")
+
+    fig = plot_morphology(nrn)
+
+    buffer = get_buffer(fig, dpi)
 
     plt.close()
 

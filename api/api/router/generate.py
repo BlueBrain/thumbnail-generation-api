@@ -6,15 +6,14 @@ It includes an endpoint to get a preview image of a morphology.
 """
 
 from typing import Optional
-from fastapi import APIRouter, Depends, HTTPException, Query, Response
+from fastapi import APIRouter, Depends, Query, Response
 from fastapi.security import HTTPBearer
 from starlette.requests import Request
-from api.dependencies import retrieve_user
-from api.exceptions import InvalidUrlParameterException, ResourceNotFoundException
+from api.trace_img import read_trace_img
 from api.morpho_img import read_image
+from api.util import get_auth, wrap_exceptions
 
 router = APIRouter()
-
 require_bearer = HTTPBearer()
 
 
@@ -25,32 +24,40 @@ require_bearer = HTTPBearer()
     tags=["Morphology Image"],
 )
 def get_morphology_image(
-    content_url: str,
+        request: Request,
+        content_url: str,
+        dpi: Optional[int] = Query(None, ge=10, le=600),
+) -> Response:
+    """
+    Endpoint to get a preview image of a morphology.
+    Sample Content URL:
+    https://bbp.epfl.ch/nexus/v1/files/bbp/mouselight/https%3A%2F%2Fbbp.epfl.ch%2Fnexus%2Fv1%2Fresources%2Fbbp%2Fmouselight%2F_%2F0befd25c-a28a-4916-9a8a-adcd767db118
+    """
+    authorization = get_auth(request)
+    image = wrap_exceptions(lambda: read_image(
+        authorization, content_url, dpi=dpi))
+
+    return Response(image, media_type="image/png")
+
+
+@router.get(
+    "/trace-image",
+    dependencies=[Depends(require_bearer)],
+    response_model=None,
+    tags=["Trace Image"],
+)
+def get_trace_image(
     request: Request,
+    content_url: str,
     dpi: Optional[int] = Query(None, ge=10, le=600),
 ) -> Response:
     """
-    Endpoint to get a preview image of a morphology
+    Endpoint to get a preview image of an electrophysiology trace
+    Sample Content URL:
+    https://bbp.epfl.ch/nexus/v1/files/public/hippocampus/https%3A%2F%2Fbbp.epfl.ch%2Fneurosciencegraph%2Fdata%2Fb67a2aa6-d132-409b-8de5-49bb306bb251
     """
-    user = retrieve_user(request)
-    authorization = f"Bearer {user.access_token}"
+    authorization = get_auth(request)
+    image = wrap_exceptions(lambda: read_trace_img(
+        authorization, content_url, dpi=dpi))
 
-    try:
-        image = read_image(authorization, content_url, dpi)
-
-        return Response(image, media_type="image/png")
-    except InvalidUrlParameterException as exc:
-        raise HTTPException(
-            status_code=422,
-            detail="Invalid content_url parameter in request.",
-        ) from exc
-    except ResourceNotFoundException as exc:
-        raise HTTPException(
-            status_code=404,
-            detail="There was no distribution for that content url.",
-        ) from exc
-    except Exception as exc:
-        raise HTTPException(
-            status_code=400,
-            detail="Something went wrong.",
-        ) from exc
+    return Response(image, media_type="image/png")
