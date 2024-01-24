@@ -37,8 +37,7 @@ def get_file_content(authorization: str = "", content_url: str = "") -> bytes:
     if not all([parsed_content_url.scheme, parsed_content_url.netloc, parsed_content_url.path]):
         raise InvalidUrlParameterException
 
-    response = requests.get(content_url, headers={
-                            "authorization": authorization}, timeout=15)
+    response = requests.get(content_url, headers={"authorization": authorization}, timeout=15)
 
     if response.status_code == 200:
         return response.content

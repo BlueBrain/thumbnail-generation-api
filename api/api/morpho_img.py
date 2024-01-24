@@ -48,8 +48,7 @@ def read_image(authorization: str = Header(None), content_url: str = "", dpi: Un
         Response: FastAPI Response object containing the PNG image.
     """
 
-    morph = get_file_content(authorization, content_url).decode(
-        encoding="utf-8")
+    morph = get_file_content(authorization, content_url).decode(encoding="utf-8")
 
     nrn = nm.load_morphology(io.StringIO(morph), reader="swc")
 
