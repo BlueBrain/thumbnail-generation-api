@@ -6,10 +6,10 @@ This module provides utility functions.
 
 import io
 from typing import Union
-from typing import Callable
+from typing import Callable, Optional
 from urllib.parse import urlparse
 
-from fastapi import HTTPException
+from fastapi import HTTPException, Query
 import matplotlib.pyplot as plt
 import requests
 from starlette.requests import Request
@@ -48,8 +48,7 @@ def get_file_content(authorization: str = "", content_url: str = "") -> bytes:
     if not all([parsed_content_url.scheme, parsed_content_url.netloc, parsed_content_url.path]):
         raise InvalidUrlParameterException
 
-    response = requests.get(content_url, headers={
-                            "authorization": authorization}, timeout=15)
+    response = requests.get(content_url, headers={"authorization": authorization}, timeout=15)
 
     if response.status_code == 200:
         return response.content
@@ -58,8 +57,10 @@ def get_file_content(authorization: str = "", content_url: str = "") -> bytes:
     raise requests.exceptions.RequestException
 
 
-def get_auth(
+async def common_params(
     request: Request,
+    content_url: str,
+    dpi: Optional[int] = Query(None, ge=10, le=600),
 ):
     """
     Get Bearer token from request
@@ -67,13 +68,14 @@ def get_auth(
     user = retrieve_user(request)
     authorization = f"Bearer {user.access_token}"
 
-    return authorization
+    return {authorization, content_url, dpi}
 
 
 def wrap_exceptions(callback: Callable):
     """
     Decorator function for handling exceptions in /generate requests
     """
+
     def wrap(*args, **kwargs):
         try:
             return callback(*args, **kwargs)
@@ -88,7 +90,7 @@ def wrap_exceptions(callback: Callable):
                 detail="There was no distribution for that content url.",
             ) from exc
         except NoCellFound as exc:
-          # https://stackoverflow.com/questions/5604816/whats-the-most-appropriate-http-status-code-for-an-item-not-found-error-page
+            # https://stackoverflow.com/questions/5604816/whats-the-most-appropriate-http-status-code-for-an-item-not-found-error-page
             raise HTTPException(
                 status_code=404,
                 detail="There the NWB file didn't contain a 'cell'.",
