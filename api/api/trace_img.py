@@ -23,7 +23,7 @@ from api.exceptions import (
     NoSweepFound,
     NoUnitFound,
 )
-from api.util import get_buffer, get_file_content
+from api.util import get_buffer, get_file_content, wrap_exceptions
 
 
 def find_digits(string):
@@ -73,7 +73,8 @@ def select_protocol(lst_protocols):
     if "IDThres" in lst_protocols:
         print("Info : Using IDThres for thumbnail plot")
         return "IDThres"
-    print("Warning : Standard protocols not found, using ", lst_protocols[0], " for thumbnail plot")
+    print("Warning : Standard protocols not found, using ",
+          lst_protocols[0], " for thumbnail plot")
     return lst_protocols[0]
 
 
@@ -162,17 +163,21 @@ def plot_nwb(data, unit, rate) -> plt.FigureBase:
     return figure
 
 
+@wrap_exceptions
 def read_trace_img(authorization: str = Header(None), content_url: str = "", dpi: Union[int, None] = 72) -> bytes:
     """Creates and returns an electrophysiology trace image."""
-    content: bytes = get_file_content(authorization=authorization, content_url=content_url)
+    content: bytes = get_file_content(
+        authorization=authorization, content_url=content_url)
 
     h5_handle = h5py.File(io.BytesIO(content), "r")
 
     h5_handle = h5_handle["data_organization"]
     h5_handle = h5_handle[select_element(list(h5_handle.keys()), n=0)]
     h5_handle = h5_handle[select_protocol(list(h5_handle.keys()))]
-    h5_handle = h5_handle[select_element(list(h5_handle.keys()), n=0, meta="repetiton")]
-    h5_handle = h5_handle[select_element(list(h5_handle.keys()), n=-3, meta="sweep")]
+    h5_handle = h5_handle[select_element(
+        list(h5_handle.keys()), n=0, meta="repetiton")]
+    h5_handle = h5_handle[select_element(
+        list(h5_handle.keys()), n=-3, meta="sweep")]
     h5_handle = h5_handle[select_response(list(h5_handle.keys()))]
 
     unit = get_unit(h5_handle)

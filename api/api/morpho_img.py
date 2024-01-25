@@ -12,7 +12,7 @@ import matplotlib.pyplot as plt
 import neurom as nm
 from neurom.view import matplotlib_impl, matplotlib_utils
 
-from api.util import get_buffer, get_file_content
+from api.util import get_buffer, get_file_content, wrap_exceptions
 
 
 def plot_morphology(nrn) -> plt.FigureBase:
@@ -36,6 +36,7 @@ def plot_morphology(nrn) -> plt.FigureBase:
     return fig
 
 
+@wrap_exceptions
 def read_image(authorization: str = Header(None), content_url: str = "", dpi: Union[int, None] = 72) -> bytes:
     """
     Returns a PNG image of a morphology (by generating a matplotlib figure from its SWC distribution).
@@ -47,8 +48,10 @@ def read_image(authorization: str = Header(None), content_url: str = "", dpi: Un
     Returns:
         Response: FastAPI Response object containing the PNG image.
     """
+    print(authorization, content_url)
 
-    morph = get_file_content(authorization, content_url).decode(encoding="utf-8")
+    morph = get_file_content(
+        authorization, content_url).decode(encoding="utf-8")
 
     nrn = nm.load_morphology(io.StringIO(morph), reader="swc")
 

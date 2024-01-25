@@ -9,7 +9,7 @@ from typing import Union
 from typing import Callable
 from urllib.parse import urlparse
 
-from fastapi import HTTPException, Response
+from fastapi import HTTPException
 import matplotlib.pyplot as plt
 import requests
 from starlette.requests import Request
@@ -70,68 +70,71 @@ def get_auth(
     return authorization
 
 
-def wrap_exceptions(callback: Callable) -> Response:
+def wrap_exceptions(callback: Callable):
     """
-    Boilerplate exceptions for /generate requests
+    Decorator function for handling exceptions in /generate requests
     """
-    try:
-        return callback()
-    except InvalidUrlParameterException as exc:
-        raise HTTPException(
-            status_code=422,
-            detail="Invalid content_url parameter in request.",
-        ) from exc
-    except ResourceNotFoundException as exc:
-        raise HTTPException(
-            status_code=404,
-            detail="There was no distribution for that content url.",
-        ) from exc
-    except NoCellFound as exc:
-      # https://stackoverflow.com/questions/5604816/whats-the-most-appropriate-http-status-code-for-an-item-not-found-error-page
-        raise HTTPException(
-            status_code=404,
-            detail="There the NWB file didn't contain a 'cell'.",
-        ) from exc
-    except NoRepetitionFound as exc:
-        raise HTTPException(
-            status_code=404,
-            detail="There the NWB file didn't contain a 'repetition'.",
-        ) from exc
-    except NoSweepFound as exc:
-        raise HTTPException(
-            status_code=404,
-            detail="There the NWB file didn't contain a 'sweep'.",
-        ) from exc
-    except NoProtocolFound as exc:
-        raise HTTPException(
-            status_code=404,
-            detail="There the NWB file didn't contain a 'protocol'.",
-        ) from exc
-    except NoIcDataFound as exc:
-        raise HTTPException(
-            status_code=404,
-            detail="There the NWB file didn't contain any Ic data.",
-        ) from exc
-    except NoUnitFound as exc:
-        raise HTTPException(
-            status_code=404,
-            detail="There the NWB file didn't contain a 'unit'.",
-        ) from exc
-    except NoRateFound as exc:
-        raise HTTPException(
-            status_code=404,
-            detail="There the NWB file didn't contain a 'rate'.",
-        ) from exc
-    except NoConversionFound as exc:
-        raise HTTPException(
-            status_code=404,
-            detail="There the NWB file didn't contain a 'conversion'.",
-        ) from exc
-    except Exception as exc:
-        raise HTTPException(
-            status_code=400,
-            detail="Something went wrong.",
-        ) from exc
+    def wrap(*args, **kwargs):
+        try:
+            return callback(*args, **kwargs)
+        except InvalidUrlParameterException as exc:
+            raise HTTPException(
+                status_code=422,
+                detail="Invalid content_url parameter in request.",
+            ) from exc
+        except ResourceNotFoundException as exc:
+            raise HTTPException(
+                status_code=404,
+                detail="There was no distribution for that content url.",
+            ) from exc
+        except NoCellFound as exc:
+          # https://stackoverflow.com/questions/5604816/whats-the-most-appropriate-http-status-code-for-an-item-not-found-error-page
+            raise HTTPException(
+                status_code=404,
+                detail="There the NWB file didn't contain a 'cell'.",
+            ) from exc
+        except NoRepetitionFound as exc:
+            raise HTTPException(
+                status_code=404,
+                detail="There the NWB file didn't contain a 'repetition'.",
+            ) from exc
+        except NoSweepFound as exc:
+            raise HTTPException(
+                status_code=404,
+                detail="There the NWB file didn't contain a 'sweep'.",
+            ) from exc
+        except NoProtocolFound as exc:
+            raise HTTPException(
+                status_code=404,
+                detail="There the NWB file didn't contain a 'protocol'.",
+            ) from exc
+        except NoIcDataFound as exc:
+            raise HTTPException(
+                status_code=404,
+                detail="There the NWB file didn't contain any Ic data.",
+            ) from exc
+        except NoUnitFound as exc:
+            raise HTTPException(
+                status_code=404,
+                detail="There the NWB file didn't contain a 'unit'.",
+            ) from exc
+        except NoRateFound as exc:
+            raise HTTPException(
+                status_code=404,
+                detail="There the NWB file didn't contain a 'rate'.",
+            ) from exc
+        except NoConversionFound as exc:
+            raise HTTPException(
+                status_code=404,
+                detail="There the NWB file didn't contain a 'conversion'.",
+            ) from exc
+        except Exception as exc:
+            raise HTTPException(
+                status_code=400,
+                detail="Something went wrong.",
+            ) from exc
+
+    return wrap
 
 
 def get_buffer(fig: plt.FigureBase, dpi: Union[int, None]) -> io.BytesIO:
