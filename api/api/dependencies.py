@@ -23,8 +23,6 @@ def retrieve_user(request: Request) -> User:
         decoded = jwt.decode(access_token, options={"verify_signature": False})
         return User(username=decoded.get("preferred_username"), access_token=access_token)
     except jwt.ExpiredSignatureError as exp_signature_error:
-        raise HTTPException(
-            status_code=401, detail="Access token has expired") from exp_signature_error
+        raise HTTPException(status_code=401, detail="Access token has expired") from exp_signature_error
     except jwt.InvalidTokenError as inv_token_error:
-        raise HTTPException(
-            status_code=401, detail="Access token is invalid") from inv_token_error
+        raise HTTPException(status_code=401, detail="Access token is invalid") from inv_token_error
