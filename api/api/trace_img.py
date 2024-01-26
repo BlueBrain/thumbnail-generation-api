@@ -88,7 +88,7 @@ def select_response(lst: List[str]) -> str:
     raise NoIcDataFound
 
 
-def get_unit(h5_handle) -> str:
+def get_unit(h5_handle: h5py.File) -> str:
     "get the unit from the h5 handle"
     try:
         return h5_handle["data"].attrs["unit"]
@@ -96,7 +96,7 @@ def get_unit(h5_handle) -> str:
         raise NoUnitFound from exc
 
 
-def get_rate(h5_handle) -> float:
+def get_rate(h5_handle: h5py.File) -> float:
     "get the rate from the h5 handle"
     try:
         return float(h5_handle["starting_time"].attrs["rate"])
@@ -104,7 +104,7 @@ def get_rate(h5_handle) -> float:
         raise NoRateFound from exc
 
 
-def get_conversion(h5_handle) -> float:
+def get_conversion(h5_handle: h5py.File) -> float:
     "get the conversion from the h5 handle"
     try:
         return float(h5_handle["data"].attrs["conversion"])
