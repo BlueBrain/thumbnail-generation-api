@@ -27,7 +27,7 @@ def get_morphology_image(commons: dict = Depends(common_params)) -> Response:
     Sample Content URL:
     https://bbp.epfl.ch/nexus/v1/files/bbp/mouselight/https%3A%2F%2Fbbp.epfl.ch%2Fnexus%2Fv1%2Fresources%2Fbbp%2Fmouselight%2F_%2F0befd25c-a28a-4916-9a8a-adcd767db118
     """
-    image = read_image(*commons)
+    image = read_image(**commons)
 
     return Response(image, media_type="image/png")
 
@@ -44,6 +44,6 @@ def get_trace_image(commons: dict = Depends(common_params)) -> Response:
     Sample Content URL:
     https://bbp.epfl.ch/nexus/v1/files/public/hippocampus/https%3A%2F%2Fbbp.epfl.ch%2Fneurosciencegraph%2Fdata%2Fb67a2aa6-d132-409b-8de5-49bb306bb251
     """
-    image = read_trace_img(*commons)
+    image = read_trace_img(**commons)
 
     return Response(image, media_type="image/png")

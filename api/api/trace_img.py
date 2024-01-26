@@ -6,7 +6,7 @@ This module provides functions to generate electrophysiology PNG images.
 
 import io
 import re
-from typing import Union
+from typing import Union, List
 
 from fastapi import Header
 import h5py
@@ -25,8 +25,10 @@ from api.exceptions import (
 )
 from api.util import get_buffer, get_file_content, wrap_exceptions
 
+Num = Union[int, float]
 
-def find_digits(string):
+
+def find_digits(string) -> Union[int, None]:
     "get digits last consecutive digits from string"
     digits = re.findall("([0-9]+)", string)
     if not digits:
@@ -34,7 +36,7 @@ def find_digits(string):
     return int(digits[-1])
 
 
-def n_smallest_index(lst, n):
+def n_smallest_index(lst: List[Num], n: int) -> int:
     "find the n smallest value index from a list"
     if n < 0:
         n = max(n, -len(lst))
@@ -43,7 +45,7 @@ def n_smallest_index(lst, n):
     return np.argsort(np.array(lst))[n]
 
 
-def select_element(lst, n=0, meta="cell"):
+def select_element(lst: List[str], n: int = 0, meta: str = "cell") -> str:
     "function to select the correct cell/repetition/seep"
     if not lst:
         if meta == "cell":
@@ -60,7 +62,7 @@ def select_element(lst, n=0, meta="cell"):
     return lst[n_smallest_index(cell_digits, n)]
 
 
-def select_protocol(lst_protocols):
+def select_protocol(lst_protocols: List[str]) -> str:
     "rule to select protocol"
     if not lst_protocols:
         raise NoProtocolFound
@@ -77,7 +79,7 @@ def select_protocol(lst_protocols):
     return lst_protocols[0]
 
 
-def select_response(lst):
+def select_response(lst: List[str]) -> str:
     "find the response element (not the stimulus)"
     for elem in lst:
         if "ic_" in elem:
@@ -85,7 +87,7 @@ def select_response(lst):
     raise NoIcDataFound
 
 
-def get_unit(h5_handle):
+def get_unit(h5_handle) -> str:
     "get the unit from the h5 handle"
     try:
         return h5_handle["data"].attrs["unit"]
@@ -93,7 +95,7 @@ def get_unit(h5_handle):
         raise NoUnitFound from exc
 
 
-def get_rate(h5_handle):
+def get_rate(h5_handle) -> float:
     "get the rate from the h5 handle"
     try:
         return float(h5_handle["starting_time"].attrs["rate"])
@@ -101,7 +103,7 @@ def get_rate(h5_handle):
         raise NoRateFound from exc
 
 
-def get_conversion(h5_handle):
+def get_conversion(h5_handle) -> float:
     "get the conversion from the h5 handle"
     try:
         return float(h5_handle["data"].attrs["conversion"])
@@ -109,7 +111,7 @@ def get_conversion(h5_handle):
         raise NoConversionFound from exc
 
 
-def plot_nwb(data, unit, rate) -> plt.FigureBase:
+def plot_nwb(data, unit: str, rate: Num) -> plt.FigureBase:
     """Plots traces"""
 
     def new_ticks(start, end, xory):

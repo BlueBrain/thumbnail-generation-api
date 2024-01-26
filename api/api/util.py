@@ -68,7 +68,7 @@ async def common_params(
     user = retrieve_user(request)
     authorization = f"Bearer {user.access_token}"
 
-    return {authorization, content_url, dpi}
+    return {"authorization": authorization, "content_url": content_url, "dpi": dpi}
 
 
 def wrap_exceptions(callback: Callable):
