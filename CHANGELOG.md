@@ -7,6 +7,7 @@ All notable changes to this project will be documented in this file.
 ### Added
 
 - Endpoint for generating electrophysiology trace images
+- Environment variables in docker-compose
 
 ## [0.1.1] - 16/01/2024
 
