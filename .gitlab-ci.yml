@@ -12,7 +12,7 @@ lint_black:
   stage: lint
   before_script:
     - cd ./api
-    - pip install black
+    - pip install black==23.11.0
     - black --version
   script:
     - black --check .
