@@ -6,12 +6,13 @@ This module provides functions to generate electrophysiology PNG images.
 
 import io
 import re
-from typing import Union, List
+from typing import Any, Union, List
 
 from fastapi import Header
 import h5py
 import matplotlib.pyplot as plt
 import numpy as np
+from numpy.typing import NDArray
 
 from api.exceptions import (
     NoCellFound,
@@ -111,7 +112,7 @@ def get_conversion(h5_handle) -> float:
         raise NoConversionFound from exc
 
 
-def plot_nwb(data, unit: str, rate: Num) -> plt.FigureBase:
+def plot_nwb(data: NDArray[Any], unit: str, rate: Num) -> plt.FigureBase:
     """Plots traces"""
 
     def new_ticks(start, end, xory):
