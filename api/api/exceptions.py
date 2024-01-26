@@ -19,3 +19,35 @@ class InvalidUrlParameterException(Exception):
     This exception is typically used to indicate that a parameter, such as a content_url, is expected to exist,
     and be valid, but instead is either an empty string or simply not a valid URL.
     """
+
+
+class NoCellFound(Exception):
+    "Thrown when no cell is found."
+
+
+class NoRepetitionFound(Exception):
+    "Thrown when no repetition is found."
+
+
+class NoSweepFound(Exception):
+    "Thrown when no sweep is found."
+
+
+class NoProtocolFound(Exception):
+    "Thrown when no protocol is found."
+
+
+class NoIcDataFound(Exception):
+    "Thrown when no Ic data is found."
+
+
+class NoUnitFound(Exception):
+    "Thrown when no unit is found."
+
+
+class NoRateFound(Exception):
+    "Thrown when no rate is found."
+
+
+class NoConversionFound(Exception):
+    "Thrown when no conversion is found."
