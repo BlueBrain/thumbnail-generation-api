@@ -189,4 +189,6 @@ def read_trace_img(authorization: str = Header(None), content_url: str = "", dpi
 
     buffer = get_buffer(fig, dpi)
 
+    plt.close()
+
     return buffer.getvalue()

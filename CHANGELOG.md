@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.2.1] - 30/01/2024
+
+### Fixed
+
+- Ephys plot images not closing (memory issue)
+
 ## [0.2.0] - 25/01/2024
 
 ### Added
