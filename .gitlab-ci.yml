@@ -73,3 +73,16 @@ build-and-deploy-server-image-in-registry:
     REGISTRY_IMAGE_TAG: $CI_COMMIT_SHORT_SHA-$(date +%s)
     BUILD_PATH: ./server
 
+
+build-and-deploy-api-image-in-dockerhub:
+  stage: deploy
+  extends: .build-image-using-kaniko
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "add-dockerhub-deployment"'
+      when: on_success
+  variables:
+    CI_REGISTRY_IMAGE: kplatis/thumbnail-generation-api
+    CI_REGISTRY: https://index.docker.io/v1/
+    CI_REGISTRY_USER: kplatis
+    CI_REGISTRY_PASSWORD: $PERSONAL_DOCKERHUB_PASSWORD
+    REGISTRY_IMAGE_TAG: latest
