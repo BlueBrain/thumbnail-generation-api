@@ -7,33 +7,33 @@ stages:
   - test
   - deploy
 
-# lint_black:
-#   image: python:3.9
-#   stage: lint
-#   before_script:
-#     - cd ./api
-#     - pip install black==23.11.0
-#     - black --version
-#   script:
-#     - black --check .
+lint_black:
+  image: python:3.9
+  stage: lint
+  before_script:
+    - cd ./api
+    - pip install black==23.11.0
+    - black --version
+  script:
+    - black --check .
 
-# lint_pylint:
-#   image: python:3.9
-#   stage: lint
-#   before_script:
-#     - cd ./api
-#     - pip install -r requirements.txt
-#   script:
-#     - pylint api
+lint_pylint:
+  image: python:3.9
+  stage: lint
+  before_script:
+    - cd ./api
+    - pip install -r requirements.txt
+  script:
+    - pylint api
 
-# unit_tests:
-#   image: python:3.9
-#   stage: test
-#   before_script:
-#     - cd ./api
-#     - pip install -r requirements.txt
-#   script:
-#     - pytest  
+unit_tests:
+  image: python:3.9
+  stage: test
+  before_script:
+    - cd ./api
+    - pip install -r requirements.txt
+  script:
+    - pytest  
 
 build-and-deploy-api-image-in-registry:
   stage: deploy
@@ -81,9 +81,10 @@ build-and-deploy-api-image-in-dockerhub:
     - if: '$CI_COMMIT_BRANCH == "add-dockerhub-deployment"'
       when: on_success
   variables:
-    CI_REGISTRY_IMAGE: kplatis/thumbnail-generation-api
+    CI_PROJECT_DIR: /builds/dke/apps/kg-inference-api
+    CI_REGISTRY_IMAGE: bluebrain/kg-inference-api
     CI_REGISTRY: https://index.docker.io/v1/
-    CI_REGISTRY_USER: kplatis
-    CI_REGISTRY_PASSWORD: $PERSONAL_DOCKERHUB_PASSWORD
+    CI_REGISTRY_USER: bbpbuildbot
+    CI_REGISTRY_PASSWORD: $CI_REGISTRY_PASSWORD_DOCKERHUB
     REGISTRY_IMAGE_TAG: latest
     BUILD_PATH: ./api
