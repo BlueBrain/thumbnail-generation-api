@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.2.2] - 07/02/2024
+
+### Added
+
+- CI job to deploy service in Dockerhub
+
+
 ## [0.2.1] - 30/01/2024
 
 ### Fixed
