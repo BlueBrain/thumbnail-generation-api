@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.2.3] - 12/02/2024
+
+### Fixed
+
+- Dockerhub image deployment path
+
+
 ## [0.2.2] - 07/02/2024
 
 ### Added
