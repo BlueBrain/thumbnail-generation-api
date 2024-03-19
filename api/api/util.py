@@ -136,7 +136,7 @@ def wrap_exceptions(callback: Callable):
         except Exception as exc:
             raise HTTPException(
                 status_code=400,
-                detail="Something went wrong.",
+                detail=exc,
             ) from exc
 
     return wrap
