@@ -49,10 +49,8 @@ def get_file_content(authorization: str = "", content_url: str = "") -> bytes:
         raise InvalidUrlParameterException
 
     response = requests.get(content_url, headers={"authorization": authorization}, timeout=15)
-    if response.status_code != 200:
-        raise HTTPException(status_code=response.status_code, detail=response.content)
-    else:
-        raise HTTPException(status_code=response.status_code, detail=response.content)
+
+    raise HTTPException(status_code=response.status_code, detail=response.content)
 
 
 async def common_params(
