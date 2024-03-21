@@ -130,11 +130,6 @@ def wrap_exceptions(callback: Callable):
                 status_code=404,
                 detail="There the NWB file didn't contain a 'conversion'.",
             ) from exc
-        except Exception as exc:
-            raise HTTPException(
-                status_code=400,
-                detail="Something went wrong.",
-            ) from exc
 
     return wrap
 
