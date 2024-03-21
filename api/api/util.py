@@ -49,7 +49,10 @@ def get_file_content(authorization: str = "", content_url: str = "") -> bytes:
         raise InvalidUrlParameterException
 
     response = requests.get(content_url, headers={"authorization": authorization}, timeout=15)
-
+    if len(response.text) > 200:
+        print(response.text[:200])
+    else:
+        print(response.text)
     if response.status_code == 200:
         return response.content
     if response.status_code == 404:
