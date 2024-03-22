@@ -50,15 +50,12 @@ def get_file_content(authorization: str = "", content_url: str = "") -> bytes:
     # print(parsed_content_url)
 
     response = requests.get(content_url, headers={"authorization": authorization}, timeout=15)
-    if len(response.text) > 200:
-        print(response.text[:200])
-    else:
-        print(response.text)
-    if response.status_code == 200:
-        return response.content
-    if response.status_code == 404:
-        raise ResourceNotFoundException
-    raise requests.exceptions.RequestException
+    raise HTTPException(status_code=response.status_code, detail=response.text)
+    # if response.status_code == 200:
+    #     return response.content
+    # if response.status_code == 404:
+    #     raise ResourceNotFoundException
+    # raise requests.exceptions.RequestException
 
 
 async def common_params(
