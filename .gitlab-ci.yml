@@ -12,7 +12,7 @@ lint_black:
   stage: lint
   before_script:
     - pip install poetry
-    - poetry add black==23.11.0
+    - poetry install
     - black --version
   script:
     - black --check .
@@ -30,7 +30,8 @@ unit_tests:
   image: python:3.9
   stage: test
   before_script:
-    - pip install -r requirements.txt
+    - pip install poetry
+    - poetry install
   script:
     - pytest  
 
