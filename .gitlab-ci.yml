@@ -7,6 +7,7 @@ stages:
   - test
   - deploy
 
+
 lint_black:
   image: python:3.9
   stage: lint
@@ -22,7 +23,7 @@ lint_pylint:
   stage: lint
   before_script:
     - pip install poetry
-    - poetry install
+    - poetry config virtualenvs.create false && poetry install
   script:
     - pylint api
 
@@ -31,7 +32,7 @@ unit_tests:
   stage: test
   before_script:
     - pip install poetry
-    - poetry install
+    - poetry config virtualenvs.create false && poetry install
   script:
     - pytest  
 
