@@ -2,7 +2,8 @@ FROM python:3.9
 
 
 ENV PYTHONUNBUFFERED=1 \
-    PYTHONDONTWRITEBYTECODE=1 
+    PYTHONDONTWRITEBYTECODE=1 \
+    POETRY_VIRTUALENVS_CREATE=false
 
 WORKDIR /code
 
@@ -10,7 +11,7 @@ COPY pyproject.toml poetry.lock /code/
 
 RUN pip install poetry
 
-RUN poetry config virtualenvs.create false && poetry install --no-dev --no-interaction --no-ansi
+RUN poetry install --no-dev --no-interaction --no-ansi
 
 COPY . /code
 
