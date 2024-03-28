@@ -11,7 +11,8 @@ lint_black:
   image: python:3.9
   stage: lint
   before_script:
-    - poetry install
+    - pip install poetry
+    - poetry add black==23.11.0
     - black --version
   script:
     - black --check .
@@ -20,6 +21,7 @@ lint_pylint:
   image: python:3.9
   stage: lint
   before_script:
+    - pip install poetry
     - poetry install
   script:
     - pylint api
