@@ -1,9 +1,15 @@
 FROM python:3.9
 
+
+ENV PYTHONUNBUFFERED=1 \
+    PYTHONDONTWRITEBYTECODE=1 \
+    POETRY_VIRTUALENVS_IN_PROJECT=true \
+    POETRY_VIRTUALENVS_CREATE=true
+
 WORKDIR /code
 COPY . /code
-
-RUN pip install --no-cache-dir -r /code/requirements.txt
+RUN pip install poetry==1.4.2
+RUN poetry install --no-root
 
 EXPOSE 8080
 
