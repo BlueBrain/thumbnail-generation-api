@@ -11,7 +11,6 @@ lint_black:
   image: python:3.9
   stage: lint
   before_script:
-    - cd ./api
     - pip install black==23.11.0
     - black --version
   script:
@@ -21,7 +20,6 @@ lint_pylint:
   image: python:3.9
   stage: lint
   before_script:
-    - cd ./api
     - pip install -r requirements.txt
   script:
     - pylint api
@@ -30,7 +28,6 @@ unit_tests:
   image: python:3.9
   stage: test
   before_script:
-    - cd ./api
     - pip install -r requirements.txt
   script:
     - pytest  
@@ -39,7 +36,7 @@ build-and-deploy-api-image-in-registry:
   stage: deploy
   extends: .build-image-using-kaniko
   rules:
-    - if: '$CI_COMMIT_BRANCH == "dev"'
+    - if: '$CI_COMMIT_BRANCH == "reorganise-folders"'
       when: on_success
       variables:
         CI_REGISTRY_IMAGE: $CI_REGISTRY_IMAGE/thumbnail-generation-api-dev
