@@ -1,11 +1,39 @@
+[tool.poetry]
+name = "thumbnail_generation_api"
+version = "0.2.4"
+description = "Rest API to generate thumbnails"
+authors = [
+    "Konstantinos Platis <konstantinos.platis@epfl.ch>",
+    "Harry Robert Taylor Anderson <harry.anderson@epfl.ch>",
+]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+fastapi = { version = "^0.108.0", extras = ["standard"] }
+gunicorn = "^21.2.0"
+uvicorn = "^0.25.0"
+PyJWT = "^2.8.0"
+pytest = "^7.4.4"
+black = "^23.11.0"
+pylint = "^3.0.2"
+neurom = "^3.2.5"
+matplotlib = "^3.7.4"
+requests = "^2.31.0"
+python-dotenv = "^1.0.0"
+h5py = "^3.10.0"
+numpy = "^1.24.4"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
 
 [tool.pylint.FORMAT]
-max-line-length=120
-good-names=["version_template"]
-disable =["R0903"]
+max-line-length = 120
+good-names = ["version_template"]
+disable = ["R0903"]
 
 [tool.pylint.MASTER]
-extension-pkg-whitelist=["pydantic"]
+extension-pkg-whitelist = ["pydantic"]
 
 [tool.black]
-line-length=120
+line-length = 120
