@@ -12,7 +12,7 @@ lint_black:
   stage: lint
   before_script:
     - pip install poetry
-    - poetry config virtualenvs.create false && poetry install --no-dev --no-interaction --no-ansi
+    - poetry config virtualenvs.create false && poetry install
     - black --version
   script:
     - black --check .
