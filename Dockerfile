@@ -2,14 +2,19 @@ FROM python:3.9
 
 
 ENV PYTHONUNBUFFERED=1 \
-    PYTHONDONTWRITEBYTECODE=1 \
-    POETRY_VIRTUALENVS_IN_PROJECT=true \
-    POETRY_VIRTUALENVS_CREATE=true
+    PYTHONDONTWRITEBYTECODE=1 
 
 WORKDIR /code
+
+COPY pyproject.toml poetry.lock /code/
+
+# Install Poetry
+RUN pip install poetry
+
+# Install project dependencies using Poetry
+RUN poetry config virtualenvs.create false && poetry install --no-dev --no-interaction --no-ansi
+
 COPY . /code
-RUN pip install poetry==1.4.2
-RUN poetry install --no-root
 
 EXPOSE 8080
 
