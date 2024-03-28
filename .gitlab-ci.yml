@@ -7,7 +7,6 @@ stages:
   - test
   - deploy
 
-
 lint_black:
   image: python:3.9
   stage: lint
