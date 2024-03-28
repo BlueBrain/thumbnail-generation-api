@@ -12,6 +12,7 @@ All notable changes to this project will be documented in this file.
 ### Modified
 
 - Folder structure to include only `/api`
+- Installation to use `poetry`
 
 
 ## [0.2.3] - 12/02/2024

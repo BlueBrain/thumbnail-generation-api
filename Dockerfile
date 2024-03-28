@@ -8,10 +8,8 @@ WORKDIR /code
 
 COPY pyproject.toml poetry.lock /code/
 
-# Install Poetry
 RUN pip install poetry
 
-# Install project dependencies using Poetry
 RUN poetry config virtualenvs.create false && poetry install --no-dev --no-interaction --no-ansi
 
 COPY . /code
