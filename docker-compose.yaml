@@ -1,24 +1,12 @@
-version: '3'
+version: "3"
 
 services:
   thumbnail-generation-api:
-    build:
-      context: ./api
     ports:
       - "8086:8080"
     environment:
       DEBUG_MODE: True
       WHITELISTED_CORS_URLS: "http:localhost:3000"
-    networks:
-      - app-network
-
-  nginx-server:
-    build:
-      context: ./server
-    ports:
-      - "80:80"
-    depends_on:
-      - thumbnail-generation-api
     networks:
       - app-network
 
