@@ -13,6 +13,7 @@ All notable changes to this project will be documented in this file.
 
 - Folder structure to include only `/api`
 - Installation to use `poetry`
+- Python version to `3.12`
 
 
 ## [0.2.3] - 12/02/2024
