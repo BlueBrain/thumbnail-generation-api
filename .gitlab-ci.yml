@@ -8,7 +8,7 @@ stages:
   - deploy
 
 lint_black:
-  image: python:3.9
+  image: python:3.12
   stage: lint
   before_script:
     - pip install poetry
@@ -18,7 +18,7 @@ lint_black:
     - black --check .
 
 lint_pylint:
-  image: python:3.9
+  image: python:3.12
   stage: lint
   before_script:
     - pip install poetry
@@ -27,7 +27,7 @@ lint_pylint:
     - pylint api
 
 unit_tests:
-  image: python:3.9
+  image: python:3.12
   stage: test
   before_script:
     - pip install poetry
