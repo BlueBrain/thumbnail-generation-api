@@ -11,7 +11,7 @@ COPY pyproject.toml poetry.lock /code/
 
 RUN pip install poetry
 
-RUN poetry install --no-dev --no-interaction --no-ansi
+RUN poetry install --no-dev --no-interaction --no-ansi --no-root
 
 COPY . /code
 
