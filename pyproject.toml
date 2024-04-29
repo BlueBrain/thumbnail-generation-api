@@ -9,7 +9,7 @@ authors = [
 packages = [{ include = "api" }]
 
 [tool.poetry.dependencies]
-python = "^3.12"
+python = "==3.10.*"
 fastapi = { version = "^0.108.0", extras = ["standard"] }
 gunicorn = "^21.2.0"
 uvicorn = "^0.25.0"
@@ -21,13 +21,18 @@ requests = "^2.31.0"
 python-dotenv = "^1.0.0"
 h5py = "^3.10.0"
 numpy = "^1.24.4"
+python-multipart = "^0.0.9"
+httpx = "^0.27.0"
+pydantic = "^2.7.1"
 
 [tool.poetry.dev-dependencies]
 black = "^23.11.0"
 pylint = "^3.0.2"
+ruff = "^0.3.0"
+mypy = "^1.8.0"
 
 [build-system]
-requires = ["poetry-core>=1.0.0"]
+requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.pylint.FORMAT]
