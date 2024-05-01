@@ -5,9 +5,7 @@ import nmv.utilities as nmvu
 class NeuroMorphoVisOptions:
     """Workflow options all combined in a single structure."""
 
-    ################################################################################################
     # MARK: @__init__
-    ################################################################################################
     def __init__(self):
         """Constructor"""
 
@@ -32,9 +30,8 @@ class NeuroMorphoVisOptions:
         # Synaptics options
         self.synaptics = nmv.options.SynapticsOptions()
 
-    ################################################################################################
     # @consume_arguments
-    ################################################################################################
+
     def consume_arguments(self, arguments):
         """Convert the command line arguments to options.
 
@@ -48,9 +45,8 @@ class NeuroMorphoVisOptions:
         import nmv.file
         import nmv.utilities
 
-        ############################################################################################
         # MARK: Output options
-        ############################################################################################
+
         # Main output directory
         self.io.output_directory = arguments.output_directory
 
@@ -90,9 +86,8 @@ class NeuroMorphoVisOptions:
             nmv.consts.Paths.STATS_FOLDER,
         )
 
-        ############################################################################################
         # MARK: Morphology options
-        ############################################################################################
+
         # Morphology skeleton style
         self.morphology.arbor_style = nmv.enums.Skeleton.Style.get_enum(
             arguments.morphology_skeleton_style
@@ -199,9 +194,8 @@ class NeuroMorphoVisOptions:
         # Export the morphology skeleton to .blend file for rendering using tubes
         self.morphology.export_blend = arguments.export_morphology_blend
 
-        ############################################################################################
         # MARK: Soma soft body options
-        ############################################################################################
+
         # Stiffness
         self.soma.stiffness = arguments.soma_stiffness
 
@@ -228,9 +222,8 @@ class NeuroMorphoVisOptions:
         # Export soma mesh in .blend format
         self.soma.export_blend = arguments.export_soma_mesh_blend
 
-        ############################################################################################
         # MARK: Mesh options
-        ############################################################################################
+
         # Reconstruct neuron mesh for exporting
         self.mesh.reconstruct_neuron_mesh = arguments.reconstruct_neuron_mesh
 
@@ -303,9 +296,8 @@ class NeuroMorphoVisOptions:
             else nmv.enums.Meshing.SomaConnection.DISCONNECTED
         )
 
-        ############################################################################################
         # MARK: Shading options
-        ############################################################################################
+
         # Soma color
         self.shading.soma_color = nmvu.parse_color_from_argument(arguments.soma_color)
         self.shading.morphology_soma_color = nmvu.parse_color_from_argument(
@@ -371,9 +363,8 @@ class NeuroMorphoVisOptions:
         self.shading.morphology_material = nmv.enums.Shader.get_enum(arguments.shader)
         self.shading.mesh_material = nmv.enums.Shader.get_enum(arguments.shader)
 
-        ############################################################################################
         # MARK: Rendering options
-        ############################################################################################
+
         # Render a close up view of the morphology
         self.rendering.render_morphology_static_frame = (
             arguments.render_neuron_morphology

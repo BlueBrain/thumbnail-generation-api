@@ -19,9 +19,6 @@ for import_path in import_paths:
     sys.path.append(path)
 
 
-####################################################################################################
-# @render_soma_two_dimensional_profile
-####################################################################################################
 def render_soma_two_dimensional_profile(morphology_object, options):
     """Reconstruct the skeleton of the two-dimensional soma profile and render it.
 
@@ -35,9 +32,6 @@ def render_soma_two_dimensional_profile(morphology_object, options):
     nmv.scene.ops.clear_scene()
 
 
-####################################################################################################
-# @reconstruct_soma_three_dimensional_profile_mesh
-####################################################################################################
 def reconstruct_soma_three_dimensional_profile_mesh(cli_morphology, cli_options):
     """Reconstructs a three-dimensional profile of the soma and renders it.
 
@@ -171,9 +165,7 @@ def reconstruct_soma_three_dimensional_profile_mesh(cli_morphology, cli_options)
         nmv.scene.ops.clear_scene()
 
 
-####################################################################################################
-# @ Run the main function if invoked from the command line.
-####################################################################################################
+# Run the main function if invoked from the command line.
 if __name__ == "__main__":
     # Ignore blender extra arguments required to launch blender given to the command line interface
     args = sys.argv
