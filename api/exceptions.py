@@ -51,6 +51,3 @@ class NoRateFound(Exception):
 
 class NoConversionFound(Exception):
     "Thrown when no conversion is found."
-
-
-# TODO: Add custom exceptions for NeuroMorphoVis specific things and use them accordingly in the code
