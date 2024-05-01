@@ -51,10 +51,7 @@ async def process_swc(file: UploadFile = File(...)) -> FileResponse:
 
         script_path = current_directory.parent.parent / "neuromorphovis.py"
 
-        blender_executable_path = (
-            current_directory.parent.parent
-            / "blender/bbp-blender-3.5/blender-bbp/blender"
-        )
+        blender_executable_path = current_directory.parent.parent / "blender/bbp-blender-3.5/blender-bbp/blender"
 
         print("Running NMV script...")
 
@@ -83,9 +80,7 @@ async def process_swc(file: UploadFile = File(...)) -> FileResponse:
                 if name == target_name:
                     break
         else:
-            raise HTTPException(
-                status_code=404, detail="OBJ file not found after processing."
-            )
+            raise HTTPException(status_code=404, detail="OBJ file not found after processing.")
 
         print("generated_obj_path: ", mesh.as_posix())
 
@@ -102,9 +97,7 @@ async def process_swc(file: UploadFile = File(...)) -> FileResponse:
 @router.post("/process-soma")
 async def process_soma(request: ProcessSomaRequest, authorization: str = Header(None)):
     if authorization is None or not authorization.startswith("Bearer "):
-        raise HTTPException(
-            status_code=401, detail="Authorization token is missing or invalid"
-        )
+        raise HTTPException(status_code=401, detail="Authorization token is missing or invalid")
 
     token = authorization.split(" ")[1]
     file_content, content_type = await nexus_client.fetch_file(
@@ -112,9 +105,7 @@ async def process_soma(request: ProcessSomaRequest, authorization: str = Header(
     )
 
     if not content_type or "application/octet-stream" not in content_type:
-        raise HTTPException(
-            status_code=400, detail="The fetched file is not in a valid SWC format."
-        )
+        raise HTTPException(status_code=400, detail="The fetched file is not in a valid SWC format.")
 
     temp_file_path = ""
     try:
@@ -127,10 +118,7 @@ async def process_soma(request: ProcessSomaRequest, authorization: str = Header(
         meshes_directory = output_directory / "meshes"
         meshes_directory.mkdir(exist_ok=True, parents=True)
         script_path = current_directory.parent.parent / "neuromorphovis.py"
-        blender_executable_path = (
-            current_directory.parent.parent
-            / "blender/bbp-blender-3.5/blender-bbp/blender"
-        )
+        blender_executable_path = current_directory.parent.parent / "blender/bbp-blender-3.5/blender-bbp/blender"
 
         command = [
             "python",
@@ -154,9 +142,7 @@ async def process_soma(request: ProcessSomaRequest, authorization: str = Header(
                     filename=mesh.name,
                 )
 
-        raise HTTPException(
-            status_code=404, detail="OBJ file not found after processing."
-        )
+        raise HTTPException(status_code=404, detail="OBJ file not found after processing.")
     finally:
         if temp_file_path and os.path.exists(temp_file_path):
             os.remove(temp_file_path)

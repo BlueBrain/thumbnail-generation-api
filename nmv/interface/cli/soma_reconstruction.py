@@ -142,9 +142,7 @@ def reconstruct_soma_three_dimensional_profile_mesh(cli_morphology, cli_options)
         nmv.file.ops.clean_and_create_directory(output_directory)
 
         # Simulation
-        for i in range(
-            nmv.consts.Simulation.MIN_FRAME, nmv.consts.Simulation.MAX_FRAME
-        ):
+        for i in range(nmv.consts.Simulation.MIN_FRAME, nmv.consts.Simulation.MAX_FRAME):
             # Update the frame based on the soft body simulation
             bpy.context.scene.frame_set(i)
 
@@ -200,8 +198,7 @@ if __name__ == "__main__":
 
         if not loading_flag:
             nmv.logger.log(
-                "ERROR: Cannot load the GID [%s] from the circuit [%s]"
-                % cli_options.morphology.blue_config,
+                "ERROR: Cannot load the GID [%s] from the circuit [%s]" % cli_options.morphology.blue_config,
                 str(cli_options.morphology.gid),
             )
             exit(0)
@@ -213,8 +210,7 @@ if __name__ == "__main__":
 
         if cli_morphology is None:
             nmv.logger.log(
-                "ERROR: Cannot load the morphology file [%s]"
-                % str(cli_options.morphology.morphology_file_path)
+                "ERROR: Cannot load the morphology file [%s]" % str(cli_options.morphology.morphology_file_path)
             )
             exit(0)
 
@@ -223,7 +219,5 @@ if __name__ == "__main__":
         exit(0)
 
     # Soma mesh reconstruction and visualization
-    reconstruct_soma_three_dimensional_profile_mesh(
-        cli_morphology=cli_morphology, cli_options=cli_options
-    )
+    reconstruct_soma_three_dimensional_profile_mesh(cli_morphology=cli_morphology, cli_options=cli_options)
     nmv.logger.log("NMV Done")

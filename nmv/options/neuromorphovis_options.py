@@ -89,9 +89,7 @@ class NeuroMorphoVisOptions:
         # MARK: Morphology options
 
         # Morphology skeleton style
-        self.morphology.arbor_style = nmv.enums.Skeleton.Style.get_enum(
-            arguments.morphology_skeleton_style
-        )
+        self.morphology.arbor_style = nmv.enums.Skeleton.Style.get_enum(arguments.morphology_skeleton_style)
 
         # Morphology reconstruction method
         self.morphology.reconstruction_method = nmv.enums.Skeleton.Method.get_enum(
@@ -118,14 +116,10 @@ class NeuroMorphoVisOptions:
             self.morphology.morphology_file_path = arguments.morphology_file
 
             # Update the morphology label
-            self.morphology.label = nmv.file.ops.get_file_name_from_path(
-                arguments.morphology_file
-            )
+            self.morphology.label = nmv.file.ops.get_file_name_from_path(arguments.morphology_file)
 
         # Soma reconstruction
-        self.morphology.soma_representation = nmv.enums.Soma.Representation.get_enum(
-            arguments.soma_representation
-        )
+        self.morphology.soma_representation = nmv.enums.Soma.Representation.get_enum(arguments.soma_representation)
 
         # Ignore axon
         self.morphology.ignore_axons = arguments.ignore_axons
@@ -140,14 +134,10 @@ class NeuroMorphoVisOptions:
         self.morphology.axon_branch_order = arguments.axon_branching_order
 
         # Basal dendrites branching level
-        self.morphology.basal_dendrites_branch_order = (
-            arguments.basal_dendrites_branching_order
-        )
+        self.morphology.basal_dendrites_branch_order = arguments.basal_dendrites_branching_order
 
         # Apical dendrite branching level, if exists
-        self.morphology.apical_dendrite_branch_order = (
-            arguments.apical_dendrites_branching_order
-        )
+        self.morphology.apical_dendrite_branch_order = arguments.apical_dendrites_branching_order
 
         # Export the reconstructed morphology to the global coordinates of the circuit
         self.morphology.global_coordinates = arguments.global_coordinates
@@ -156,9 +146,7 @@ class NeuroMorphoVisOptions:
         self.morphology.bevel_object_sides = arguments.bevel_sides
 
         # Sections radii
-        self.morphology.arbors_radii = nmv.enums.Skeleton.Radii.get_enum(
-            arguments.samples_radii
-        )
+        self.morphology.arbors_radii = nmv.enums.Skeleton.Radii.get_enum(arguments.samples_radii)
 
         # Unified radius across all the arbors
         if self.morphology.arbors_radii == nmv.enums.Skeleton.Radii.UNIFIED:
@@ -206,9 +194,7 @@ class NeuroMorphoVisOptions:
         self.soma.camera_view = nmv.enums.Camera.View.get_enum(arguments.camera_view)
 
         # The file format of the image
-        self.soma.image_format = nmv.enums.Image.Extension.get_enum(
-            arguments.image_file_format
-        )
+        self.soma.image_format = nmv.enums.Image.Extension.get_enum(arguments.image_file_format)
 
         # Export soma mesh in .ply format
         self.soma.export_ply = arguments.export_soma_mesh_ply
@@ -228,27 +214,19 @@ class NeuroMorphoVisOptions:
         self.mesh.reconstruct_neuron_mesh = arguments.reconstruct_neuron_mesh
 
         # Soma reconstruction technique
-        self.mesh.soma_type = nmv.enums.Soma.Representation.get_enum(
-            arguments.soma_representation
-        )
+        self.mesh.soma_type = nmv.enums.Soma.Representation.get_enum(arguments.soma_representation)
 
         # Tessellation level (between 0.1 and 1.0)
         self.mesh.tessellation_level = float(arguments.tessellation_level)
 
         # Tessellate the mesh after the reconstruction if requested
-        self.mesh.tessellate_mesh = (
-            True if 0.1 < self.mesh.tessellation_level < 1.0 else False
-        )
+        self.mesh.tessellate_mesh = True if 0.1 < self.mesh.tessellation_level < 1.0 else False
 
         # Meshing technique
-        self.mesh.meshing_technique = nmv.enums.Meshing.Technique.get_enum(
-            arguments.meshing_algorithm
-        )
+        self.mesh.meshing_technique = nmv.enums.Meshing.Technique.get_enum(arguments.meshing_algorithm)
 
         # Which proxy meshing method will be within the voxelization re-meshing
-        self.mesh.proxy_mesh_method = nmv.enums.Meshing.Proxy.get_enum(
-            arguments.proxy_mesh_method
-        )
+        self.mesh.proxy_mesh_method = nmv.enums.Meshing.Proxy.get_enum(arguments.proxy_mesh_method)
 
         # Topology re-tessellation for the Voxel remesher
         # self.mesh.topology_tessellation = nmv.enums.Meshing.TopologyTessellation.get_enum(
@@ -258,9 +236,7 @@ class NeuroMorphoVisOptions:
         self.mesh.spines = nmv.enums.Meshing.Spines.Source.get_enum(arguments.spines)
 
         # Spine quality
-        self.mesh.spines_mesh_quality = nmv.enums.Meshing.Spines.Quality.get_enum(
-            arguments.spines_quality
-        )
+        self.mesh.spines_mesh_quality = nmv.enums.Meshing.Spines.Quality.get_enum(arguments.spines_quality)
 
         # Number of spines per micron
         self.mesh.number_spines_per_micron = arguments.number_spines_per_micron
@@ -300,60 +276,38 @@ class NeuroMorphoVisOptions:
 
         # Soma color
         self.shading.soma_color = nmvu.parse_color_from_argument(arguments.soma_color)
-        self.shading.morphology_soma_color = nmvu.parse_color_from_argument(
-            arguments.soma_color
-        )
-        self.shading.mesh_soma_color = nmvu.parse_color_from_argument(
-            arguments.soma_color
-        )
+        self.shading.morphology_soma_color = nmvu.parse_color_from_argument(arguments.soma_color)
+        self.shading.mesh_soma_color = nmvu.parse_color_from_argument(arguments.soma_color)
 
         # Morphology color coding
-        self.shading.morphology_coloring_scheme = nmv.enums.ColorCoding.get_enum(
-            arguments.morphology_color_coding
-        )
+        self.shading.morphology_coloring_scheme = nmv.enums.ColorCoding.get_enum(arguments.morphology_color_coding)
 
         # Get the morphology colormap
         colormap = nmv.enums.ColorMaps.get_enum(arguments.morphology_colormap)
-        self.shading.morphology_colormap_list = (
-            nmv.utilities.create_colormap_from_hex_list(
-                nmv.enums.ColorMaps.get_hex_color_list(colormap),
-                nmv.consts.Color.COLORMAP_RESOLUTION,
-            )
+        self.shading.morphology_colormap_list = nmv.utilities.create_colormap_from_hex_list(
+            nmv.enums.ColorMaps.get_hex_color_list(colormap),
+            nmv.consts.Color.COLORMAP_RESOLUTION,
         )
 
         # Axon color
-        self.shading.morphology_axons_color = nmvu.parse_color_from_argument(
-            arguments.axons_color
-        )
-        self.shading.mesh_axons_color = nmvu.parse_color_from_argument(
-            arguments.axons_color
-        )
+        self.shading.morphology_axons_color = nmvu.parse_color_from_argument(arguments.axons_color)
+        self.shading.mesh_axons_color = nmvu.parse_color_from_argument(arguments.axons_color)
 
         # Basal dendrites color
-        self.shading.morphology_basal_dendrites_color = nmvu.parse_color_from_argument(
-            arguments.basal_dendrites_color
-        )
-        self.shading.mesh_basal_dendrites_color = nmvu.parse_color_from_argument(
-            arguments.basal_dendrites_color
-        )
+        self.shading.morphology_basal_dendrites_color = nmvu.parse_color_from_argument(arguments.basal_dendrites_color)
+        self.shading.mesh_basal_dendrites_color = nmvu.parse_color_from_argument(arguments.basal_dendrites_color)
 
         # Apical dendrite color
         self.shading.morphology_apical_dendrites_color = nmvu.parse_color_from_argument(
             arguments.apical_dendrites_color
         )
-        self.shading.mesh_apical_dendrites_color = nmvu.parse_color_from_argument(
-            arguments.apical_dendrites_color
-        )
+        self.shading.mesh_apical_dendrites_color = nmvu.parse_color_from_argument(arguments.apical_dendrites_color)
 
         # Spines color
-        self.shading.mesh_spines_color = nmv.utilities.parse_color_from_argument(
-            arguments.spines_color
-        )
+        self.shading.mesh_spines_color = nmv.utilities.parse_color_from_argument(arguments.spines_color)
 
         # Nucleus color
-        self.shading.nucleus_color = nmv.utilities.parse_color_from_argument(
-            arguments.nucleus_color
-        )
+        self.shading.nucleus_color = nmv.utilities.parse_color_from_argument(arguments.nucleus_color)
 
         # Articulations color
         self.shading.morphology_articulation_color = nmv.enums.Color.ARTICULATION
@@ -366,17 +320,13 @@ class NeuroMorphoVisOptions:
         # MARK: Rendering options
 
         # Render a close up view of the morphology
-        self.rendering.render_morphology_static_frame = (
-            arguments.render_neuron_morphology
-        )
+        self.rendering.render_morphology_static_frame = arguments.render_neuron_morphology
 
         # Render a close up view of the morphology
         self.rendering.render_morphology_360 = arguments.render_neuron_morphology_360
 
         # Render the progressive reconstruction of the morphology
-        self.rendering.render_morphology_progressive = (
-            arguments.render_neuron_morphology_progressive
-        )
+        self.rendering.render_morphology_progressive = arguments.render_neuron_morphology_progressive
 
         # Render soma mesh flag
         self.rendering.render_soma_static_frame = arguments.render_soma_mesh
@@ -394,14 +344,10 @@ class NeuroMorphoVisOptions:
         self.rendering.render_mesh_360 = arguments.render_neuron_mesh_360
 
         # Camera view [FRONT, SIDE or TOP]
-        self.rendering.camera_view = nmv.enums.Camera.View.get_enum(
-            arguments.camera_view
-        )
+        self.rendering.camera_view = nmv.enums.Camera.View.get_enum(arguments.camera_view)
 
         # Rendering view
-        self.rendering.rendering_view = nmv.enums.Rendering.View.get_enum(
-            arguments.rendering_view
-        )
+        self.rendering.rendering_view = nmv.enums.Rendering.View.get_enum(arguments.rendering_view)
 
         # Resolution basis
         self.rendering.resolution_basis = (
@@ -420,17 +366,13 @@ class NeuroMorphoVisOptions:
         self.rendering.close_up_resolution = arguments.frame_resolution
 
         # The file format of the image
-        self.rendering.image_format = nmv.enums.Image.Extension.get_enum(
-            arguments.image_file_format
-        )
+        self.rendering.image_format = nmv.enums.Image.Extension.get_enum(arguments.image_file_format)
 
         # Close up view dimensions
         self.rendering.close_up_dimensions = arguments.close_up_dimensions
 
         # The file format of the image
-        self.rendering.image_format = nmv.enums.Image.Extension.get_enum(
-            arguments.image_file_format
-        )
+        self.rendering.image_format = nmv.enums.Image.Extension.get_enum(arguments.image_file_format)
 
         # Render scale bar
         self.rendering.render_scale_bar = arguments.render_scale_bar
