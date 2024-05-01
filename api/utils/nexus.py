@@ -4,15 +4,10 @@ Module: nexus.py
 This module wraps functionality for the Nexus Delta API.
 """
 
-import os
 import httpx
 from fastapi import HTTPException
-import dotenv
 
-dotenv.load_dotenv()
-
-
-API_ENDPOINT = os.getenv("NEXUS_DELTA_API", "http://localhost:8080")
+from ..config import NEXUS_DELTA_API
 
 
 # Nexus Delta API client setup
@@ -21,7 +16,7 @@ class NexusClient:
         self.client = httpx.Client()
 
     async def fetch_file(self, org_label, project_label, file_id, rev=None, token=None):
-        url = f"{API_ENDPOINT}/{org_label}/{project_label}/{file_id}"
+        url = f"{NEXUS_DELTA_API}/{org_label}/{project_label}/{file_id}"
 
         if rev:
             url += f"?rev={rev}"

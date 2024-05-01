@@ -12,3 +12,4 @@ load_dotenv()
 
 WHITELISTED_CORS_URLS = os.environ.get("WHITELISTED_CORS_URLS", "")
 DEBUG_MODE = os.environ.get("DEBUG_MODE", False)
+NEXUS_DELTA_API = os.getenv("NEXUS_DELTA_API", "http://localhost:8080")
