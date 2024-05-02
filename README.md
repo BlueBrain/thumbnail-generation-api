@@ -34,7 +34,7 @@ Test Content URLs
 Build the docker image
 
 ```shell
-docker build . --tag neuromorphovis --no-cache
+docker build . --tag neuromorphovis
 ```
 
 JFYI: If you're on Mac, you might need to add the `--platform=linux/amd64` flag to the `docker build` command.
