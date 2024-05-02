@@ -7,6 +7,7 @@ processing a SWC file uploaded by the user and another for fetching a
 SWC file from Nexus Delta and processing it.
 """
 
+import logging
 import os
 import shutil
 import subprocess
@@ -18,82 +19,28 @@ from fastapi import APIRouter, File, Header, HTTPException, UploadFile
 from fastapi.responses import FileResponse
 from pydantic import BaseModel
 
-router = APIRouter()
 
-
-@router.post("/process-swc")
-async def process_swc(file: UploadFile = File(...)) -> FileResponse:
-    """Process a SWC file uploaded by the user and return the processed soma mesh."""
-    # Prepare the temporary file
-    temp_file_path = ""
-
-    try:
-        with NamedTemporaryFile(delete=False, suffix=".swc") as temp_file:
-            shutil.copyfileobj(file.file, temp_file)
-            temp_file_path = temp_file.name
-
-        current_directory = Path(__file__).parent
-
-        print(current_directory)
-
-        output_directory = current_directory.parent.parent / "output"
-
-        # Ensure the meshes subdirectory exists
-        meshes_directory = output_directory / "meshes"
-
-        meshes_directory.mkdir(exist_ok=True, parents=True)
-
-        script_path = current_directory.parent.parent / "neuromorphovis.py"
-
-        blender_executable_path = current_directory.parent.parent / "blender/bbp-blender-3.5/blender-bbp/blender"
-
-        print("Running NMV script...")
-
-        command = [
-            "python",
-            script_path.as_posix(),
-            f"--blender={blender_executable_path.as_posix()}",
-            "--input=file",
-            f"--morphology-file={temp_file_path}",
-            "--export-soma-mesh-blend",
-            "--export-soma-mesh-obj",
-            f"--output-directory={output_directory.as_posix()}",
-        ]
-
-        subprocess.run(command, check=True)
-        print("Done with NMV script.")
-
-        # Example output name: `SOMA_MESH_tmpe3e6xavl.glb`
-        # unique identifier for now is the tempfile name which becomes the target
-        target_name = Path(temp_file_path).stem
-
-        for mesh in meshes_directory.iterdir():
-            print(mesh.as_posix())
-            if mesh.suffix == ".glb":
-                name = mesh.stem.split("_")[-1]
-                if name == target_name:
-                    break
-        else:
-            raise HTTPException(status_code=404, detail="OBJ file not found after processing.")
-
-        print("generated_obj_path: ", mesh.as_posix())
-
-        return FileResponse(
-            path=mesh,
-            media_type="model/gltf+json",
-            filename=mesh.name,
-        )
-    finally:
-        if temp_file_path and os.path.exists(temp_file_path):
-            os.remove(temp_file_path)
-
-
+# MARK: Configurations
 class ProcessSomaRequest(BaseModel):
     """Request model for processing SWC from a content URL."""
 
     content_url: str
 
 
+# Configure logger
+def setup_logger():
+    """Configure the logger to log messages to the console."""
+    logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
+
+
+# Instantiate classes
+setup_logger()
+logger = logging.getLogger(__name__)
+
+router = APIRouter()
+
+
+# MARK: Helper function
 def get_file_content(authorization: str, content_url: str) -> bytes:
     """Fetch the file content from the provided content URL."""
     headers = {"Authorization": authorization}
@@ -108,27 +55,27 @@ def get_file_content(authorization: str, content_url: str) -> bytes:
     return response.content
 
 
-@router.post("/process-nexus-swc")
-async def process_soma(request: ProcessSomaRequest, authorization: str = Header(None)) -> FileResponse:
-    """Process a SWC file from a content URL and return the processed soma mesh."""
-    if authorization is None or not authorization.startswith("Bearer "):
-        raise HTTPException(status_code=401, detail="Authorization token is missing or invalid")
-
-    file_content = get_file_content(authorization, request.content_url)
-
+# MARK: Endpoints
+@router.post("/process-swc")
+async def process_swc(file: UploadFile = File(...)) -> FileResponse:
+    """Process the uploaded SWC file and return the generated mesh file."""
     temp_file_path = ""
     try:
         with NamedTemporaryFile(delete=False, suffix=".swc") as temp_file:
-            temp_file.write(file_content)
+            shutil.copyfileobj(file.file, temp_file)
             temp_file_path = temp_file.name
+
+        logger.info("Temporary SWC file created at: %s", temp_file_path)
 
         current_directory = Path(__file__).parent
         output_directory = current_directory.parent.parent / "output"
         meshes_directory = output_directory / "meshes"
         meshes_directory.mkdir(exist_ok=True, parents=True)
+
         script_path = current_directory.parent.parent / "neuromorphovis.py"
         blender_executable_path = current_directory.parent.parent / "blender/bbp-blender-3.5/blender-bbp/blender"
 
+        logger.info("Running NMV script...")
         command = [
             "python",
             script_path.as_posix(),
@@ -141,17 +88,87 @@ async def process_soma(request: ProcessSomaRequest, authorization: str = Header(
         ]
 
         subprocess.run(command, check=True)
+        logger.info("Completed NMV script execution.")
+
+        target_name = Path(temp_file_path).stem
+
+        for mesh in meshes_directory.iterdir():
+            logger.debug("Checking mesh file: %s", mesh.name)
+            if mesh.suffix == ".glb":
+                name = mesh.stem.split("_")[-1]
+                if name == target_name:
+                    logger.info("Generated mesh file found: %s", mesh.as_posix())
+                    break
+        else:
+            logger.error("OBJ file not found after processing.")
+            raise HTTPException(status_code=404, detail="OBJ file not found after processing.")
+
+        return FileResponse(
+            path=mesh,
+            media_type="model/gltf+json",
+            filename=mesh.name,
+        )
+    finally:
+        if temp_file_path and os.path.exists(temp_file_path):
+            os.remove(temp_file_path)
+            logger.info("Temporary file deleted: %s", temp_file_path)
+
+
+@router.post("/process-nexus-swc")
+async def process_soma(request: ProcessSomaRequest, authorization: str = Header(None)) -> FileResponse:
+    """Process the SWC file fetched from Nexus Delta and return the generated mesh file."""
+    if authorization is None or not authorization.startswith("Bearer "):
+        logger.error("Authorization token is missing or invalid")
+        raise HTTPException(status_code=401, detail="Authorization token is missing or invalid")
+
+    logger.info("Fetching SWC file from URL: %s", request.content_url)
+    file_content = get_file_content(authorization, request.content_url)
+
+    temp_file_path = ""
+    try:
+        with NamedTemporaryFile(delete=False, suffix=".swc") as temp_file:
+            temp_file.write(file_content)
+            temp_file_path = temp_file.name
+
+        logger.info("Temporary SWC file created at: %s", temp_file_path)
+
+        current_directory = Path(__file__).parent
+        output_directory = current_directory.parent.parent / "output"
+        meshes_directory = output_directory / "meshes"
+        meshes_directory.mkdir(exist_ok=True, parents=True)
+
+        script_path = current_directory.parent.parent / "neuromorphovis.py"
+        blender_executable_path = current_directory.parent.parent / "blender/bbp-blender-3.5/blender-bbp/blender"
+
+        logger.info("Running NMV script...")
+        command = [
+            "python",
+            script_path.as_posix(),
+            f"--blender={blender_executable_path.as_posix()}",
+            "--input=file",
+            f"--morphology-file={temp_file_path}",
+            "--export-soma-mesh-blend",
+            "--export-soma-mesh-obj",
+            f"--output-directory={output_directory.as_posix()}",
+        ]
+
+        subprocess.run(command, check=True)
+        logger.info("Completed NMV script execution.")
 
         target_name = Path(temp_file_path).stem
         for mesh in meshes_directory.iterdir():
+            logger.debug("Checking mesh file: %s", mesh.name)
             if mesh.suffix == ".glb" and mesh.stem.split("_")[-1] == target_name:
+                logger.info("Generated mesh file found: %s", mesh.as_posix())
                 return FileResponse(
                     path=mesh,
                     media_type="model/gltf+json",
                     filename=mesh.name,
                 )
 
+        logger.error("OBJ file not found after processing.")
         raise HTTPException(status_code=404, detail="OBJ file not found after processing.")
     finally:
         if temp_file_path and os.path.exists(temp_file_path):
             os.remove(temp_file_path)
+            logger.info("Temporary file deleted: %s", temp_file_path)
