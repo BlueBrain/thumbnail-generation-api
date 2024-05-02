@@ -108,7 +108,7 @@ def get_file_content(authorization: str, content_url: str) -> bytes:
     return response.content
 
 
-@router.post("/process-soma")
+@router.post("/process-nexus-swc")
 async def process_soma(request: ProcessSomaRequest, authorization: str = Header(None)) -> FileResponse:
     """Process a SWC file from a content URL and return the processed soma mesh."""
     if authorization is None or not authorization.startswith("Bearer "):
