@@ -7,7 +7,6 @@ processing a SWC file uploaded by the user and another for fetching a
 SWC file from Nexus Delta and processing it.
 """
 
-import logging
 import os
 import shutil
 import subprocess
@@ -19,6 +18,8 @@ from fastapi import APIRouter, File, Header, HTTPException, UploadFile
 from fastapi.responses import FileResponse
 from pydantic import BaseModel
 
+from api.utils.logger import logger
+
 
 # MARK: Configurations
 class ProcessSomaRequest(BaseModel):
@@ -26,16 +27,6 @@ class ProcessSomaRequest(BaseModel):
 
     content_url: str
 
-
-# Configure logger
-def setup_logger():
-    """Configure the logger to log messages to the console."""
-    logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
-
-
-# Instantiate classes
-setup_logger()
-logger = logging.getLogger(__name__)
 
 router = APIRouter()
 

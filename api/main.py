@@ -30,7 +30,6 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-
 # Include routers
 app.include_router(generate.router, prefix="/generate")
 app.include_router(swc.router, prefix="/soma")
