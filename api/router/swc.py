@@ -17,6 +17,7 @@ import requests
 from fastapi import APIRouter, Depends, File, HTTPException, UploadFile
 from fastapi.responses import FileResponse
 from fastapi.security import HTTPBearer
+from starlette.requests import Request
 
 from api.dependencies import retrieve_user
 from api.utils.logger import logger
@@ -108,13 +109,13 @@ async def process_swc(file: UploadFile = File(...)) -> FileResponse:
     "/process-nexus-swc",
     dependencies=[Depends(require_bearer)],
 )
-async def process_soma(request: ProcessSomaRequest) -> FileResponse:
+async def process_soma(request: Request, soma_body: ProcessSomaRequest) -> FileResponse:
     """Process the SWC file fetched from Nexus Delta and return the generated mesh file."""
 
-    logger.info("Fetching SWC file from URL: %s", request.content_url)
+    logger.info("Fetching SWC file from URL: %s", soma_body.content_url)
     user = retrieve_user(request)
 
-    file_content = get_file_content(user.access_token, request.content_url)
+    file_content = get_file_content(f"Bearer {user.access_token}", soma_body.content_url)
 
     temp_file_path = ""
     try:
