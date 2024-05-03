@@ -14,14 +14,17 @@ from pathlib import Path
 from tempfile import NamedTemporaryFile
 
 import requests
-from fastapi import APIRouter, File, Header, HTTPException, UploadFile
+from fastapi import APIRouter, Depends, File, HTTPException, UploadFile
 from fastapi.responses import FileResponse
+from fastapi.security import HTTPBearer
 
+from api.dependencies import retrieve_user
 from api.utils.logger import logger
 
 from ..models.soma import ProcessSomaRequest
 
 router = APIRouter()
+require_bearer = HTTPBearer()
 
 
 # MARK: Helper function
@@ -40,7 +43,10 @@ def get_file_content(authorization: str, content_url: str) -> bytes:
 
 
 # MARK: Endpoints
-@router.post("/process-swc")
+@router.post(
+    "/process-swc",
+    dependencies=[Depends(require_bearer)],
+)
 async def process_swc(file: UploadFile = File(...)) -> FileResponse:
     """Process the uploaded SWC file and return the generated mesh file."""
     temp_file_path = ""
@@ -98,15 +104,17 @@ async def process_swc(file: UploadFile = File(...)) -> FileResponse:
             logger.info("Temporary file deleted: %s", temp_file_path)
 
 
-@router.post("/process-nexus-swc")
-async def process_soma(request: ProcessSomaRequest, authorization: str = Header(None)) -> FileResponse:
+@router.post(
+    "/process-nexus-swc",
+    dependencies=[Depends(require_bearer)],
+)
+async def process_soma(request: ProcessSomaRequest) -> FileResponse:
     """Process the SWC file fetched from Nexus Delta and return the generated mesh file."""
-    if authorization is None or not authorization.startswith("Bearer "):
-        logger.error("Authorization token is missing or invalid")
-        raise HTTPException(status_code=401, detail="Authorization token is missing or invalid")
 
     logger.info("Fetching SWC file from URL: %s", request.content_url)
-    file_content = get_file_content(authorization, request.content_url)
+    user = retrieve_user(request)
+
+    file_content = get_file_content(user.access_token, request.content_url)
 
     temp_file_path = ""
     try:
