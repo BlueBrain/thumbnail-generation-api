@@ -16,17 +16,10 @@ from tempfile import NamedTemporaryFile
 import requests
 from fastapi import APIRouter, File, Header, HTTPException, UploadFile
 from fastapi.responses import FileResponse
-from pydantic import BaseModel
 
 from api.utils.logger import logger
 
-
-# MARK: Configurations
-class ProcessSomaRequest(BaseModel):
-    """Request model for processing SWC from a content URL."""
-
-    content_url: str
-
+from ..models.soma import ProcessSomaRequest
 
 router = APIRouter()
 
