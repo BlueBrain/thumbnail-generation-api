@@ -19,7 +19,7 @@ tags_metadata = [
 app = FastAPI(
     title="Thumbnail Generation API",
     debug=config.DEBUG_MODE,
-    version="0.3.0",
+    version="0.4.0",
 )
 
 app.add_middleware(
