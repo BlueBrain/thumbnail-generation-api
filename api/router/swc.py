@@ -10,15 +10,13 @@ SWC file from Nexus Delta and processing it.
 import os
 import shutil
 import subprocess
+import requests
 from pathlib import Path
 from tempfile import NamedTemporaryFile
-
-import requests
 from fastapi import APIRouter, Depends, File, HTTPException, UploadFile
 from fastapi.responses import FileResponse
 from fastapi.security import HTTPBearer
 from starlette.requests import Request
-
 from api.dependencies import retrieve_user
 from api.utils.logger import logger
 
