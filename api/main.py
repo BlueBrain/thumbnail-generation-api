@@ -11,16 +11,20 @@ from api.router import generate, swc, health
 
 tags_metadata = [
     {
+        "name": "Health",
+        "description": "Endpoints related to checking the health of the application",
+    },
+    {
         "name": "Generate",
-        "description": "Generate a PNG image of a morphology",
+        "description": "Endpoints related to generating the thumbnail of a resource",
+    },
+    {
+        "name": "Soma",
+        "description": "Endpoints related to generating the soma reconstruction of a morphology",
     },
 ]
 
-app = FastAPI(
-    title="Thumbnail Generation API",
-    debug=config.DEBUG_MODE,
-    version="0.3.0",
-)
+app = FastAPI(title="Thumbnail Generation API", debug=config.DEBUG_MODE, version="0.4.0", openapi_tags=tags_metadata)
 
 app.add_middleware(
     CORSMiddleware,
@@ -31,6 +35,6 @@ app.add_middleware(
 )
 
 # Include routers
-app.include_router(generate.router, prefix="/generate")
-app.include_router(swc.router, prefix="/soma")
-app.include_router(health.router)
+app.include_router(generate.router, prefix="/generate", tags=["Generate"])
+app.include_router(swc.router, prefix="/soma", tags=["Soma"])
+app.include_router(health.router, tags=["Health"])

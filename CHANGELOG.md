@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.4.0] - 06/05/2024
+
+### Added
+
+- NeuroMorphoVis integration for soma reconstruction
+
+### Modified
+
+- Downgrade Python version to `3.10` to support dependencies
 
 ## [0.3.0] - 05/04/2024
 
