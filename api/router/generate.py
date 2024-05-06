@@ -19,7 +19,6 @@ require_bearer = HTTPBearer()
     "/morphology-image",
     dependencies=[Depends(require_bearer)],
     response_model=None,
-    tags=["Morphology Image"],
 )
 def get_morphology_image(commons: dict = Depends(common_params)) -> Response:
     """
@@ -36,7 +35,6 @@ def get_morphology_image(commons: dict = Depends(common_params)) -> Response:
     "/trace-image",
     dependencies=[Depends(require_bearer)],
     response_model=None,
-    tags=["Trace Image"],
 )
 def get_trace_image(commons: dict = Depends(common_params)) -> Response:
     """
