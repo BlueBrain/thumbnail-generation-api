@@ -16,7 +16,7 @@ tags_metadata = [
     },
     {
         "name": "Generate",
-        "description": "Endpoints related to generating the thumbnail of a resources",
+        "description": "Endpoints related to generating the thumbnail of a resource",
     },
     {
         "name": "Soma",
