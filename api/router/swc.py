@@ -14,7 +14,7 @@ from pathlib import Path
 from tempfile import NamedTemporaryFile
 
 import requests
-from fastapi import APIRouter, Depends, File, HTTPException, UploadFile
+from fastapi import APIRouter, Depends, File, HTTPException, UploadFile, Query
 from fastapi.responses import FileResponse
 from fastapi.security import HTTPBearer
 from starlette.requests import Request
@@ -22,7 +22,6 @@ from starlette.requests import Request
 from api.dependencies import retrieve_user
 from api.utils.logger import logger
 
-from ..models.soma import ProcessSomaRequest
 
 router = APIRouter()
 require_bearer = HTTPBearer()
@@ -105,17 +104,20 @@ async def process_swc(file: UploadFile = File(...)) -> FileResponse:
             logger.info("Temporary file deleted: %s", temp_file_path)
 
 
-@router.post(
+@router.get(
     "/process-nexus-swc",
     dependencies=[Depends(require_bearer)],
 )
-async def process_soma(request: Request, soma_body: ProcessSomaRequest) -> FileResponse:
-    """Process the SWC file fetched from Nexus Delta and return the generated mesh file."""
+async def process_soma(
+    request: Request,
+    content_url: str = Query(..., description="URL of the SWC file to process"),
+) -> FileResponse:
+    """Process the SWC file fetched from the given URL and return the generated mesh file."""
 
-    logger.info("Fetching SWC file from URL: %s", soma_body.content_url)
+    logger.info("Fetching SWC file from URL: %s", content_url)
     user = retrieve_user(request)
 
-    file_content = get_file_content(f"Bearer {user.access_token}", soma_body.content_url)
+    file_content = get_file_content(f"Bearer {user.access_token}", content_url)
 
     temp_file_path = ""
     try:
