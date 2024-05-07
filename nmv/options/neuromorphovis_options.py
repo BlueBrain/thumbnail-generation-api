@@ -1,3 +1,5 @@
+"""NeuroMorphoVis options module."""
+
 import nmv.options
 import nmv.utilities as nmvu
 

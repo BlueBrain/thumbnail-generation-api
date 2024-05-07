@@ -1,3 +1,5 @@
+"""NeuroMorphoVis soma reconstruction module."""
+
 import os
 import sys
 
@@ -11,7 +13,6 @@ import nmv.interface
 import nmv.options
 import nmv.rendering
 import nmv.scene
-
 from api.utils import logger
 
 # Append the internal modules into the system paths to avoid Blender importing conflicts
