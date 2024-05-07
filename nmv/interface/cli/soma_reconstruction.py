@@ -12,6 +12,8 @@ import nmv.options
 import nmv.rendering
 import nmv.scene
 
+from api.utils import logger
+
 # Append the internal modules into the system paths to avoid Blender importing conflicts
 import_paths = ["neuromorphovis"]
 for import_path in import_paths:
@@ -174,7 +176,7 @@ if __name__ == "__main__":
 
     # Verify the output directory before screwing things !
     if not nmv.file.ops.path_exists(arguments.output_directory):
-        nmv.logger.log("ERROR: Please set the output directory to a valid path")
+        logger.error("Please set the output directory to a valid path")
         exit(0)
     else:
         print("Output: [%s]" % arguments.output_directory)
@@ -197,9 +199,10 @@ if __name__ == "__main__":
         )
 
         if not loading_flag:
-            nmv.logger.log(
-                "ERROR: Cannot load the GID [%s] from the circuit [%s]" % cli_options.morphology.blue_config,
-                str(cli_options.morphology.gid),
+            logger.error(
+                "Cannot load the GID [%s] from the circuit [%s]",
+                cli_options.morphology.blue_config,
+                cli_options.morphology.gid,
             )
             exit(0)
 
@@ -209,15 +212,16 @@ if __name__ == "__main__":
         cli_morphology = nmv.file.read_morphology_from_file(options=cli_options)
 
         if cli_morphology is None:
-            nmv.logger.log(
-                "ERROR: Cannot load the morphology file [%s]" % str(cli_options.morphology.morphology_file_path)
+            logger.error(
+                "Cannot load the morphology file [%s]",
+                cli_options.morphology.morphology_file_path,
             )
             exit(0)
 
     else:
-        nmv.logger.log("ERROR: Invalid input option")
+        logger.error("Invalid input option")
         exit(0)
 
     # Soma mesh reconstruction and visualization
     reconstruct_soma_three_dimensional_profile_mesh(cli_morphology=cli_morphology, cli_options=cli_options)
-    nmv.logger.log("NMV Done")
+    logger.info("NMV Done")
