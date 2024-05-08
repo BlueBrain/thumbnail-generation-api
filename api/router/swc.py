@@ -44,7 +44,7 @@ def get_file_content(authorization: str, content_url: str) -> bytes:
 
 
 # MARK: Endpoints
-@router.get(
+@router.post(
     "/process-swc",
     dependencies=[Depends(require_bearer)],
 )
