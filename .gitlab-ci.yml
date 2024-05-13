@@ -57,7 +57,7 @@ build-and-deploy-api-image-in-dockerhub:
   stage: deploy
   extends: .build-image-using-kaniko
   rules:
-    - if: '$CI_COMMIT_BRANCH == "fix/increase_memory_in_pipeline"'
+    - if: $CI_COMMIT_TAG
       when: on_success
   variables:
     CI_PROJECT_DIR: /builds/dke/apps/thumbnail-generation-api

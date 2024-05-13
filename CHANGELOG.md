@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.4.1] - 12/05/2024
+
+### Fixed
+
+- Fix pipeline pushing in Dockerhub failing due to lack of memory
+
 ## [0.4.0] - 06/05/2024
 
 ### Added
