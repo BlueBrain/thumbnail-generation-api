@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "thumbnail_generation_api"
-version = "0.4.0"
+version = "0.4.1"
 description = "Rest API to generate thumbnails"
 authors = [
     "Konstantinos Platis <konstantinos.platis@epfl.ch>",

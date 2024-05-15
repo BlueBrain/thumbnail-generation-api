@@ -24,7 +24,7 @@ tags_metadata = [
     },
 ]
 
-app = FastAPI(title="Thumbnail Generation API", debug=config.DEBUG_MODE, version="0.4.0", openapi_tags=tags_metadata)
+app = FastAPI(title="Thumbnail Generation API", debug=config.DEBUG_MODE, version="0.4.1", openapi_tags=tags_metadata)
 
 app.add_middleware(
     CORSMiddleware,
