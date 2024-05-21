@@ -82,7 +82,7 @@ def reconstruct_soma_three_dimensional_profile_mesh(cli_morphology, cli_options)
         export_materials="NONE",
         export_attributes=False,
         use_selection=True,
-        export_yup=True,
+        export_yup=False,
         export_animations=False,
         export_lights=False,
     )
