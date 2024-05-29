@@ -4,7 +4,7 @@ Thumbnail Generation API
 This module defines a FastAPI application for a Thumbnail Generation API.
 """
 
-from fastapi import FastAPI
+from fastapi import APIRouter, FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from api import config
 from api.router import generate, swc, health
@@ -24,7 +24,15 @@ tags_metadata = [
     },
 ]
 
-app = FastAPI(title="Thumbnail Generation API", debug=config.DEBUG_MODE, version="0.4.2", openapi_tags=tags_metadata)
+app = FastAPI(
+    title="Thumbnail Generation API",
+    debug=config.DEBUG_MODE,
+    version="0.4.3",
+    openapi_tags=tags_metadata,
+    docs_url=f"{config.BASE_PATH}/docs",
+)
+
+base_router = APIRouter(prefix=config.BASE_PATH)
 
 app.add_middleware(
     CORSMiddleware,
@@ -35,6 +43,8 @@ app.add_middleware(
 )
 
 # Include routers
-app.include_router(generate.router, prefix="/generate", tags=["Generate"])
-app.include_router(swc.router, prefix="/soma", tags=["Soma"])
-app.include_router(health.router, tags=["Health"])
+base_router.include_router(generate.router, tags=["Generate"])
+base_router.include_router(swc.router, tags=["Soma"])
+base_router.include_router(health.router, tags=["Health"])
+
+app.include_router(base_router)

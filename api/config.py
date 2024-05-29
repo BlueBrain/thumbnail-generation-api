@@ -12,3 +12,4 @@ load_dotenv()
 
 WHITELISTED_CORS_URLS = os.environ.get("WHITELISTED_CORS_URLS", "")
 DEBUG_MODE = os.environ.get("DEBUG_MODE", False)
+BASE_PATH = os.environ.get("BASE_PATH", "")

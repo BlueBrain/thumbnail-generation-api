@@ -22,7 +22,7 @@ from api.dependencies import retrieve_user
 from api.utils.logger import logger
 from api.util import get_file_content
 
-router = APIRouter()
+router = APIRouter(prefix="/soma")
 require_bearer = HTTPBearer()
 
 

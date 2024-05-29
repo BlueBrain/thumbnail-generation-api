@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.4.3] - 29/05/2024
+
+### Added
+
+- `BASE_PATH` environment variable to set a prefix for endpoints
+
+
 ## [0.4.2] - 21/05/2024
 
 ### Modified
