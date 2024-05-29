@@ -11,7 +11,7 @@ from api.trace_img import read_trace_img
 from api.morpho_img import read_image
 from api.util import common_params
 
-router = APIRouter(prefix="/generate")
+router = APIRouter()
 require_bearer = HTTPBearer()
 
 

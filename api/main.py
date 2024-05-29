@@ -43,8 +43,8 @@ app.add_middleware(
 )
 
 # Include routers
-base_router.include_router(generate.router, tags=["Generate"])
-base_router.include_router(swc.router, tags=["Soma"])
+base_router.include_router(generate.router, prefix="/generate", tags=["Generate"])
+base_router.include_router(swc.router, prefix="/soma", tags=["Soma"])
 base_router.include_router(health.router, tags=["Health"])
 
 app.include_router(base_router)
