@@ -38,7 +38,9 @@ def get_file_content(authorization: str, content_url: str) -> bytes:
         response.raise_for_status()  # Raises an HTTPError for bad responses
     except requests.RequestException as e:
         # Re-raising the exception with 'raise from' to maintain traceback
-        raise HTTPException(status_code=500, detail="An error occurred while fetching file: " + str(e)) from e
+        raise HTTPException(
+            status_code=500, detail="An error occurred while fetching file: " + str(e)
+        ) from e
 
     return response.content
 
@@ -64,7 +66,10 @@ async def process_swc(file: UploadFile = File(...)) -> FileResponse:
         meshes_directory.mkdir(exist_ok=True, parents=True)
 
         script_path = current_directory.parent.parent / "neuromorphovis.py"
-        blender_executable_path = current_directory.parent.parent / "blender/bbp-blender-3.5/blender-bbp/blender"
+        blender_executable_path = (
+            current_directory.parent.parent
+            / "blender/bbp-blender-3.5/blender-bbp/blender"
+        )
 
         logger.info("Running NMV script...")
         command = [
@@ -92,7 +97,9 @@ async def process_swc(file: UploadFile = File(...)) -> FileResponse:
                     break
         else:
             logger.error("OBJ file not found after processing.")
-            raise HTTPException(status_code=404, detail="OBJ file not found after processing.")
+            raise HTTPException(
+                status_code=404, detail="OBJ file not found after processing."
+            )
 
         return FileResponse(
             path=mesh,
@@ -115,7 +122,9 @@ async def process_soma(request: Request, soma_body: ProcessSomaRequest) -> FileR
     logger.info("Fetching SWC file from URL: %s", soma_body.content_url)
     user = retrieve_user(request)
 
-    file_content = get_file_content(f"Bearer {user.access_token}", soma_body.content_url)
+    file_content = get_file_content(
+        f"Bearer {user.access_token}", soma_body.content_url
+    )
 
     temp_file_path = ""
     try:
@@ -131,7 +140,10 @@ async def process_soma(request: Request, soma_body: ProcessSomaRequest) -> FileR
         meshes_directory.mkdir(exist_ok=True, parents=True)
 
         script_path = current_directory.parent.parent / "neuromorphovis.py"
-        blender_executable_path = current_directory.parent.parent / "blender/bbp-blender-3.5/blender-bbp/blender"
+        blender_executable_path = (
+            current_directory.parent.parent
+            / "blender/bbp-blender-3.5/blender-bbp/blender"
+        )
 
         logger.info("Running NMV script...")
         command = [
@@ -160,7 +172,9 @@ async def process_soma(request: Request, soma_body: ProcessSomaRequest) -> FileR
                 )
 
         logger.error("OBJ file not found after processing.")
-        raise HTTPException(status_code=404, detail="OBJ file not found after processing.")
+        raise HTTPException(
+            status_code=404, detail="OBJ file not found after processing."
+        )
     finally:
         if temp_file_path and os.path.exists(temp_file_path):
             os.remove(temp_file_path)

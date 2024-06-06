@@ -9,13 +9,14 @@ from typing import Union
 
 from fastapi import Header
 import matplotlib.pyplot as plt
+from matplotlib.figure import Figure
 import neurom as nm
 from neurom.view import matplotlib_impl, matplotlib_utils
 
 from api.util import get_buffer, get_file_content, wrap_exceptions
 
 
-def plot_morphology(nrn) -> plt.FigureBase:
+def plot_morphology(nrn) -> Figure:
     """Creates and formats a FigureBase object."""
     fig, ax = matplotlib_utils.get_figure()
 
@@ -37,7 +38,9 @@ def plot_morphology(nrn) -> plt.FigureBase:
 
 
 @wrap_exceptions
-def read_image(authorization: str = Header(None), content_url: str = "", dpi: Union[int, None] = 72) -> bytes:
+def read_image(
+    authorization: str = Header(None), content_url: str = "", dpi: Union[int, None] = 72
+) -> bytes:
     """
     Returns a PNG image of a morphology (by generating a matplotlib figure from its SWC distribution).
 

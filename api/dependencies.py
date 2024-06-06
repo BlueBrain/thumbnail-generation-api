@@ -18,7 +18,19 @@ def retrieve_user(request: Request) -> User:
     :return: User object containing username and access token.
     :raises HTTPException: Thrown with a 401 status code if the access token is invalid or has expired.
     """
-    access_token = request.headers.get("authorization").replace("Bearer ", "")
+
+    
+    # code below fails on no authorization header, which is OK since its checked before this function
+    # but future integrations could have a problem?
+    #
+    # suggested code:   
+    # if not (access_token := request.headers.get("authorization")):
+    #     raise HTTPException(status_code=401, detail="Access token is invalid")
+    
+    # access_token = access_token.replace("Bearer ", "")
+
+    access_token = request.headers.get("authorization").replace("Bearer ", "") 
+
     try:
         decoded = jwt.decode(access_token, options={"verify_signature": False})
         return User(username=decoded.get("preferred_username"), access_token=access_token)

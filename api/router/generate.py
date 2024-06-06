@@ -5,11 +5,13 @@ This module defines a FastAPI router for handling requests related to morphology
 It includes an endpoint to get a preview image of a morphology.
 """
 
+from typing import Annotated
 from fastapi import APIRouter, Depends, Response
 from fastapi.security import HTTPBearer
 from api.trace_img import read_trace_img
 from api.morpho_img import read_image
-from api.util import common_params
+from api.util import common_params, CommonParameters
+
 
 router = APIRouter()
 require_bearer = HTTPBearer()
@@ -20,13 +22,15 @@ require_bearer = HTTPBearer()
     dependencies=[Depends(require_bearer)],
     response_model=None,
 )
-def get_morphology_image(commons: dict = Depends(common_params)) -> Response:
+def get_morphology_image(
+    commons: Annotated[CommonParameters, Depends(common_params)],
+) -> Response:
     """
     Endpoint to get a preview image of a morphology.
     Sample Content URL:
     https://bbp.epfl.ch/nexus/v1/files/bbp/mouselight/https%3A%2F%2Fbbp.epfl.ch%2Fnexus%2Fv1%2Fresources%2Fbbp%2Fmouselight%2F_%2F0befd25c-a28a-4916-9a8a-adcd767db118
     """
-    image = read_image(**commons)
+    image = read_image(**commons) 
 
     return Response(image, media_type="image/png")
 
@@ -36,7 +40,9 @@ def get_morphology_image(commons: dict = Depends(common_params)) -> Response:
     dependencies=[Depends(require_bearer)],
     response_model=None,
 )
-def get_trace_image(commons: dict = Depends(common_params)) -> Response:
+def get_trace_image(
+    commons: Annotated[CommonParameters, Depends(common_params)],
+) -> Response:
     """
     Endpoint to get a preview image of an electrophysiology trace
     Sample Content URL:

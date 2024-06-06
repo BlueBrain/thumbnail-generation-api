@@ -5,12 +5,15 @@ This module provides utility functions.
 """
 
 import io
-from typing import Union
+from typing import TypedDict, Union
 from typing import Callable, Optional
+
 from urllib.parse import urlparse
 
 from fastapi import HTTPException, Query
-import matplotlib.pyplot as plt
+
+from matplotlib.figure import Figure
+
 import requests
 from starlette.requests import Request
 
@@ -29,6 +32,12 @@ from api.exceptions import (
 )
 
 
+class CommonParameters(TypedDict):
+    authorization: str
+    content_url: str
+    dpi: int | None
+
+
 def get_file_content(authorization: str = "", content_url: str = "") -> bytes:
     """
     Gets the File content of a Nexus distribution (by requesting the resource from its content_url).
@@ -38,22 +47,27 @@ def get_file_content(authorization: str = "", content_url: str = "") -> bytes:
         - content_url (str): URL of the distribution.
 
     Returns:
-        str: File content as a string.
+        bytes: File content as bytes.
 
     Raises:
         str: Error message if the request to the content_url fails.
     """
     parsed_content_url = urlparse(content_url)
 
-    if not all([parsed_content_url.scheme, parsed_content_url.netloc, parsed_content_url.path]):
+    if not all(
+        [parsed_content_url.scheme, parsed_content_url.netloc, parsed_content_url.path]
+    ):
         raise InvalidUrlParameterException
 
-    response = requests.get(content_url, headers={"authorization": authorization}, timeout=15)
+    response = requests.get(
+        content_url, headers={"authorization": authorization}, timeout=15
+    )
 
     if response.status_code == 200:
         return response.content
     if response.status_code == 404:
         raise ResourceNotFoundException
+
     raise requests.exceptions.RequestException
 
 
@@ -61,7 +75,7 @@ async def common_params(
     request: Request,
     content_url: str,
     dpi: Optional[int] = Query(None, ge=10, le=600),
-):
+) -> CommonParameters:
     """
     Get Bearer token from request
     """
@@ -139,7 +153,7 @@ def wrap_exceptions(callback: Callable):
     return wrap
 
 
-def get_buffer(fig: plt.FigureBase, dpi: Union[int, None]) -> io.BytesIO:
+def get_buffer(fig: Figure, dpi: Union[int, None]) -> io.BytesIO:
     """Creates a file buffer from a FigureBase object."""
     buffer = io.BytesIO()
 

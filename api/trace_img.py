@@ -29,7 +29,7 @@ from api.util import get_buffer, get_file_content, wrap_exceptions
 Num = Union[int, float]
 
 
-def find_digits(string) -> Union[int, None]:
+def find_digits(string: str) -> Union[int, None]:
     "get digits last consecutive digits from string"
     digits = re.findall("([0-9]+)", string)
     if not digits:
@@ -54,12 +54,16 @@ def select_element(lst: List[str], n: int = 0, meta: str = "cell") -> str:
         if meta == "repetition":
             raise NoRepetitionFound
         raise NoSweepFound
+
     if len(lst) == 1:
         return lst[0]
+
     if meta == "cell":
         print(f"found more than 1 {meta}, take {n}")
+
     cell_digits = [find_digits(cell) for cell in lst]
-    cell_digits = [d if d is not None else np.nan for d in cell_digits]
+    cell_digits = [digit if digit is not None else np.nan for digit in cell_digits]
+
     return lst[n_smallest_index(cell_digits, n)]
 
 
@@ -76,7 +80,11 @@ def select_protocol(lst_protocols: List[str]) -> str:
     if "IDThres" in lst_protocols:
         print("Info : Using IDThres for thumbnail plot")
         return "IDThres"
-    print("Warning : Standard protocols not found, using ", lst_protocols[0], " for thumbnail plot")
+    print(
+        "Warning : Standard protocols not found, using ",
+        lst_protocols[0],
+        " for thumbnail plot",
+    )
     return lst_protocols[0]
 
 
@@ -124,7 +132,9 @@ def plot_nwb(data: NDArray[Any], unit: str, rate: Num) -> plt.FigureBase:
         if xory == "x":
             stepsize = round((end - start) / 5 / 100) * 100
             xt = np.linspace(start, end, 6)
-            return np.concatenate((np.unique(np.round(xt[:-1] / 100) * 100), xt[-1]), axis=None)
+            return np.concatenate(
+                (np.unique(np.round(xt[:-1] / 100) * 100), xt[-1]), axis=None
+            )
 
         if xory == "y":
             stepsize = (end - start) / 4
@@ -166,9 +176,14 @@ def plot_nwb(data: NDArray[Any], unit: str, rate: Num) -> plt.FigureBase:
 
 
 @wrap_exceptions
-def read_trace_img(authorization: str = Header(None), content_url: str = "", dpi: Union[int, None] = 72) -> bytes:
+def read_trace_img(
+    authorization: str = Header(None), content_url: str = "", dpi: Union[int, None] = 72
+) -> bytes:
     """Creates and returns an electrophysiology trace image."""
-    content: bytes = get_file_content(authorization=authorization, content_url=content_url)
+
+    content: bytes = get_file_content(
+        authorization=authorization, content_url=content_url
+    )
 
     h5_handle = h5py.File(io.BytesIO(content), "r")
 
