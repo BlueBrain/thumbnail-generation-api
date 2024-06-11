@@ -2,12 +2,17 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.4.4] - 11/06/2024
+
+### Fixed
+
+- Documentation styles when deployed under base path
+
 ## [0.4.3] - 29/05/2024
 
 ### Added
 
 - `BASE_PATH` environment variable to set a prefix for endpoints
-
 
 ## [0.4.2] - 21/05/2024
 

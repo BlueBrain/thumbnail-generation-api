@@ -27,9 +27,10 @@ tags_metadata = [
 app = FastAPI(
     title="Thumbnail Generation API",
     debug=config.DEBUG_MODE,
-    version="0.4.3",
+    version="0.4.4",
     openapi_tags=tags_metadata,
     docs_url=f"{config.BASE_PATH}/docs",
+    openapi_url=f"{config.BASE_PATH}/openapi.json",
 )
 
 base_router = APIRouter(prefix=config.BASE_PATH)
