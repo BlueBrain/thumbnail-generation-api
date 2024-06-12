@@ -12,7 +12,6 @@ import matplotlib.pyplot as plt
 import numpy as np
 from fastapi import Header
 from numpy.typing import NDArray
-
 from api.exceptions import (
     NoCellFound,
     NoConversionFound,
