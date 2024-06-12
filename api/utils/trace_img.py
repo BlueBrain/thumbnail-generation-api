@@ -7,11 +7,10 @@ This module provides functions to generate electrophysiology PNG images.
 import io
 import re
 from typing import Any, Union, List
-
-from fastapi import Header
 import h5py
 import matplotlib.pyplot as plt
 import numpy as np
+from fastapi import Header
 from numpy.typing import NDArray
 
 from api.exceptions import (

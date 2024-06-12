@@ -6,12 +6,10 @@ This module provides functions to generate morphology PNG images.
 
 import io
 from typing import Union
-
-from fastapi import Header
 import matplotlib.pyplot as plt
 import neurom as nm
+from fastapi import Header
 from neurom.view import matplotlib_impl, matplotlib_utils
-
 from api.util import get_buffer, get_file_content, wrap_exceptions
 
 
