@@ -7,9 +7,9 @@ It includes an endpoint to get a preview image of a morphology.
 
 from fastapi import APIRouter, Depends, Response
 from fastapi.security import HTTPBearer
-from api.trace_img import read_trace_img
-from api.morpho_img import read_image
 from api.util import common_params
+from api.utils.morpho_img import read_image
+from api.utils.trace_img import read_trace_img
 
 router = APIRouter()
 require_bearer = HTTPBearer()
