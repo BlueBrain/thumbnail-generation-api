@@ -22,7 +22,7 @@ from api.exceptions import (
     NoSweepFound,
     NoUnitFound,
 )
-from api.util import get_buffer, get_file_content, wrap_exceptions
+from api.util import get_buffer, get_file_content
 
 Num = Union[int, float]
 
@@ -163,9 +163,29 @@ def plot_nwb(data: NDArray[Any], unit: str, rate: Num) -> plt.FigureBase:
     return figure
 
 
-@wrap_exceptions
 def read_trace_img(authorization: str = Header(None), content_url: str = "", dpi: Union[int, None] = 72) -> bytes:
-    """Creates and returns an electrophysiology trace image."""
+    """Creates and returns an electrophysiology trace image.
+
+    Args:
+        authorization (str): The authorization token
+        content_url (str): The content URL that contains the NWB file
+        dpi: (int|None): Optional parameter that defines the Dots Per Inch of the image result. Higher DPI means higher resolution
+
+    Returns:
+        bytes: The image in bytes format
+
+    Raises:
+        InvalidUrlParameterException: The content url is incorrect
+        ResourceNotFoundException: The resource does not exist in the provided content url
+        NoCellFound: The cell is not found in the NWB file
+        NoRepetitionFound: A repetition is not found in the NWB file
+        NoSweepFound: Sweep is not found in the NWB file
+        NoProtocolFound: Protocol is not found in the NWB file
+        NoIcDataFound: IC is not found in the NWB file
+        NoUnitFound: Unit is not found in the file
+        NoRateFound: Rate is not found in the file
+        NoConversionFound: Conversion is not found in the file
+    """
     content: bytes = get_file_content(authorization=authorization, content_url=content_url)
 
     h5_handle = h5py.File(io.BytesIO(content), "r")
