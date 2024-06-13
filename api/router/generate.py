@@ -10,7 +10,7 @@ from fastapi.security import HTTPBearer
 from api.util import common_params
 from api.utils.morpho_img import retrieve_and_generate_morpho_image
 from api.utils.trace_img import retrieve_and_generate_ephys_img
-from exceptions import (
+from api.exceptions import (
     InvalidUrlParameterException,
     NoCellFound,
     NoConversionFound,
