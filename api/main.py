@@ -6,8 +6,10 @@ This module defines a FastAPI application for a Thumbnail Generation API.
 
 from fastapi import APIRouter, FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse
 from api import config
 from api.router import generate, swc, health
+from exceptions import ResourceNotFoundException
 
 tags_metadata = [
     {
