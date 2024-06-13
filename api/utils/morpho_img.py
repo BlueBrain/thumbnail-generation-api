@@ -46,6 +46,9 @@ def retrieve_and_generate_morpho_image(
 
     Returns:
         Response: FastAPI Response object containing the PNG image.
+    Raises:regar
+        InvalidUrlParameterException: The content url is incorrect
+        ResourceNotFoundException: The resource does not exist in the provided content url
     """
     morph = get_file_content(authorization, content_url).decode(encoding="utf-8")
 

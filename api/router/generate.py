@@ -9,7 +9,7 @@ from fastapi import APIRouter, Depends, HTTPException, Response
 from fastapi.security import HTTPBearer
 from api.util import common_params
 from api.utils.morpho_img import retrieve_and_generate_morpho_image
-from api.utils.trace_img import read_trace_img
+from api.utils.trace_img import retrieve_and_generate_ephys_img
 from exceptions import (
     InvalidUrlParameterException,
     NoCellFound,
@@ -70,7 +70,7 @@ def get_trace_image(commons: dict = Depends(common_params)) -> Response:
     https://bbp.epfl.ch/nexus/v1/files/public/hippocampus/https%3A%2F%2Fbbp.epfl.ch%2Fneurosciencegraph%2Fdata%2Fb67a2aa6-d132-409b-8de5-49bb306bb251
     """
     try:
-        image = read_trace_img(**commons)
+        image = retrieve_and_generate_ephys_img(**commons)
         return Response(image, media_type="image/png")
     except InvalidUrlParameterException as exc:
         raise HTTPException(
