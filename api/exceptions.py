@@ -4,8 +4,6 @@ Module: exceptions.py
 This module defines a custom exception classes
 """
 
-from typing import Any, Dict
-
 
 class ResourceNotFoundException(Exception):
     """Exception raised when a requested resource is not found.
