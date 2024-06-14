@@ -6,6 +6,25 @@ This module defines a custom exception classes
 
 from fastapi import HTTPException
 
+# Authentication
+
+
+class InvalidAccessToken(HTTPException):
+    """Exception raised when the provided access token is invalid."""
+
+    def __init__(self):
+        super().__init__(status_code=401, detail="The access token is invalid")
+
+
+class ExpiredAccessToken(HTTPException):
+    """Exception raised when the provided access token has expired"""
+
+    def __init__(self):
+        super().__init__(status_code=401, detail="The access token has expired")
+
+
+# Nexus
+
 
 class ResourceNotFoundException(HTTPException):
     """Exception raised when a requested resource is not found.
@@ -27,6 +46,9 @@ class InvalidUrlParameterException(HTTPException):
 
     def __init__(self) -> None:
         super().__init__(status_code=422, detail="Invalid content_url parameter in request.")
+
+
+# Electrophysiology
 
 
 class NoCellFound(HTTPException):
