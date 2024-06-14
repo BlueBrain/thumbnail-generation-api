@@ -9,9 +9,8 @@ from typing import Any, Union
 import h5py
 import matplotlib.pyplot as plt
 import numpy as np
-from fastapi import Header
 from numpy.typing import NDArray
-from utils.images import get_buffer
+from api.utils.common import get_buffer
 from api.services.nexus import fetch_file_content
 from api.utils.trace_img import select_element, select_protocol, select_response, get_unit, get_conversion, get_rate
 
@@ -72,9 +71,7 @@ def plot_nwb(data: NDArray[Any], unit: str, rate: Num) -> plt.FigureBase:
     return figure
 
 
-def generate_electrophysiology_image(
-    authorization: str = Header(None), content_url: str = "", dpi: Union[int, None] = 72
-) -> bytes:
+def generate_electrophysiology_image(access_token: str, content_url: str = "", dpi: Union[int, None] = 72) -> bytes:
     """Creates and returns an electrophysiology trace image.
 
     Args:
@@ -86,7 +83,7 @@ def generate_electrophysiology_image(
     Returns:
         bytes: The image in bytes format
     """
-    content: bytes = fetch_file_content(authorization=authorization, content_url=content_url)
+    content: bytes = fetch_file_content(access_token=access_token, content_url=content_url)
 
     h5_handle = h5py.File(io.BytesIO(content), "r")
 

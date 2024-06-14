@@ -8,9 +8,8 @@ import io
 from typing import Union
 import matplotlib.pyplot as plt
 import neurom as nm
-from fastapi import Header
 from neurom.view import matplotlib_impl, matplotlib_utils
-from api.util import get_buffer
+from api.utils.common import get_buffer
 from api.services.nexus import fetch_file_content
 
 
@@ -42,9 +41,7 @@ def plot_morphology(morphology) -> plt.FigureBase:
     return fig
 
 
-def generate_morphology_image(
-    authorization: str = Header(None), content_url: str = "", dpi: Union[int, None] = 72
-) -> bytes:
+def generate_morphology_image(access_token: str, content_url: str = "", dpi: Union[int, None] = 72) -> bytes:
     """
     Returns a PNG image of a morphology (by generating a matplotlib figure from its SWC distribution).
 
@@ -55,7 +52,7 @@ def generate_morphology_image(
     Returns:
         The image in bytes format
     """
-    morph = fetch_file_content(authorization, content_url).decode(encoding="utf-8")
+    morph = fetch_file_content(access_token, content_url).decode(encoding="utf-8")
 
     morphology = nm.load_morphology(io.StringIO(morph), reader="swc")
 

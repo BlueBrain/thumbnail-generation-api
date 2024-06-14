@@ -7,7 +7,7 @@ import requests
 from api.exceptions import InvalidUrlParameterException, ResourceNotFoundException
 
 
-def fetch_file_content(authorization: str = "", content_url: str = "") -> bytes:
+def fetch_file_content(access_token: str, content_url: str = "") -> bytes:
     """
     Gets the File content of a Nexus distribution (by requesting the resource from its content_url).
 
@@ -26,7 +26,7 @@ def fetch_file_content(authorization: str = "", content_url: str = "") -> bytes:
     if not all([parsed_content_url.scheme, parsed_content_url.netloc, parsed_content_url.path]):
         raise InvalidUrlParameterException
 
-    response = requests.get(content_url, headers={"authorization": authorization}, timeout=15)
+    response = requests.get(content_url, headers={"authorization": f"Bearer {access_token}"}, timeout=15)
 
     if response.status_code == 200:
         return response.content
