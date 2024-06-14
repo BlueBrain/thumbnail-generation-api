@@ -20,7 +20,7 @@ from starlette.requests import Request
 
 from api.dependencies import retrieve_user
 from api.utils.logger import logger
-from services.nexus import get_file_content
+from services.nexus import fetch_file_content
 
 router = APIRouter()
 require_bearer = HTTPBearer()
@@ -100,7 +100,7 @@ async def process_soma(
 
     logger.info("Fetching SWC file from URL: %s", content_url)
     user = retrieve_user(request)
-    file_content = get_file_content(f"Bearer {user.access_token}", content_url)
+    file_content = fetch_file_content(f"Bearer {user.access_token}", content_url)
 
     temp_file_path = ""
     try:

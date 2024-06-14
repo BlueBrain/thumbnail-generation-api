@@ -1,7 +1,7 @@
 """
 Module: morpho_img.py
 
-This module provides functions to generate morphology PNG images.
+This module exposes the business logic for generating morphology thumbnails
 """
 
 import io
@@ -11,7 +11,7 @@ import neurom as nm
 from fastapi import Header
 from neurom.view import matplotlib_impl, matplotlib_utils
 from api.util import get_buffer
-from services.nexus import get_file_content
+from services.nexus import fetch_file_content
 
 
 def plot_morphology(morphology) -> plt.FigureBase:
@@ -55,7 +55,7 @@ def generate_morphology_image(
     Returns:
         The image in bytes format
     """
-    morph = get_file_content(authorization, content_url).decode(encoding="utf-8")
+    morph = fetch_file_content(authorization, content_url).decode(encoding="utf-8")
 
     morphology = nm.load_morphology(io.StringIO(morph), reader="swc")
 

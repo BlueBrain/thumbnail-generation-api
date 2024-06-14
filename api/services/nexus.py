@@ -1,13 +1,9 @@
-from exceptions import InvalidUrlParameterException, ResourceNotFoundException
-
-
 import requests
-
-
+from api.exceptions import InvalidUrlParameterException, ResourceNotFoundException
 from urllib.parse import urlparse
 
 
-def get_file_content(authorization: str = "", content_url: str = "") -> bytes:
+def fetch_file_content(authorization: str = "", content_url: str = "") -> bytes:
     """
     Gets the File content of a Nexus distribution (by requesting the resource from its content_url).
 

@@ -12,7 +12,7 @@ from typing import Any, Union
 from fastapi import Header
 from numpy.typing import NDArray
 from api.util import get_buffer
-from services.nexus import get_file_content
+from services.nexus import fetch_file_content
 from api.utils.trace_img import select_element, select_protocol, select_response, get_unit, get_conversion, get_rate
 
 
@@ -86,7 +86,7 @@ def generate_electrophysiology_image(
     Returns:
         bytes: The image in bytes format
     """
-    content: bytes = get_file_content(authorization=authorization, content_url=content_url)
+    content: bytes = fetch_file_content(authorization=authorization, content_url=content_url)
 
     h5_handle = h5py.File(io.BytesIO(content), "r")
 
