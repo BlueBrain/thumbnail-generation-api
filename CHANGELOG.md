@@ -7,7 +7,8 @@ All notable changes to this project will be documented in this file.
 ### Modified
 
 - Exception handling in API
-
+- Move functions to `services` and `utils` modules to differentiate business logic
+- Pydoc strings to make them uniform
 
 ## [0.4.4] - 11/06/2024
 
