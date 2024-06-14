@@ -11,7 +11,7 @@ import neurom as nm
 from fastapi import Header
 from neurom.view import matplotlib_impl, matplotlib_utils
 from api.util import get_buffer
-from services.nexus import fetch_file_content
+from api.services.nexus import fetch_file_content
 
 
 def plot_morphology(morphology) -> plt.FigureBase:

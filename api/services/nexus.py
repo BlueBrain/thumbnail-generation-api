@@ -1,6 +1,10 @@
+"""
+Nexus service to expose business logic of interacting with Nexus
+"""
+
+from urllib.parse import urlparse
 import requests
 from api.exceptions import InvalidUrlParameterException, ResourceNotFoundException
-from urllib.parse import urlparse
 
 
 def fetch_file_content(authorization: str = "", content_url: str = "") -> bytes:

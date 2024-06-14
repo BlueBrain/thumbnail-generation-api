@@ -20,7 +20,7 @@ from starlette.requests import Request
 
 from api.dependencies import retrieve_user
 from api.utils.logger import logger
-from services.nexus import fetch_file_content
+from api.services.nexus import fetch_file_content
 
 router = APIRouter()
 require_bearer = HTTPBearer()

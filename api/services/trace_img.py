@@ -5,14 +5,14 @@ This module exposes the business logic for generating trace thumbnails
 """
 
 import io
+from typing import Any, Union
 import h5py
 import matplotlib.pyplot as plt
 import numpy as np
-from typing import Any, Union
 from fastapi import Header
 from numpy.typing import NDArray
 from api.util import get_buffer
-from services.nexus import fetch_file_content
+from api.services.nexus import fetch_file_content
 from api.utils.trace_img import select_element, select_protocol, select_response, get_unit, get_conversion, get_rate
 
 
