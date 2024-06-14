@@ -34,9 +34,7 @@ def plot_morphology(nrn) -> plt.FigureBase:
     return fig
 
 
-def retrieve_and_generate_morpho_image(
-    authorization: str = Header(None), content_url: str = "", dpi: Union[int, None] = 72
-) -> bytes:
+def read_image(authorization: str = Header(None), content_url: str = "", dpi: Union[int, None] = 72) -> bytes:
     """
     Returns a PNG image of a morphology (by generating a matplotlib figure from its SWC distribution).
 

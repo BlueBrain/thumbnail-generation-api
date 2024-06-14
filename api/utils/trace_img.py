@@ -163,9 +163,7 @@ def plot_nwb(data: NDArray[Any], unit: str, rate: Num) -> plt.FigureBase:
     return figure
 
 
-def retrieve_and_generate_ephys_img(
-    authorization: str = Header(None), content_url: str = "", dpi: Union[int, None] = 72
-) -> bytes:
+def read_trace_img(authorization: str = Header(None), content_url: str = "", dpi: Union[int, None] = 72) -> bytes:
     """Creates and returns an electrophysiology trace image.
 
     Args:
