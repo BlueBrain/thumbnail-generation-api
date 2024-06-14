@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.5.0]
+
+### Modified
+
+- Exception handling in API
+
+
 ## [0.4.4] - 11/06/2024
 
 ### Fixed
