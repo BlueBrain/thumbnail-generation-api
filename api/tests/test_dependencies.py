@@ -5,7 +5,6 @@ Testing the dependencies module
 import time
 import jwt
 import pytest
-from fastapi import HTTPException
 from api.dependencies import retrieve_user
 from api.user import User
 from api.exceptions import InvalidAccessToken
