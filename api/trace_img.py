@@ -169,7 +169,8 @@ def read_trace_img(authorization: str = Header(None), content_url: str = "", dpi
     Args:
         authorization (str): The authorization token
         content_url (str): The content URL that contains the NWB file
-        dpi: (int|None): Optional parameter that defines the Dots Per Inch of the image result. Higher DPI means higher resolution
+        dpi: (int|None): Optional parameter that defines the Dots Per Inch of the image result.
+                         Higher DPI means higher resolution
 
     Returns:
         bytes: The image in bytes format
