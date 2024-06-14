@@ -6,6 +6,7 @@ This module defines a custom exception classes
 
 from fastapi import HTTPException
 
+
 # Authentication
 
 
