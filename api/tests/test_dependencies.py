@@ -2,11 +2,13 @@
 Testing the dependencies module
 """
 
+import time
 import jwt
 import pytest
 from fastapi import HTTPException
 from api.dependencies import retrieve_user
 from api.user import User
+from api.exceptions import InvalidAccessToken
 
 
 class TestRetrieveUser:
@@ -37,7 +39,9 @@ class TestRetrieveUser:
         function returns the expected User object with correct attributes.
         """
         valid_token = "valid_token"
-        monkeypatch.setattr(jwt, "decode", lambda token, options: {"preferred_username": "user123"})
+        monkeypatch.setattr(
+            jwt, "decode", lambda token, options: {"preferred_username": "user123", "exp": time.time() + 10000}
+        )
 
         request = MockRequest(headers={"authorization": f"Bearer {valid_token}"})
         user = retrieve_user(request)
@@ -57,7 +61,7 @@ class TestRetrieveUser:
         invalid_token = "invalid_token"
 
         request = MockRequest(headers={"authorization": f"Bearer {invalid_token}"})
-        with pytest.raises(HTTPException) as exc_info:
+        with pytest.raises(InvalidAccessToken) as exc_info:
             retrieve_user(request)
 
         assert exc_info.value.status_code == 401
