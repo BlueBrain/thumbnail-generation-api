@@ -22,7 +22,8 @@ from api.exceptions import (
     NoSweepFound,
     NoUnitFound,
 )
-from api.util import get_buffer, get_file_content
+from api.util import get_buffer
+from services.nexus import get_file_content
 
 Num = Union[int, float]
 
@@ -163,7 +164,9 @@ def plot_nwb(data: NDArray[Any], unit: str, rate: Num) -> plt.FigureBase:
     return figure
 
 
-def read_trace_img(authorization: str = Header(None), content_url: str = "", dpi: Union[int, None] = 72) -> bytes:
+def generate_electrophysiology_image(
+    authorization: str = Header(None), content_url: str = "", dpi: Union[int, None] = 72
+) -> bytes:
     """Creates and returns an electrophysiology trace image.
 
     Args:
@@ -174,18 +177,6 @@ def read_trace_img(authorization: str = Header(None), content_url: str = "", dpi
 
     Returns:
         bytes: The image in bytes format
-
-    Raises:
-        InvalidUrlParameterException: The content url is incorrect
-        ResourceNotFoundException: The resource does not exist in the provided content url
-        NoCellFound: The cell is not found in the NWB file
-        NoRepetitionFound: A repetition is not found in the NWB file
-        NoSweepFound: Sweep is not found in the NWB file
-        NoProtocolFound: Protocol is not found in the NWB file
-        NoIcDataFound: IC is not found in the NWB file
-        NoUnitFound: Unit is not found in the file
-        NoRateFound: Rate is not found in the file
-        NoConversionFound: Conversion is not found in the file
     """
     content: bytes = get_file_content(authorization=authorization, content_url=content_url)
 
