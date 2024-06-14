@@ -9,7 +9,7 @@ import time
 import jwt
 from starlette.requests import Request
 from api.user import User
-from exceptions import ExpiredAccessToken, InvalidAccessToken
+from api.exceptions import ExpiredAccessToken, InvalidAccessToken
 
 
 def token_has_expired(decoded: dict) -> bool:
