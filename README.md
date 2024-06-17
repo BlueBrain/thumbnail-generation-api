@@ -37,10 +37,12 @@ Build the docker image
 docker build . --tag thumbnail-service
 ```
 
-JFYI: If you're on Mac, you might need to add the `--platform=linux/amd64` flag to the `docker build` command.
+**JFYI:** If you're on Mac, you might need to add the `--platform=linux/amd64` flag to the `docker build` command.
 
 The run the docker image and access the API at <http://localhost:8080>
 
 ```shell
-docker run -p 8080:8080 -it --name thumbnail-service thumbnail-service
+docker run -p 8080:8080 -it thumbnail-service
 ```
+
+**JFYI:** We add the `-it` flag to the `docker run` command to keep the container running in the foreground and to be able to stop it with `Ctrl+C`.
