@@ -90,7 +90,7 @@ class NoUnitFound(HTTPException):
     "Thrown when no unit is found."
 
     def __init__(self):
-        super().__init__(status_code=404, detail="The NWB file didn't contain any Ic data.")
+        super().__init__(status_code=404, detail="The NWB file didn't contain a 'unit'.")
 
 
 class NoRateFound(HTTPException):
