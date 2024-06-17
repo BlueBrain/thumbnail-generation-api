@@ -3,24 +3,11 @@ Unit test module for testing morphologies
 """
 
 from io import BytesIO
-import pytest
 from PIL import Image
 from unittest.mock import patch
 from api.services.morpho_img import generate_morphology_image
 from tests.fixtures.utils import load_content
-from api.services.nexus import fetch_file_content
-
-
-@pytest.fixture
-def morphology_content_url() -> str:
-    return (
-        "https://bbp.epfl.ch/nexus/v1/files/bbp/mouselight/https%3A%2F%2Fbbp.epfl.ch%2Fnexus%2Fv1%2Fresources%2Fbbp%2Fmouselight%2F_%2F0befd25c-a28a-4916-9a8a-adcd767db118",
-    )
-
-
-@pytest.fixture
-def access_token() -> str:
-    return ""
+from tests.fixtures.nexus import morphology_content_url, access_token
 
 
 @patch("api.services.morpho_img.fetch_file_content", return_value=load_content("./tests/fixtures/data/morphology.swc"))
