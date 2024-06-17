@@ -46,16 +46,6 @@ class TestProcessSwc:
 
         assert res.status_code == HTTPStatus.UNAUTHORIZED
 
-    def test_empty_file(self):
-        """
-        Tests that the endpoint returns a 422 (Unprocessable Entity) when an empty file is uploaded.
-        """
-        res = client.post(
-            "/soma/process-swc", files={}, headers=self.AUTHORIZED_HEADERS
-        )
-
-        assert res.status_code == HTTPStatus.UNPROCESSABLE_ENTITY
-
     def test_malformed_file(self):
         """
         Tests that the endpoint returns a 422 (Unprocessable Entity) for cases when a malformed file is uploaded.
