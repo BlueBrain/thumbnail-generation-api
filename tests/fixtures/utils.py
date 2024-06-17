@@ -2,10 +2,6 @@
 Utils module for unit tests
 """
 
-import time
-import h5py
-from pynwb import NWBHDF5IO
-
 
 def load_content(file_path: str, encoded: bool = True):
     """

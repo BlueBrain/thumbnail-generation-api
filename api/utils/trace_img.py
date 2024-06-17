@@ -2,7 +2,6 @@
 trace_img utils module exposes useful utilities related to the generation of traces
 """
 
-from enum import Enum
 import re
 import h5py
 import numpy as np
