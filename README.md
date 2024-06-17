@@ -42,5 +42,5 @@ JFYI: If you're on Mac, you might need to add the `--platform=linux/amd64` flag 
 The run the docker image and access the API at <http://localhost:8080>
 
 ```shell
-docker run -p 8080:8080 --name thumbnail-service thumbnail-service
+docker run -p 8080:8080 -it --name thumbnail-service thumbnail-service
 ```

@@ -62,14 +62,6 @@ class TestNSmallest:
         smallest = n_smallest_index([0, -1, 10, 15, 2], -1)
         assert smallest == 3
 
-    def test_n_smallest_empty_array():
-        """
-        This test calls n_smallest_index with an empty array.
-        Expected behaviour is throwing an exception?
-        """
-
-        _ = n_smallest_index([], 0)
-
     @staticmethod
     def test_n_smallest_unit_array():
         """

@@ -14,7 +14,7 @@ load_dotenv()
 WHITELISTED_CORS_URLS = os.environ.get("WHITELISTED_CORS_URLS", "")
 
 
-DEBUG_MODE: bool  # fastapi expects a bool, os.environ returns a str
+DEBUG_MODE: bool  # FastAPI expects a bool, os.environ returns a str
 debug_mode = os.environ.get("DEBUG_MODE", "false")
 
 if debug_mode == "true":
