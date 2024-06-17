@@ -138,7 +138,7 @@ class TestBlender:
 
     Methods:
     - test_blender_exists: Verifies that the Blender executable exists was built at the expected path.
-    - test_blender_version: Tests Blender executable is callable and returns the exepected blender version.
+    - test_blender_version: Tests Blender executable is callable and returns the expected blender version.
     """
 
     BLENDER_VERSION = b"Blender 3.5.0"
@@ -169,21 +169,21 @@ class TestBlender:
 
 class TestNMV:
     """
-    Integration Tests related to the NeuromorphoVis (NMV) tool.
+    Integration Tests related to the NeuroMorphoVis (NMV) tool.
 
-    Tests that NMV script is callable and runs succesfully with a test swc file
+    Tests that NMV script is callable and runs successfully with a test swc file
         Success is measured by:
-            - Blender stdout printing GTLF file was exported
+            - Blender stdout printing GLTF file was exported
             - NMV script prints "NMV Done" to stdout
-            - GTLF file is found in output directory
+            - GLTF file is found in output directory
             - GLTF file is the same as an expected output.glb
 
     Methods:
     - test_nmv_soma_path_exists: Verifies that the Soma python file exists and was built at the expected path.
-    - test_neuromorphovis_path_exists: Verifies that the neuromorphovis.py python file exists and was built at the expected path.
+    - test_neuromorphovis_path_exists: Verifies that the NeuroMorphoVis.py python file exists and was built at the expected path.
     - test_nmv_call_with_empty_path: Tests that NMV script is callable and is expected to fail with a specific message when called with an empty file
-    - test_nmv_call_with_working_file: Tests that NMV script is callable and runs succesfully with a test swc file and stdout output is as exepected
-    - test_nmv_call_produces_correct_output: Tests that NMV script is callable and runs succesfully with a test swc file and fileoutput is present and as expected
+    - test_nmv_call_with_working_file: Tests that NMV script is callable and runs successfully with a test swc file and stdout output is as expected
+    - test_nmv_call_produces_correct_output: Tests that NMV script is callable and runs successfully with a test swc file and file output is present and as expected
     """
 
     NEUROMORPHOVIS_PATH = Path().resolve() / "neuromorphovis.py"
@@ -235,9 +235,9 @@ class TestNMV:
 
     def test_nmv_call_with_working_file(self, tmpdir):
         """
-        Tests that NMV script is callable and runs succesfully with a test swc file
+        Tests that NMV script is callable and runs successfully with a test swc file
             Success is measured by:
-                - Blender stdout printing GTLF file was exported
+                - Blender stdout printing GLTF file was exported
                 - NMV script prints "NMV Done" to stdout
         """
 
@@ -271,9 +271,9 @@ class TestNMV:
 
     def test_nmv_call_produces_correct_output(self, tmpdir):
         """
-        Tests that NMV script is callable and runs succesfully with a test swc file
+        Tests that NMV script is callable and runs successfully with a test swc file
             Success is measured by:
-            - GTLF file is found in output directory
+            - GLTF file is found in output directory
             - GLTF file is the same as an expected output.glb
 
         compares output file with a precomputed test_output.glb
