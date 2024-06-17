@@ -45,4 +45,4 @@ The run the docker image and access the API at <http://localhost:8080>
 docker run -p 8080:8080 -it thumbnail-service
 ```
 
-**JFYI:** We add the `-it` flag to the `docker run` command to keep the container running in the foreground and to be able to stop it with `Ctrl+C`.
+**JFYI:** We add the `-it` flag to the `docker run` command to keep STDIN open even if not attached, so that we can e.g. stop the container with `Ctrl+C`.
