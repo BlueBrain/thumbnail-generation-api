@@ -12,7 +12,9 @@ from tests.fixtures.nexus import morphology_content_url, access_token
 
 @patch("requests.get")
 def test_fetch_file_content_returns_data_if_request_is_200(mock_get, morphology_content_url, access_token):
-
+    """
+    Tests whether the content is correctly returned if the request is 200
+    """
     mock_response = Mock()
     mock_response.status_code = 200
     mock_response.json.return_value = load_content("./tests/fixtures/data/morphology.swc", encoded=False)
@@ -25,7 +27,9 @@ def test_fetch_file_content_returns_data_if_request_is_200(mock_get, morphology_
 def test_fetch_file_content_raises_exception_if_content_url_does_not_exist(
     mock_get, morphology_content_url, access_token
 ):
-
+    """
+    Tests whether the content is correctly returned if the content does not exist
+    """
     mock_response = Mock()
     mock_response.status_code = 404
     mock_response.json.return_value = None
