@@ -34,7 +34,7 @@ Test Content URLs
 Build the docker image
 
 ```shell
-docker build . --tag neuromorphovis
+docker build . --tag thumbnail-service
 ```
 
 JFYI: If you're on Mac, you might need to add the `--platform=linux/amd64` flag to the `docker build` command.
@@ -42,5 +42,5 @@ JFYI: If you're on Mac, you might need to add the `--platform=linux/amd64` flag 
 The run the docker image and access the API at <http://localhost:8080>
 
 ```shell
-docker run -p 8080:8080 neuromorphovis
+docker run -p 8080:8080 --name thumbnail-service thumbnail-service
 ```
