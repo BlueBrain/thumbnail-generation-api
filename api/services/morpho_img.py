@@ -36,7 +36,7 @@ def plot_morphology(morphology) -> plt.FigureBase:
     ax.set_xlim(bounds[0] - white_space, bounds[0] + bounds[2] + white_space)
     ax.set_ylim(bounds[1] - white_space, bounds[1] + bounds[3] + white_space)
 
-    fig.set_tight_layout(True)
+    fig.set_layout_engine("tight")
 
     return fig
 

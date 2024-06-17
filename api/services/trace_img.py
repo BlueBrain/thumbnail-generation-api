@@ -66,7 +66,7 @@ def plot_nwb(data: NDArray[Any], unit: str, rate: Num) -> plt.FigureBase:
 
     figure = fig.figure
 
-    figure.set_tight_layout(True)
+    figure.set_layout_engine("tight")
 
     return figure
 
