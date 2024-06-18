@@ -1,5 +1,5 @@
 """
-Unit test module for testing morphologies
+Unit test module for testing morphology thumbnail generation service
 """
 
 from io import BytesIO

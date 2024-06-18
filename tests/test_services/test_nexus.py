@@ -1,5 +1,5 @@
 """
-Testing Nexus-related functions
+Testing Nexus-related services
 """
 
 import pytest

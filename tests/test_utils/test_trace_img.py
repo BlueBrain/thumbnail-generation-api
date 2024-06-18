@@ -1,3 +1,7 @@
+"""
+Unit tests related to testing utils of trace image generation
+"""
+
 import io
 import h5py
 import pytest

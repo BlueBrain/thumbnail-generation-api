@@ -1,3 +1,7 @@
+"""
+Unit test module related to the router of /generate
+"""
+
 from unittest.mock import Mock, patch
 from fastapi.testclient import TestClient
 import pytest
@@ -8,15 +12,25 @@ from api.user import User
 
 
 def override_retrieve_user():
+    """
+    Overrides the retrieve_user() function
+    """
     return User(access_token="test-access-token", username="test")
 
 
 @pytest.fixture
 def mock_headers():
+    """
+    Mock headers fixture for dummy requests
+    """
     return {"Authorization": "Bearer fake-super-secret-token"}
 
 
-class TestMorphologyImage:
+class TestMorphologyThumbnailGenerationRouter:
+    """
+    Unit test class for testing the router of morphology thumbnail generation
+    """
+
     @classmethod
     def setup_class(cls):
         cls.client = TestClient(app)
@@ -26,6 +40,9 @@ class TestMorphologyImage:
         "api.services.morpho_img.fetch_file_content", return_value=load_content("./tests/fixtures/data/morphology.swc")
     )
     def test_morphology_thumbnail_generation_returns_200_and_image(self, fetch_file_content, mock_headers):
+        """
+        Tests whether the router returns a 200 and an image if the request is correct
+        """
         response = self.client.get(
             "/generate/morphology-image",
             headers=mock_headers,
@@ -36,6 +53,9 @@ class TestMorphologyImage:
 
     @patch("requests.get")
     def test_morphology_thumbnail_generation_returns_404_if_resource_not_exists(self, mock_get, mock_headers):
+        """
+        Tests whether the router returns a 404 and correct error message if resource does not exist
+        """
         mock_response = Mock()
         mock_response.status_code = 404
         mock_response.json.return_value = None
@@ -50,6 +70,9 @@ class TestMorphologyImage:
 
     @patch("requests.get")
     def test_morphology_thumbnail_generation_returns_422_if_content_url_is_wrong(self, mock_get, mock_headers):
+        """
+        Tests whether the router returns a 422 and correct error message if content url is wrong
+        """
         mock_response = Mock()
         mock_response.status_code = 404
         mock_response.json.return_value = None
@@ -63,7 +86,11 @@ class TestMorphologyImage:
         assert response.json()["detail"] == "Invalid content_url parameter in request"
 
 
-class TestMorphologyImage:
+class TestElectrophusiologyThumbnailGenerationRouter:
+    """
+    Unit test class for testing the router of morphology thumbnail generation
+    """
+
     @classmethod
     def setup_class(cls):
         cls.client = TestClient(app)
@@ -74,6 +101,9 @@ class TestMorphologyImage:
         return_value=load_nwb_content("./tests/fixtures/data/correct_trace.nwb"),
     )
     def test_electrophysiology_thumbnail_generation_returns_200_and_image(self, fetch_file_content, mock_headers):
+        """
+        Tests whether the router returns a 200 and an image if the request is correct
+        """
         response = self.client.get(
             "/generate/trace-image",
             headers=mock_headers,
@@ -84,6 +114,9 @@ class TestMorphologyImage:
 
     @patch("requests.get")
     def test_electrophysiology_thumbnail_generation_returns_404_if_resource_not_exists(self, mock_get, mock_headers):
+        """
+        Tests whether the router returns a 404 and correct error message if resource does not exist
+        """
         mock_response = Mock()
         mock_response.status_code = 404
         mock_response.json.return_value = None
@@ -98,6 +131,9 @@ class TestMorphologyImage:
 
     @patch("requests.get")
     def test_electrophysiology_thumbnail_generation_returns_422_if_content_url_is_wrong(self, mock_get, mock_headers):
+        """
+        Tests whether the router returns a 422 and correct error message if content url is wrong
+        """
         mock_response = Mock()
         mock_response.status_code = 404
         mock_response.json.return_value = None
