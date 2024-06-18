@@ -58,9 +58,3 @@ class TestMorphologyImage:
         )
         assert response.status_code == 422
         assert response.json()["detail"] == "Invalid content_url parameter in request"
-
-
-if __name__ == "__main__":
-    import pytest
-
-    pytest.main()
