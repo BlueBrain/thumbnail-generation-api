@@ -45,7 +45,7 @@ class InvalidUrlParameterException(HTTPException):
     """
 
     def __init__(self) -> None:
-        super().__init__(status_code=422, detail="Invalid content_url parameter in request.")
+        super().__init__(status_code=422, detail="Invalid content_url parameter in request")
 
 
 # Electrophysiology
