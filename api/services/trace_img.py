@@ -13,6 +13,7 @@ from numpy.typing import NDArray
 from api.utils.common import get_buffer
 from api.services.nexus import fetch_file_content
 from api.utils.trace_img import select_element, select_protocol, select_response, get_unit, get_conversion, get_rate
+from api.models.enums import MetaType
 
 
 Num = Union[int, float]
@@ -90,8 +91,8 @@ def generate_electrophysiology_image(access_token: str, content_url: str = "", d
     h5_handle = h5_handle["data_organization"]
     h5_handle = h5_handle[select_element(list(h5_handle.keys()), n=0)]
     h5_handle = h5_handle[select_protocol(list(h5_handle.keys()))]
-    h5_handle = h5_handle[select_element(list(h5_handle.keys()), n=0, meta="repetiton")]
-    h5_handle = h5_handle[select_element(list(h5_handle.keys()), n=-3, meta="sweep")]
+    h5_handle = h5_handle[select_element(list(h5_handle.keys()), n=0, meta=MetaType.REPETITION)]
+    h5_handle = h5_handle[select_element(list(h5_handle.keys()), n=-3, meta=MetaType.SWEEP)]
     h5_handle = h5_handle[select_response(list(h5_handle.keys()))]
 
     unit = get_unit(h5_handle)
