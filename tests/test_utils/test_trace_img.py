@@ -5,7 +5,6 @@ Unit tests related to testing utils of trace image generation
 import io
 import h5py
 import pytest
-from unittest.mock import patch
 from api.exceptions import (
     NoCellFound,
     NoConversionFound,
@@ -16,6 +15,7 @@ from api.exceptions import (
     NoSweepFound,
     NoUnitFound,
 )
+from api.models.enums import MetaType
 from tests.fixtures.nexus import trace_content
 from api.utils.trace_img import get_conversion, get_rate, get_unit, select_element, select_protocol, select_response
 
@@ -37,7 +37,7 @@ def test_select_element_raises_exception_if_no_list_and_cell():
     """
 
     with pytest.raises(NoCellFound):
-        select_element([], meta="cell")
+        select_element([], meta=MetaType.CELL)
 
 
 def test_select_element_raises_exception_if_no_list_and_repetition():
@@ -46,7 +46,7 @@ def test_select_element_raises_exception_if_no_list_and_repetition():
     """
 
     with pytest.raises(NoRepetitionFound):
-        select_element([], meta="repetition")
+        select_element([], meta=MetaType.REPETITION)
 
 
 def test_select_element_raises_exception_if_no_list():
@@ -55,7 +55,7 @@ def test_select_element_raises_exception_if_no_list():
     """
 
     with pytest.raises(NoSweepFound):
-        select_element([], meta="sweep")
+        select_element([], meta=MetaType.SWEEP)
 
 
 def test_select_protocol_returns_correct_protocol():

@@ -17,7 +17,7 @@ from api.exceptions import (
     NoRepetitionFound,
     NoSweepFound,
 )
-from models.enums import MetaType
+from api.models.enums import MetaType
 
 
 Num = Union[int, float]
