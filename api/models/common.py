@@ -14,3 +14,11 @@ class ImageGenerationInput(BaseModel):
 
     content_url: str
     dpi: Optional[int] = Query(None, ge=10, le=600)
+
+
+class ErrorMessage(BaseModel):
+    """
+    Model of an error message
+    """
+
+    detail: str

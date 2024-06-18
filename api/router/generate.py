@@ -7,20 +7,15 @@ It includes an endpoint to get a preview image of a morphology.
 
 from fastapi import APIRouter, Depends, Response
 from fastapi.security import HTTPBearer
-from pydantic import BaseModel
 from api.services.trace_img import generate_electrophysiology_image
 from api.services.morpho_img import generate_morphology_image
 from api.dependencies import retrieve_user
-from api.models.common import ImageGenerationInput
+from api.models.common import ErrorMessage, ImageGenerationInput
 from api.user import User
 
 
 router = APIRouter()
 require_bearer = HTTPBearer()
-
-
-class ErrorMessage(BaseModel):
-    detail: str
 
 
 @router.get(
