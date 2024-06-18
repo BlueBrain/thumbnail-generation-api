@@ -17,6 +17,7 @@ from api.exceptions import (
     NoRepetitionFound,
     NoSweepFound,
 )
+from models.enums import MetaType
 
 
 Num = Union[int, float]
@@ -55,10 +56,9 @@ def n_smallest_index(lst: List[Num], n: int) -> int:
     return np.argsort(np.array(lst))[n]
 
 
-# TODO: meta can be an enum
-def select_element(lst: List[str], n: int = 0, meta: str = "cell") -> str:
+def select_element(lst: List[str], n: int = 0, meta: MetaType = MetaType.CELL) -> str:
     """
-    Function to select the correct cell/repetition/seep
+    Function to select the correct cell/repetition/sweep
 
     Args:
         lst (List[Num]): a list of integers or floats
@@ -72,21 +72,18 @@ def select_element(lst: List[str], n: int = 0, meta: str = "cell") -> str:
         NoSweepFound: HTTPException if no sweep is found
     """
     if not lst:
-        if meta == "cell":
+        if meta == MetaType.CELL:
             raise NoCellFound
-        if meta == "repetition":
+        if meta == MetaType.REPETITION:
             raise NoRepetitionFound
         raise NoSweepFound
     if len(lst) == 1:
         return lst[0]
-    if meta == "cell":
-        print(f"found more than 1 {meta}, take {n}")
     cell_digits = [find_digits(cell) for cell in lst]
     cell_digits = [d if d is not None else np.nan for d in cell_digits]
     return lst[n_smallest_index(cell_digits, n)]
 
 
-# TODO: protocols can be enums
 def select_protocol(lst_protocols: List[str]) -> str:
     """
     Function that selects a protocol
@@ -101,15 +98,11 @@ def select_protocol(lst_protocols: List[str]) -> str:
     if not lst_protocols:
         raise NoProtocolFound
     if "IDRest" in lst_protocols:
-        print("Info : Using IDRest for thumbnail plot")
         return "IDRest"
     if "APWaveform" in lst_protocols:
-        print("Info : Using APWaveform for thumbnail plot")
         return "APWaveform"
     if "IDThres" in lst_protocols:
-        print("Info : Using IDThres for thumbnail plot")
         return "IDThres"
-    print("Warning : Standard protocols not found, using ", lst_protocols[0], " for thumbnail plot")
     return lst_protocols[0]
 
 
