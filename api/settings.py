@@ -2,7 +2,6 @@
 Module to setup the environment variables of the application
 """
 
-import os
 import matplotlib
 from dotenv import load_dotenv
 from pydantic import ValidationError
