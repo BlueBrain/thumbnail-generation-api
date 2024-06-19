@@ -27,28 +27,31 @@ tags_metadata = [
 ]
 
 
-app = FastAPI(
-    title="Thumbnail Generation API",
-    debug=settings.debug_mode,
-    version="0.5.0",
-    openapi_tags=tags_metadata,
-    docs_url=f"{settings.base_path}/docs",
-    openapi_url=f"{settings.base_path}/openapi.json",
-)
-
-
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     """
     Lifespan events set the events that will be executed at the startup (before yield)
     and the shutdown (after yield) of the application
     """
+    # pylint: disable=unused-argument
+    # pylint: disable=redefined-outer-name
     # Startup code
     if settings.sentry_dsn:
         sentry_sdk.init(
             dsn=settings.sentry_dsn, traces_sample_rate=0.2, profiles_sample_rate=0.05, environment=settings.environment
         )
     yield
+
+
+app = FastAPI(
+    title="Thumbnail Generation API",
+    debug=settings.debug_mode,
+    lifespan=lifespan,
+    version="0.5.0",
+    openapi_tags=tags_metadata,
+    docs_url=f"{settings.base_path}/docs",
+    openapi_url=f"{settings.base_path}/openapi.json",
+)
 
 
 base_router = APIRouter(prefix=settings.base_path)
