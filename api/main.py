@@ -8,7 +8,7 @@ import sentry_sdk
 from fastapi import APIRouter, FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from api.router import generate, swc, health
-from settings import settings
+from api.settings import settings
 
 tags_metadata = [
     {
@@ -31,7 +31,7 @@ sentry_sdk.init(
 
 app = FastAPI(
     title="Thumbnail Generation API",
-    debug=settings.DEBUG_MODE,
+    debug=settings.debug_mode,
     version="0.5.0",
     openapi_tags=tags_metadata,
     docs_url=f"{settings.BASE_PATH}/docs",
