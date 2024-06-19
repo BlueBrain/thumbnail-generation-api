@@ -36,8 +36,4 @@ class Settings(BaseSettings):
         return self.environment in (Environment.LOCAL, Environment.DEVELOPMENT)
 
 
-# Initialize settings
-try:
-    settings = Settings()
-except ValidationError as e:
-    raise EnvironmentError(f"Configuration validation error: {e}") from e
+settings = Settings()
