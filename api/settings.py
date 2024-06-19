@@ -25,8 +25,8 @@ class Settings(BaseSettings):
     # Define your environment variables with default values if needed
     WHITELISTED_CORS_URLS: str = ""
     BASE_PATH: str = ""
-    ENVIRONMENT: Environment
-    SENTRY_DSN: str
+    ENVIRONMENT: Environment = Environment.LOCAL
+    SENTRY_DSN: str = ""
 
     class Config:
         """
@@ -42,21 +42,6 @@ class Settings(BaseSettings):
         """
         return self.ENVIRONMENT in (Environment.LOCAL, Environment.DEVELOPMENT)
 
-
-def validate_required_env_vars(required_vars):
-    """
-    Validate that required environment variables are set.
-    """
-    missing_vars = [var for var in required_vars if var not in os.environ]
-    if missing_vars:
-        raise EnvironmentError(f"Missing required environment variables: {', '.join(missing_vars)}")
-
-
-# List of required environment variables
-required_env_vars = ["ENVIRONMENT"]
-
-# Validate required environment variables
-validate_required_env_vars(required_env_vars)
 
 # Initialize settings
 try:
