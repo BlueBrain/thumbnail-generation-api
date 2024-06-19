@@ -4,6 +4,7 @@ Thumbnail Generation API
 This module defines a FastAPI application for a Thumbnail Generation API.
 """
 
+from contextlib import asynccontextmanager
 import sentry_sdk
 from fastapi import APIRouter, FastAPI
 from fastapi.middleware.cors import CORSMiddleware
@@ -25,10 +26,6 @@ tags_metadata = [
     },
 ]
 
-sentry_sdk.init(
-    dsn=settings.sentry_dsn, traces_sample_rate=1.0, profiles_sample_rate=1.0, environment=settings.environment
-)
-
 
 app = FastAPI(
     title="Thumbnail Generation API",
@@ -38,6 +35,21 @@ app = FastAPI(
     docs_url=f"{settings.base_path}/docs",
     openapi_url=f"{settings.base_path}/openapi.json",
 )
+
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    """
+    Lifespan events set the events that will be executed at the startup (before yield)
+    and the shutdown (after yield) of the application
+    """
+    # Startup code
+    if settings.sentry_dsn:
+        sentry_sdk.init(
+            dsn=settings.sentry_dsn, traces_sample_rate=0.2, profiles_sample_rate=0.05, environment=settings.environment
+        )
+    yield
+
 
 base_router = APIRouter(prefix=settings.base_path)
 
