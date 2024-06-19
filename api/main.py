@@ -26,23 +26,24 @@ tags_metadata = [
 ]
 
 sentry_sdk.init(
-    dsn=settings.SENTRY_DSN, traces_sample_rate=1.0, profiles_sample_rate=1.0, environment=settings.ENVIRONMENT
+    dsn=settings.sentry_dsn, traces_sample_rate=1.0, profiles_sample_rate=1.0, environment=settings.environment
 )
+
 
 app = FastAPI(
     title="Thumbnail Generation API",
     debug=settings.debug_mode,
     version="0.5.0",
     openapi_tags=tags_metadata,
-    docs_url=f"{settings.BASE_PATH}/docs",
-    openapi_url=f"{settings.BASE_PATH}/openapi.json",
+    docs_url=f"{settings.base_path}/docs",
+    openapi_url=f"{settings.base_path}/openapi.json",
 )
 
-base_router = APIRouter(prefix=settings.BASE_PATH)
+base_router = APIRouter(prefix=settings.base_path)
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=list(settings.WHITELISTED_CORS_URLS.split(",")),
+    allow_origins=list(settings.whitelisted_cors_urls.split(",")),
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
