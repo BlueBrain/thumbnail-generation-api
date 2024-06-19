@@ -13,3 +13,19 @@ class MetaType(Enum):
     CELL = "cell"
     REPETITION = "repetition"
     SWEEP = "sweep"
+
+
+class Environment(str, Enum):
+    """
+    Defines the different environments that the application can be deployed in
+
+    LOCAL: the local environment
+    DEVELOPMENT: the development environment (dev branch deployment)
+    STAGING: the staging environment
+    PRODUCTION: the production environment
+    """
+
+    LOCAL = "local"
+    DEVELOPMENT = "development"
+    STAGING = "staging"
+    PRODUCTION = "production"

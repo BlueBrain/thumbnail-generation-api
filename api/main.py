@@ -4,10 +4,11 @@ Thumbnail Generation API
 This module defines a FastAPI application for a Thumbnail Generation API.
 """
 
+import sentry_sdk
 from fastapi import APIRouter, FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from api import config
 from api.router import generate, swc, health
+from settings import settings
 
 tags_metadata = [
     {
@@ -24,20 +25,24 @@ tags_metadata = [
     },
 ]
 
-app = FastAPI(
-    title="Thumbnail Generation API",
-    debug=config.DEBUG_MODE,
-    version="0.5.0",
-    openapi_tags=tags_metadata,
-    docs_url=f"{config.BASE_PATH}/docs",
-    openapi_url=f"{config.BASE_PATH}/openapi.json",
+sentry_sdk.init(
+    dsn=settings.SENTRY_DSN, traces_sample_rate=1.0, profiles_sample_rate=1.0, environment=settings.ENVIRONMENT
 )
 
-base_router = APIRouter(prefix=config.BASE_PATH)
+app = FastAPI(
+    title="Thumbnail Generation API",
+    debug=settings.DEBUG_MODE,
+    version="0.5.0",
+    openapi_tags=tags_metadata,
+    docs_url=f"{settings.BASE_PATH}/docs",
+    openapi_url=f"{settings.BASE_PATH}/openapi.json",
+)
+
+base_router = APIRouter(prefix=settings.BASE_PATH)
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=list(config.WHITELISTED_CORS_URLS.split(",")),
+    allow_origins=list(settings.WHITELISTED_CORS_URLS.split(",")),
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
