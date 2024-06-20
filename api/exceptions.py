@@ -5,6 +5,7 @@ This module defines a custom exception classes
 """
 
 from fastapi import HTTPException
+import sentry_sdk
 
 # Authentication
 
@@ -51,56 +52,66 @@ class InvalidUrlParameterException(HTTPException):
 # Electrophysiology
 
 
-class NoCellFound(HTTPException):
+class SentryReportedException(HTTPException):
+    """
+    Defines exceptions that will be reported to sentry
+    """
+
+    def __init__(self, status_code, detail):
+        sentry_sdk.capture_exception(self)
+        super().__init__(status_code=status_code, detail=detail)
+
+
+class NoCellFound(SentryReportedException):
     "Thrown when no cell is found."
 
     def __init__(self):
         super().__init__(status_code=404, detail="The NWB file didn't contain a 'cell'")
 
 
-class NoRepetitionFound(HTTPException):
+class NoRepetitionFound(SentryReportedException):
     "Thrown when no repetition is found."
 
     def __init__(self):
         super().__init__(status_code=404, detail="The NWB file didn't contain a 'repetition'")
 
 
-class NoSweepFound(HTTPException):
+class NoSweepFound(SentryReportedException):
     "Thrown when no sweep is found."
 
     def __init__(self):
         super().__init__(status_code=404, detail="The NWB file didn't contain a 'sweep'")
 
 
-class NoProtocolFound(HTTPException):
+class NoProtocolFound(SentryReportedException):
     "Thrown when no protocol is found."
 
     def __init__(self):
         super().__init__(status_code=404, detail="The NWB file didn't contain a 'protocol'")
 
 
-class NoIcDataFound(HTTPException):
+class NoIcDataFound(SentryReportedException):
     "Thrown when no Ic data is found."
 
     def __init__(self):
         super().__init__(status_code=404, detail="The NWB file didn't contain any Ic data.")
 
 
-class NoUnitFound(HTTPException):
+class NoUnitFound(SentryReportedException):
     "Thrown when no unit is found."
 
     def __init__(self):
         super().__init__(status_code=404, detail="The NWB file didn't contain a 'unit'.")
 
 
-class NoRateFound(HTTPException):
+class NoRateFound(SentryReportedException):
     "Thrown when no rate is found."
 
     def __init__(self):
         super().__init__(status_code=404, detail="The NWB file didn't contain a 'rate'.")
 
 
-class NoConversionFound(HTTPException):
+class NoConversionFound(SentryReportedException):
     "Thrown when no conversion is found."
 
     def __init__(self):
