@@ -2,11 +2,7 @@
 name = "thumbnail_generation_api"
 version = "0.5.0"
 description = "Rest API to generate thumbnails"
-authors = [
-    "Konstantinos Platis <konstantinos.platis@epfl.ch>",
-    "Harry Robert Taylor Anderson <harry.anderson@epfl.ch>",
-    "Daniel Burger <daniel.burger@epfl.ch>"
-]
+authors = ["Blue Brain Project, EPFL"]
 packages = [{ include = "api" }]
 
 [tool.poetry.dependencies]

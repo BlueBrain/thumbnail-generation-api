@@ -2,12 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
-## [0.5.0]
+## [0.5.0] - 20/06/2024
 
 ### Added
 
 - Sentry configuration for better exception tracking
-
+- Files to prepare repository for open sourcing
+ 
 ### Modified
 
 - Exception handling in API
