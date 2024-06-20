@@ -1,46 +1,54 @@
 # Thumbnail Generation API
 
-## Prerequisites
+## Overview
 
-Install the following packages:
+This application leverages the power of FastAPI to provide a robust, high-performance, and easy-to-use service for generating thumbnails of morphologies and electrophysiologies. The API is designed to receive a `content_url` from a BBP Nexus resource (morphology or electrophysiology) and produce a corresponding thumbnail image.
 
-- python
-- poetry
+## Install
 
-## Installation
+To get started with the Thumbnail Generation API, follow these simple steps:
 
-Run `poetry install`
+1. **Clone the repository:**
+    ```sh
+    git clone https://github.com/BlueBrain/thumbnail-generation-api.git
+    cd thumbnail-generation-api
+    ```
 
-## Environment Variables
+2. **Install [Poetry](https://python-poetry.org/docs/)**
+    
+3. **Install the dependencies:**
+    ```sh
+    poetry install
+    ```
 
-- `DEBUG_MODE` Sets whether FastAPI will run with debug mode ON (default: `False`)
-- `WHITELISTED_CORS_URLS` Sets the list of whitelisted CORS URLs in a comma-separated string eg. `http://localhost:3000,https://my-website.com`
+4. **Run the application:**
+    ```sh
+    poetry run uvicorn main:app --reload
+    ```
 
-## Start
+Your Thumbnail Generation API should now be running at `http://127.0.0.1:8000`.
 
-```shell
-python -m uvicorn api.main:app
+## Examples
+
+Here are some simple examples to get you started with using the Thumbnail Generation API:
+
+1. **Generate a thumbnail for electrophysiologies:**
+    ```sh
+    curl -X GET "http://127.0.0.1:8000/generate/trace-image?content_url=https://bbp.epfl.ch/nexus/v1/files/public/hippocampus/https%3A%2F%2Fbbp.epfl.ch%2Fneurosciencegraph%2Fdata%2Fb67a2aa6-d132-409b-8de5-49bb306bb251" -H "accept: application/json" -H "Authorization: Bearer YOUR_BEARER_TOKEN"
+    ```
+
+2. **Generate a thumbnail for morphologies:**
+    ```sh
+    curl -X GET "http://127.0.0.1:8000/generate/morphology-image?content_url=https://bbp.epfl.ch/nexus/v1/files/bbp/mouselight/https%3A%2F%2Fbbp.epfl.ch%2Fnexus%2Fv1%2Fresources%2Fbbp%2Fmouselight%2F_%2F0befd25c-a28a-4916-9a8a-adcd767db118" -H "accept: application/json" -H "Authorization: Bearer YOUR_BEARER_TOKEN"
+    ```
+
+For more detailed usage and examples, please refer to the visit `http://127.0.0.1:8000/docs`.
+
+
+## Testing
+
+Tests can be run using the following command:
+
 ```
-
-## Test
-
-Test Content URLs
-
-- Trace: `"https://bbp.epfl.ch/nexus/v1/files/public/hippocampus/https%3A%2F%2Fbbp.epfl.ch%2Fneurosciencegraph%2Fdata%2Fb67a2aa6-d132-409b-8de5-49bb306bb251"`
-- Morphology: `"https://bbp.epfl.ch/nexus/v1/files/bbp/mouselight/https%3A%2F%2Fbbp.epfl.ch%2Fnexus%2Fv1%2Fresources%2Fbbp%2Fmouselight%2F_%2F0befd25c-a28a-4916-9a8a-adcd767db118"`
-
-## Docker
-
-Build the docker image
-
-```shell
-docker build . --tag neuromorphovis
-```
-
-JFYI: If you're on Mac, you might need to add the `--platform=linux/amd64` flag to the `docker build` command.
-
-The run the docker image and access the API at <http://localhost:8080>
-
-```shell
-docker run -p 8080:8080 neuromorphovis
+pytest
 ```

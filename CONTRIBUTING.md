@@ -126,18 +126,17 @@ This section applies to both Python versions 2 and 3.
 It is recommended to use `virtualenv` to develop in a sandbox environment:
 
 ```
-virtualenv venv
-. venv/bin/activate
-pip install -r tests/requirement_tests.txt
+pipx install poetry
+poetry install
 ```
 
 ## Build
 
-Run the following command to build incrementally the project: `pip install -e .`
+Run the following command to build incrementally the project: `poetry build`
 
 ## Test
 
-Run the following command to run the Python unit-tests: `pytest tests`
+Run the following command to run the Python unit-tests: `pytest`
 
 ## Coding conventions
 
