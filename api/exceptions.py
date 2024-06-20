@@ -7,6 +7,17 @@ This module defines a custom exception classes
 from fastapi import HTTPException
 import sentry_sdk
 
+
+class SentryReportedException(HTTPException):
+    """
+    Defines exceptions that will be reported to sentry
+    """
+
+    def __init__(self, status_code, detail):
+        sentry_sdk.capture_exception(self)
+        super().__init__(status_code=status_code, detail=detail)
+
+
 # Authentication
 
 
@@ -50,16 +61,6 @@ class InvalidUrlParameterException(HTTPException):
 
 
 # Electrophysiology
-
-
-class SentryReportedException(HTTPException):
-    """
-    Defines exceptions that will be reported to sentry
-    """
-
-    def __init__(self, status_code, detail):
-        sentry_sdk.capture_exception(self)
-        super().__init__(status_code=status_code, detail=detail)
 
 
 class NoCellFound(SentryReportedException):
