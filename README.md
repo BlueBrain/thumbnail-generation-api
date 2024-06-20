@@ -2,7 +2,7 @@
 
 ## Overview
 
-This application leverages the power of FastAPI to provide a robust, high-performance, and easy-to-use service for generating thumbnails of morphologies and electrophysiologies. The API is designed to receive a `content_url` from a BBP Nexus resource (morphology or electrophysiology) and produce a corresponding thumbnail image.
+The Thumbnail Generation API provides the service for generating thumbnails of morphologies/electrophysiologies and the soma of morphologies. The API is designed to receive a `content_url` from a BBP Nexus resource (morphology or electrophysiology) and produce a corresponding thumbnail image.
 
 ## Install
 
