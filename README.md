@@ -52,3 +52,12 @@ Tests can be run using the following command:
 ```
 pytest
 ```
+
+
+## Acknowledgements
+
+The development of this software was supported by funding to the Blue Brain Project, a research center of the École polytechnique fédérale de Lausanne (EPFL), from the Swiss government’s ETH Board of the Swiss Federal Institutes of Technology.
+
+For license and authors, see LICENSE.txt and AUTHORS.txt respectively.
+
+Copyright &copy; 2024 Blue Brain Project/EPFL
