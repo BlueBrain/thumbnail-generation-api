@@ -7,6 +7,7 @@ All notable changes to this project will be documented in this file.
 ### Added
 
 - Acknowledgements section in README
+- Authors.txt file 
 
 ## [0.5.0] - 20/06/2024
 
