@@ -2,8 +2,8 @@ name: Publish Docker Image
 
 on:
   push:
-    branches:
-      - add_github_actions
+    tags:
+      - '*'
 
 
 jobs:
