@@ -9,7 +9,7 @@ on:
 jobs:
     deploy:
         env:
-            REGISTRY_IMAGE_TAG: 'latest'
+            REGISTRY_IMAGE_TAG: latest
             CI_REGISTRY_IMAGE: bluebrain/thumbnail-generation-api
         runs-on: ubuntu-latest
         steps:
@@ -24,7 +24,7 @@ jobs:
                 password: ${{ secrets.BBPBUILDBOT_DOCKERHUB_PASSWORD }}
                     
             - name: Build and Push Docker Image
-              uses: docker/build-push-action@v5
+              uses: docker/build-push-action@v6
               with:
                 push: true
-                tags: ${{ vars.BBPBUILDBOT_DOCKERHUB_USER }}/${{ vars.CI_REGISTRY_IMAGE }}:${{ env.REGISTRY_IMAGE_TAG }}
+                tags: ${{ vars.BBPBUILDBOT_DOCKERHUB_USER }}/bluebrain/thumbnail-generation-api:${{ env.REGISTRY_IMAGE_TAG }}
