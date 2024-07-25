@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.5.2] - 25/02/2024
+
+### Added
+
+- Github actions pipeline for testing and deploying
+
 ## [0.5.1] - 21/06/2024
 
 ### Added
