@@ -1,0 +1,70 @@
+name: Run linter, formatter check and unit tests
+
+on: [pull_request]
+
+jobs:
+  lint_black:
+    name: Lint with Black
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Python 3.10
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.10
+
+      - name: Install Poetry
+        run: pip install poetry
+
+      - name: Install dependencies
+        run: poetry config virtualenvs.create false && poetry install
+
+      - name: Show Black version
+        run: black --version
+
+      - name: Lint with Black
+        run: black --check .
+
+  lint_pylint:
+    name: Lint with Pylint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Python 3.10
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.10
+
+      - name: Install Poetry
+        run: pip install poetry
+
+      - name: Install dependencies
+        run: poetry config virtualenvs.create false && poetry install
+
+      - name: Lint with Pylint
+        run: pylint api
+
+  unit_tests:
+    name: Run Unit Tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Python 3.10
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.10
+
+      - name: Install Poetry
+        run: pip install poetry
+
+      - name: Install dependencies
+        run: poetry config virtualenvs.create false && poetry install
+
+      - name: Run tests
+        run: pytest
