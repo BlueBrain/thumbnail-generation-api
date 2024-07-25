@@ -10,6 +10,7 @@ jobs:
     deploy:
         env:
             REGISTRY_IMAGE_TAG: 'latest'
+            CI_REGISTRY_IMAGE: bluebrain/thumbnail-generation-api
         runs-on: ubuntu-latest
         steps:
             - name: Check out code
