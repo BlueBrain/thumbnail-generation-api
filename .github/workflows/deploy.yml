@@ -27,4 +27,4 @@ jobs:
               uses: docker/build-push-action@v6
               with:
                 push: true
-                tags: ${{ vars.BBPBUILDBOT_DOCKERHUB_USER }}/bluebrain/thumbnail-generation-api:${{ env.REGISTRY_IMAGE_TAG }}
+                tags: ${{ vars.BBPBUILDBOT_DOCKERHUB_USER }}/${{ env.CI_REGISTRY_IMAGE }}:${{ env.REGISTRY_IMAGE_TAG }}
