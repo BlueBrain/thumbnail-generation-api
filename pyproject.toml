@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "thumbnail_generation_api"
-version = "0.5.1"
+version = "0.5.2"
 description = "Rest API to generate thumbnails"
 authors = ["Blue Brain Project, EPFL"]
 packages = [{ include = "api" }]
