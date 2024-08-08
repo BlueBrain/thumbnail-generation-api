@@ -100,7 +100,7 @@ async def process_soma(
 
     logger.info("Fetching SWC file from URL: %s", content_url)
     user = retrieve_user(request)
-    file_content = fetch_file_content(f"Bearer {user.access_token}", content_url)
+    file_content = fetch_file_content(user.access_token, content_url)
 
     temp_file_path = ""
     try:

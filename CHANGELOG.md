@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.5.3] - 08/08/2024
+
+### Fixed
+
+- Soma generation issue due to authorization problem
+
+
 ## [0.5.2] - 25/07/2024
 
 ### Added
