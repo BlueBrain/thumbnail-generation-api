@@ -7,7 +7,7 @@ All notable changes to this project will be documented in this file.
 ### Fixed
 
 - Soma generation issue due to authorization problem
-
+- `docker-compose` environment variables
 
 ## [0.5.2] - 25/07/2024
 
