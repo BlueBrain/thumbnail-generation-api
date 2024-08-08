@@ -36,7 +36,6 @@ All notable changes to this project will be documented in this file.
 
 - Deprecated `POST /soma/process-swc` endpoint
 
-
 ## [0.5.2] - 25/07/2024
 
 ### Added
