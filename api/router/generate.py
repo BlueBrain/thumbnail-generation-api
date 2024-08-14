@@ -52,9 +52,7 @@ def get_morphology_image(
     responses={404: {"model": ErrorMessage}},
     response_model=None,
 )
-def get_trace_image(
-    image_input: ImageGenerationInput = Depends(), user: User = Depends(retrieve_user)
-) -> Response:
+def get_trace_image(image_input: ImageGenerationInput = Depends(), user: User = Depends(retrieve_user)) -> Response:
     """
     Endpoint to get a preview image of an electrophysiology trace
     Sample Content URL:
@@ -75,9 +73,7 @@ def get_trace_image(
     responses={404: {"model": ErrorMessage}},
     response_model=None,
 )
-def get_simulation_plot(
-    config: SimulationGenerationInput = Depends(), user: User = Depends(retrieve_user)
-) -> Response:
+def get_simulation_plot(config: SimulationGenerationInput = Depends(), user: User = Depends(retrieve_user)) -> Response:
     """
     Endpoint to get a preview image of an simulation plots
     Sample Content URL:

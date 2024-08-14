@@ -15,19 +15,17 @@ def generate_simulation_plots(
     access_token: str,
     config: SimulationGenerationInput,
 ):
-    response = fetch_file_content(access_token, config.content_url).decode(
-        encoding="utf-8"
-    )
+    response = fetch_file_content(access_token, config.content_url).decode(encoding="utf-8")
     simulation_config = SimulationConfigurationFile(**json.loads(response))
     data: List[PlotData] = []
 
-    if config.type == "stimulus":
+    if config.target == "stimulus":
         stimulus_config = simulation_config.stimulus
-        # TODO: in the future the stimulus may have different configs 
+        # TODO: in the future the stimulus may have different configs
         # TODO: we should agree how the user can specify the stimulus thumb needed
         if len(stimulus_config) > 0:
             data = stimulus_config[0].data
-    elif config.type == "simulation":
+    elif config.target == "simulation":
         data = simulation_config.simulation
 
     if len(data):

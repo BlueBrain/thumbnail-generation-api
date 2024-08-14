@@ -16,7 +16,7 @@ class ImageGenerationInput(BaseModel):
     dpi: Optional[int] = Query(None, ge=10, le=600)
 
 
-PlotType = Literal["stimulus", "simulation"]
+PlotTarget = Literal["stimulus", "simulation"]
 
 
 class SimulationGenerationInput(BaseModel):
@@ -25,7 +25,7 @@ class SimulationGenerationInput(BaseModel):
     """
 
     content_url: str
-    type: PlotType
+    target: PlotTarget
     w: Optional[int] = None
     h: Optional[int] = None
 
