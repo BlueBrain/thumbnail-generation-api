@@ -37,6 +37,7 @@ class SingleNeuronModelSimulationConfig(BaseModel):
     injectTo: str
     recordFrom: List[str]
     stimulus: dict
+    synaptome: Optional[dict] = None
 
 
 class PlotData(BaseModel):
