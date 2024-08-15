@@ -31,6 +31,10 @@ class SimulationGenerationInput(BaseModel):
 
 
 class SingleNeuronModelSimulationConfig(BaseModel):
+    """
+    Simulation configuration (allow both single neuron and synaptome)
+    """
+
     celsius: float
     hypamp: float
     vinit: float
@@ -41,6 +45,10 @@ class SingleNeuronModelSimulationConfig(BaseModel):
 
 
 class PlotData(BaseModel):
+    """
+    Plotly data format
+    """
+
     x: List[float]
     y: List[float]
     type: str
@@ -48,11 +56,19 @@ class PlotData(BaseModel):
 
 
 class StimulusPlotData(BaseModel):
+    """
+    Stimulus direct current format
+    """
+
     id: str
     data: List[PlotData]
 
 
 class SimulationConfigurationFile(BaseModel):
+    """
+    Configuration file content for simulation
+    """
+
     stimulus: List[StimulusPlotData]
     simulation: List[PlotData]
     config: SingleNeuronModelSimulationConfig
