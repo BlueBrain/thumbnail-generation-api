@@ -2,7 +2,7 @@
 Model module defining models related to images
 """
 
-from typing import List, Literal, Optional
+from typing import Any, List, Literal, Optional
 from fastapi import Query
 from pydantic import BaseModel
 
@@ -39,7 +39,7 @@ class SingleNeuronModelSimulationConfig(BaseModel):
     hypamp: float
     vinit: float
     injectTo: str
-    recordFrom: List[str]
+    recordFrom: Any
     stimulus: dict
     synaptome: Optional[dict] = None
 
