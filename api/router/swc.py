@@ -72,8 +72,7 @@ async def process_soma(
 
         target_name = Path(temp_file_path).stem
         for mesh in meshes_directory.iterdir():
-            logger.debug("Checking mesh file: %s", mesh.name)
-            if mesh.suffix == ".glb" and mesh.stem.split("_")[-1] == target_name:
+            if mesh.suffix == ".glb" and mesh.stem.replace("SOMA_MESH_", "") == target_name:
                 logger.info("Generated mesh file found: %s", mesh.as_posix())
                 return FileResponse(
                     path=mesh,
