@@ -10,7 +10,7 @@ All notable changes to this project will be documented in this file.
 
 ### Updated
 
-- Package dependencies for `fastapi/gunicorn/requests/sentry/black`
+- Dependency versions for `fastapi/gunicorn/requests/sentry/black`
 
 ## [0.5.3] - 08/08/2024
 
