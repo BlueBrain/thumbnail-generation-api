@@ -6,29 +6,29 @@ authors = ["Blue Brain Project, EPFL"]
 packages = [{ include = "api" }]
 
 [tool.poetry.dependencies]
-python = "==3.10.*"
-fastapi = { version = "^0.108.0", extras = ["standard"] }
-gunicorn = "^21.2.0"
-uvicorn = "^0.25.0"
+python = ">=3.10"
+fastapi = { version = "^0.112.1", extras = ["standard"] }
+gunicorn = "^23.0.0"
+uvicorn = "^0.30.6"
 PyJWT = "^2.8.0"
-pytest = "^7.4.4"
-neurom = "^3.2.5"
+pytest = "^8.3.2"
+neurom = "^4.0.2"
 matplotlib = "^3.7.4"
-requests = "^2.31.0"
+requests = "^2.32.0"
 python-dotenv = "^1.0.0"
-h5py = "^3.10.0"
-numpy = "^1.24.4"
+h5py = "^3.11.0"
+numpy = "^2.1.0"
 python-multipart = "^0.0.9"
 pydantic = "^2.7.1"
 pillow = "^10.3.0"
 httpx = "^0.27.0"
-sentry-sdk = {extras = ["fastapi"], version = "^2.5.1"}
-pydantic-settings = "^2.3.3"
+sentry-sdk = {extras = ["fastapi"], version = "^2.13.0"}
+pydantic-settings = "^2.4.0"
 
 [tool.poetry.dev-dependencies]
-black = "^23.11.0"
+black = "^24.8.0"
 pylint = "^3.0.2"
-ruff = "^0.3.0"
+ruff = "^0.6.1"
 mypy = "^1.8.0"
 
 [build-system]

@@ -8,6 +8,9 @@ All notable changes to this project will be documented in this file.
 
 - Edge case when generated soma file contains underscore not being found
 
+### Updated
+
+- Dependency versions for `fastapi/gunicorn/requests/sentry/black`
 
 ## [0.5.3] - 08/08/2024
 
