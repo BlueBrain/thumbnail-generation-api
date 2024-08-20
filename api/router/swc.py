@@ -71,14 +71,12 @@ async def process_soma(
         logger.info("Completed NMV script execution.")
 
         target_name = Path(temp_file_path).stem
-        for mesh in meshes_directory.iterdir():
-            logger.debug("Checking mesh file: %s", mesh.name)
-            if mesh.suffix == ".glb" and mesh.stem.split("_")[-1] == target_name:
-                logger.info("Generated mesh file found: %s", mesh.as_posix())
+        for mesh_file in meshes_directory.iterdir():
+            if mesh_file.suffix == ".glb" and mesh_file.stem.replace("SOMA_MESH_", "") == target_name:
                 return FileResponse(
-                    path=mesh,
+                    path=mesh_file,
                     media_type="model/gltf+json",
-                    filename=mesh.name,
+                    filename=mesh_file.name,
                 )
 
         logger.error("OBJ file not found after processing.")
