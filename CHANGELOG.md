@@ -9,6 +9,7 @@ All notable changes to this project will be documented in this file.
 
 - Edge case when generated soma file contains underscore not being found
 - Look for response using property starting in vcs_, ccs_ or ic_, instead of just ic_
+- Exception thrown when user is not authorized to access nexus resource
 
 ### Updated
 

@@ -35,6 +35,13 @@ class ExpiredAccessToken(HTTPException):
         super().__init__(status_code=401, detail="The access token has expired")
 
 
+class AuthorizationIssueException(HTTPException):
+    """Exception raised when the"""
+
+    def __init__(self):
+        super().__init__(status_code=401, detail="The user does not have access in the content")
+
+
 # Nexus
 
 
