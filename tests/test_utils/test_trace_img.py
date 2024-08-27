@@ -108,7 +108,7 @@ def test_select_response_returns_correct_response():
     assert selected_response_c == "ccs__IDRest__103"
 
 
-def test_select_response_raises_exception_if_no_response_with_ic():
+def test_select_response_raises_exception_if_no_response_with_valid_start_str():
     """
     Tests whether the select_response util function raises exception if not response with ic prefix
     """
