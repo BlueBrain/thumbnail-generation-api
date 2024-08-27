@@ -7,7 +7,6 @@ from PIL import Image
 from unittest.mock import patch
 from api.services.morpho_img import generate_morphology_image
 from tests.fixtures.utils import load_content
-from tests.fixtures.nexus import morphology_content_url, access_token
 
 
 @patch("api.services.morpho_img.fetch_file_content", return_value=load_content("./tests/fixtures/data/morphology.swc"))

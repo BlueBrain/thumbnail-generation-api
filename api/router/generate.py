@@ -5,7 +5,8 @@ This module defines a FastAPI router for handling requests related to morphology
 It includes an endpoint to get a preview image of a morphology.
 """
 
-from fastapi import APIRouter, Depends, Response
+from http import HTTPStatus as status
+from fastapi import APIRouter, Depends, HTTPException, Response
 from fastapi.security import HTTPBearer
 from api.services.trace_img import generate_electrophysiology_image
 from api.services.morpho_img import generate_morphology_image
@@ -79,9 +80,15 @@ def get_simulation_plot(config: SimulationGenerationInput = Depends(), user: Use
     Sample Content URL:
     https://sbo-nexus-delta.shapes-registry.org/v1/files/cad43d74-f697-48d6-9242-28cb6b4a4956/f9b265b2-22c3-4a92-9ad5-79dff37e39ca/https%3A%2F%2Fopenbrainplatform.org%2Fdata%2Fcad43d74-f697-48d6-9242-28cb6b4a4956%2Ff9b265b2-22c3-4a92-9ad5-79dff37e39ca%2Feadf0aa4-109c-4422-806c-325e5669565a?rev=1
     """
-    image = generate_simulation_plots(
-        access_token=user.access_token,
-        config=config,
-    )
-
-    return Response(image, media_type="image/png")
+    try:
+        image = generate_simulation_plots(
+            access_token=user.access_token,
+            config=config,
+        )
+        if image is None:
+            raise HTTPException(status_code=status.NOT_FOUND, detail="Simulation results data not found")
+        return Response(image, media_type="image/png")
+    except ValueError as exc:
+        raise HTTPException(status.NOT_FOUND, "Simulation config file is malformed") from exc
+    except Exception as exc:
+        raise HTTPException(status.INTERNAL_SERVER_ERROR, "Internal server error") from exc

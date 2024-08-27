@@ -20,7 +20,7 @@ from api.services.nexus import fetch_file_content
 def generate_simulation_plots(
     access_token: str,
     config: SimulationGenerationInput,
-):
+) -> bytes | None:
     """
     Creates plotly figure with data and layout
 
@@ -30,17 +30,22 @@ def generate_simulation_plots(
         The simulation figure
     """
     response = fetch_file_content(access_token, config.content_url).decode(encoding="utf-8")
-    simulation_config = SimulationConfigurationFile(**json.loads(response))
+    try:
+        simulation_config = SimulationConfigurationFile(**json.loads(response))
+    except Exception as exc:
+        raise ValueError("Configuration file is malformed") from exc
+
     data: List[PlotData] = []
 
     if config.target == "stimulus":
         stimulus_config = simulation_config.stimulus
         # in the future the stimulus may have different configs
         # we should agree how the user can specify the stimulus thumb needed
-        if len(stimulus_config) > 0:
-            data = stimulus_config[0].data
+        if stimulus_config is not None:
+            data = stimulus_config
     elif config.target == "simulation":
-        data = simulation_config.simulation
+        if simulation_config.simulation and len(simulation_config.simulation) > 0:
+            data = list(simulation_config.simulation.items())[0][1]
 
     if len(data) > 0:
         fig = go.Figure(
@@ -60,4 +65,5 @@ def generate_simulation_plots(
         buffer.seek(0)
 
         return buffer.getvalue()
-    return None
+
+    raise ValueError("No data for selected plot type is found")
