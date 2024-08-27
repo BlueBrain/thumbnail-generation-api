@@ -8,7 +8,7 @@ import pytest
 from api.exceptions import (
     NoCellFound,
     NoConversionFound,
-    NoIcDataFound,
+    NoResponseFound,
     NoProtocolFound,
     NoRateFound,
     NoRepetitionFound,
@@ -95,9 +95,17 @@ def test_select_response_returns_correct_response():
     Tests whether the select_response util function returns the correct response
     """
 
-    responses = ["ic__IDRest__033", "ics__IDRest__033"]
-    selected_response = select_response(responses)
-    assert selected_response == "ic__IDRest__033"
+    responses_a = ["ic__IDRest__033", "ics__IDRest__033"]
+    selected_response_a = select_response(responses_a)
+    assert selected_response_a == "ic__IDRest__033"
+
+    responses_b = ["vcs__H20S8__2216", "vcss__H20S8__2216"]
+    selected_response_b = select_response(responses_b)
+    assert selected_response_b == "vcs__H20S8__2216"
+
+    responses_c = ["ccs__IDRest__103", "ccss__IDRest__103"]
+    selected_response_c = select_response(responses_c)
+    assert selected_response_c == "ccs__IDRest__103"
 
 
 def test_select_response_raises_exception_if_no_response_with_ic():
@@ -106,7 +114,7 @@ def test_select_response_raises_exception_if_no_response_with_ic():
     """
 
     responses = ["IDRest__033", "test_IDRest__033"]
-    with pytest.raises(NoIcDataFound):
+    with pytest.raises(NoResponseFound):
         select_response(responses)
 
 

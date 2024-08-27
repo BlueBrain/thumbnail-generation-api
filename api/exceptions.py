@@ -91,11 +91,11 @@ class NoProtocolFound(SentryReportedException):
         super().__init__(status_code=404, detail="The NWB file didn't contain a 'protocol'")
 
 
-class NoIcDataFound(SentryReportedException):
-    "Thrown when no Ic data is found."
+class NoResponseFound(SentryReportedException):
+    "Thrown when no Response data is found."
 
     def __init__(self):
-        super().__init__(status_code=404, detail="The NWB file didn't contain any Ic data.")
+        super().__init__(status_code=404, detail="The NWB file didn't contain any Response data.")
 
 
 class NoUnitFound(SentryReportedException):
