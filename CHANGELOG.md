@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+
+## [0.7.0] - 27/08/2024
+
+- Look for response using property starting in vcs_, ccs_ or ic_, instead of just ic_
+
 ## [0.6.0] - 20/08/2024
 
 ### Fixed
