@@ -110,7 +110,7 @@ def test_select_response_returns_correct_response():
 
 def test_select_response_raises_exception_if_no_response_with_valid_start_str():
     """
-    Tests whether the select_response util function raises exception if not response with ic prefix
+    Tests whether the select_response util function raises exception if not response with valid prefix
     """
 
     responses = ["IDRest__033", "test_IDRest__033"]
