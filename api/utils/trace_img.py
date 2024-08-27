@@ -118,13 +118,7 @@ def select_response(lst: List[str]) -> str:
         NoResponseFound: HTTPException if no Response data is found
     """
 
-    response = next(
-        (
-            i for i in lst
-            if any(start_str in i for start_str in ["ic_", "vcs_", "ccs_"])
-        ),
-        None
-    )
+    response = next((i for i in lst if any(start_str in i for start_str in ["ic_", "vcs_", "ccs_"])), None)
     if response is None:
         raise NoResponseFound
 
