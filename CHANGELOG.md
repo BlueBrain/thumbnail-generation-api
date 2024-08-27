@@ -14,6 +14,10 @@ All notable changes to this project will be documented in this file.
 
 - Dependency versions for `fastapi/gunicorn/requests/sentry/black`
 
+### Added
+
+- Endpoint for generating single neuron simulation plot images
+
 ## [0.5.3] - 08/08/2024
 
 ### Fixed

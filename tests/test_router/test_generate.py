@@ -2,12 +2,13 @@
 Unit test module related to the router of /generate
 """
 
+from http import HTTPStatus as status
 from unittest.mock import Mock, patch
 from fastapi.testclient import TestClient
 import pytest
 from api.main import app
 from api.dependencies import retrieve_user
-from tests.fixtures.utils import load_content, load_nwb_content
+from tests.fixtures.utils import load_content, load_json_file, load_nwb_content
 from api.user import User
 
 
@@ -145,3 +146,93 @@ class TestElectrophusiologyThumbnailGenerationRouter:
         )
         assert response.status_code == 422
         assert response.json()["detail"] == "Invalid content_url parameter in request"
+
+
+class TestSingleNeuronSimulationThumbnailGenerationRouter:
+    """
+    Unit test class for testing the router of single neuron thumbnails generation
+    """
+
+    @classmethod
+    def setup_class(cls):
+        cls.client = TestClient(app)
+        app.dependency_overrides[retrieve_user] = override_retrieve_user
+
+    @patch(
+        "api.services.simulation_img.fetch_file_content",
+        return_value=load_json_file("./tests/fixtures/data/simulation_config.json"),
+    )
+    def test_not_correct_target(self, fetch_file_content, mock_headers):
+        """
+        Tests whether the router returns 422 and an image if the request is correct
+        """
+        response = self.client.get(
+            "/generate/simulation-plot",
+            headers=mock_headers,
+            params={"content_url": "http://example.com/image", "target": "anything"},
+        )
+        assert response.status_code == status.UNPROCESSABLE_ENTITY
+        assert response.headers["content-type"] == "application/json"
+
+    @patch(
+        "api.services.simulation_img.fetch_file_content",
+        return_value=load_json_file("./tests/fixtures/data/simulation_config.json"),
+    )
+    def test_stimulus(self, fetch_file_content, mock_headers):
+        """
+        Tests whether the router returns a 200 and an image if the request is correct
+        """
+        response = self.client.get(
+            "/generate/simulation-plot",
+            headers=mock_headers,
+            params={"content_url": "http://example.com/image", "target": "stimulus"},
+        )
+        assert response.status_code == status.OK
+        assert response.headers["content-type"] == "image/png"
+
+    @patch(
+        "api.services.simulation_img.fetch_file_content",
+        return_value=load_json_file("./tests/fixtures/data/simulation_config.json"),
+    )
+    def test_simulation(self, fetch_file_content, mock_headers):
+        """
+        Tests whether the router returns a 200 and an image if the request is correct
+        """
+        response = self.client.get(
+            "/generate/simulation-plot",
+            headers=mock_headers,
+            params={"content_url": "http://example.com/image", "target": "simulation"},
+        )
+        assert response.status_code == status.OK
+
+    @patch(
+        "api.services.simulation_img.fetch_file_content",
+        return_value=load_json_file("./tests/fixtures/data/simulation_config.json", "stimulus"),
+    )
+    def test_stimulus_not_in_config(self, fetch_file_content, mock_headers):
+        """
+        Tests whether the router returns a 404 and an image if the request is correct
+        """
+        response = self.client.get(
+            "/generate/simulation-plot",
+            headers=mock_headers,
+            params={"content_url": "http://example.com/image", "target": "simulation"},
+        )
+
+        assert response.status_code == status.NOT_FOUND
+
+    @patch(
+        "api.services.simulation_img.fetch_file_content",
+        return_value=load_json_file("./tests/fixtures/data/simulation_config.json", "simulation"),
+    )
+    def test_stimulation_not_in_config(self, fetch_file_content, mock_headers):
+        """
+        Tests whether the router returns a 404 and an image if the request is correct
+        """
+        response = self.client.get(
+            "/generate/simulation-plot",
+            headers=mock_headers,
+            params={"content_url": "http://example.com/image", "target": "simulation"},
+        )
+
+        assert response.status_code == status.NOT_FOUND
