@@ -9,7 +9,7 @@ from typing import List
 from typing import Union, List
 from api.exceptions import (
     NoConversionFound,
-    NoIcDataFound,
+    NoResponseFound,
     NoProtocolFound,
     NoRateFound,
     NoUnitFound,
@@ -115,12 +115,14 @@ def select_response(lst: List[str]) -> str:
     Returns:
         The response element
     Raises:
-        NoIcDataFound: HTTPException if no IC data is found
+        NoResponseFound: HTTPException if no Response data is found
     """
-    for elem in lst:
-        if "ic_" in elem:
-            return elem
-    raise NoIcDataFound
+
+    response = next((i for i in lst if any(start_str in i for start_str in ["ic_", "vcs_", "ccs_"])), None)
+    if response is None:
+        raise NoResponseFound
+
+    return response
 
 
 def get_unit(h5_handle: h5py.File) -> str:
