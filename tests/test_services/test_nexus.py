@@ -7,6 +7,7 @@ from unittest.mock import Mock, patch
 from api.services.nexus import fetch_file_content
 from api.exceptions import AuthenticationIssueException, AuthorizationIssueException, ResourceNotFoundException
 from tests.fixtures.utils import load_content
+from tests.fixtures.nexus import morphology_content_url, access_token
 
 
 @patch("requests.get")
