@@ -8,6 +8,10 @@ All notable changes to this project will be documented in this file.
 
 - Add case when receiving `403` error from Nexus
 
+### Updated
+
+- Re-organised unit test fixtures to include them in conftest file
+
 
 ## [0.6.0] - 27/08/2024
 
