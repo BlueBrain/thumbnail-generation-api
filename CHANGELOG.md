@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.6.1] - 13/09/2024
+
+### Fixed
+
+- Add case when receiving `403` error from Nexus
+
+
 ## [0.6.0] - 27/08/2024
 
 ### Fixed
