@@ -16,7 +16,6 @@ from api.exceptions import (
     NoUnitFound,
 )
 from api.models.enums import MetaType
-from tests.fixtures.nexus import trace_content
 from api.utils.trace_img import get_conversion, get_rate, get_unit, select_element, select_protocol, select_response
 
 

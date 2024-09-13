@@ -6,8 +6,7 @@ from io import BytesIO
 from PIL import Image
 from unittest.mock import patch
 from api.services.trace_img import generate_electrophysiology_image
-from tests.fixtures.utils import load_nwb_content
-from tests.fixtures.nexus import trace_content_url, access_token
+from tests.utils import load_nwb_content
 
 
 @patch(

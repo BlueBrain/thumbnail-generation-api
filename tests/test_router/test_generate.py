@@ -8,7 +8,7 @@ from fastapi.testclient import TestClient
 import pytest
 from api.main import app
 from api.dependencies import retrieve_user
-from tests.fixtures.utils import load_content, load_json_file, load_nwb_content
+from tests.utils import load_content, load_json_file, load_nwb_content
 from api.user import User
 
 
