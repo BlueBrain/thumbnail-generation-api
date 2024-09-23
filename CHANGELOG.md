@@ -8,7 +8,6 @@ All notable changes to this project will be documented in this file.
 
 - Add clearing of figure cache to avoid memory leaks
 
-
 ## [0.6.1] - 13/09/2024
 
 ### Fixed

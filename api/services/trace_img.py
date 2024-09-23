@@ -76,36 +76,42 @@ def generate_electrophysiology_image(access_token: str, content_url: str = "", d
     """Creates and returns an electrophysiology trace image.
 
     Args:
-        authorization (str): The authorization token
-        content_url (str): The content URL that contains the NWB file
-        dpi: (int|None): Optional parameter that defines the Dots Per Inch of the image result.
-                         Higher DPI means higher resolution
+        access_token (str): The authorization token.
+        content_url (str): The content URL that contains the NWB file.
+        dpi (Union[int, None]): Optional parameter that defines the Dots Per Inch of the image result.
+                                Higher DPI means higher resolution.
 
     Returns:
-        bytes: The image in bytes format
+        bytes: The image in bytes format.
     """
     content: bytes = fetch_file_content(access_token=access_token, content_url=content_url)
 
-    h5_handle = h5py.File(io.BytesIO(content), "r")
+    # Using context manager to handle the HDF5 file properly and ensure it is closed
+    with h5py.File(io.BytesIO(content), "r") as h5_handle:
+        h5_handle = h5_handle["data_organization"]
+        h5_handle = h5_handle[select_element(list(h5_handle.keys()), n=0)]
+        h5_handle = h5_handle[select_protocol(list(h5_handle.keys()))]
+        h5_handle = h5_handle[select_element(list(h5_handle.keys()), n=0, meta=MetaType.REPETITION)]
+        h5_handle = h5_handle[select_element(list(h5_handle.keys()), n=-3, meta=MetaType.SWEEP)]
+        h5_handle = h5_handle[select_response(list(h5_handle.keys()))]
 
-    h5_handle = h5_handle["data_organization"]
-    h5_handle = h5_handle[select_element(list(h5_handle.keys()), n=0)]
-    h5_handle = h5_handle[select_protocol(list(h5_handle.keys()))]
-    h5_handle = h5_handle[select_element(list(h5_handle.keys()), n=0, meta=MetaType.REPETITION)]
-    h5_handle = h5_handle[select_element(list(h5_handle.keys()), n=-3, meta=MetaType.SWEEP)]
-    h5_handle = h5_handle[select_response(list(h5_handle.keys()))]
+        # Get relevant data, unit, rate, and conversion factor
+        unit = get_unit(h5_handle)
+        rate = get_rate(h5_handle)
+        conversion = get_conversion(h5_handle)
 
-    unit = get_unit(h5_handle)
-    rate = get_rate(h5_handle)
-    conversion = get_conversion(h5_handle)
+        # Retrieve and process the data
+        data = np.array(h5_handle["data"][:]) * conversion
 
-    data = np.array(h5_handle["data"][:]) * conversion
-
+    # Generate the plot using the data
     fig = plot_nwb(data, unit, rate)
 
-    buffer = get_buffer(fig, dpi)
+    try:
+        # Convert the figure to a byte buffer
+        buffer = get_buffer(fig, dpi)
+    finally:
+        # Ensure the figure is closed to free up resources
+        plt.close(fig)
 
-    fig.clf()
-    plt.close()
-
+    # Return the image as bytes
     return buffer.getvalue()
