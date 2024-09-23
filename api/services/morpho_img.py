@@ -60,6 +60,7 @@ def generate_morphology_image(access_token: str, content_url: str = "", dpi: Uni
 
     buffer = get_buffer(fig, dpi)
 
+    fig.clf()
     plt.close()
 
     return buffer.getvalue()
